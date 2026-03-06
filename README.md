@@ -1,73 +1,204 @@
-# React + TypeScript + Vite
+# Senior Interview Trainer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A bilingual React + TypeScript interview training app for senior frontend and full-stack web interviews.
 
-Currently, two official plugins are available:
+Live app:
+- [GitHub Pages](https://marcbey.github.io/ts-js-react-test-gpt54/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## What the app does
 
-## React Compiler
+- Shows 100 interview questions across JavaScript, TypeScript, and React
+- Supports German and English UI/content switching
+- Starts each question in a locked state and reveals the answer on demand
+- Includes:
+  - short answer
+  - code example with syntax highlighting
+  - deep dive explanation
+  - further reading links
+- Lets you mark questions and filter by marked questions only
+- Persists language, revealed progress, marks, and catalog collapse state in `localStorage`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React 19
+- TypeScript 5
+- Vite 7
+- Vitest + Testing Library
+- Playwright
+- GitHub Actions
+- GitHub Pages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 22+ recommended
+- npm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Install
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Start development server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### Production build
+
+```bash
+npm run build
+```
+
+### Preview production build locally
+
+```bash
+npm run preview
+```
+
+## Scripts
+
+- `npm run dev`: start Vite dev server
+- `npm run build`: type-check and build production bundle
+- `npm run preview`: serve the production build locally
+- `npm run lint`: run ESLint
+- `npm run test:unit`: run Vitest unit/component/integration tests
+- `npm run test:e2e`: run Playwright end-to-end tests
+- `npm test`: run unit tests and E2E tests
+
+## Project structure
+
+```text
+src/
+  components/        UI building blocks
+  constants/         localized UI copy and static config
+  data/              interview question dataset
+  hooks/             state and persistence hooks
+  lib/               isolated library integrations
+  utils/             pure business logic
+
+tests/
+  components/        component tests
+  e2e/               Playwright browser tests
+  helpers/           shared test fixtures/builders
+  hooks/             hook tests
+  integration/       app-level interaction tests
+  unit/              pure logic tests
+```
+
+## Architecture
+
+### Composition root
+
+- [`src/App.tsx`](./src/App.tsx) wires together the top-level layout and the trainer hook.
+
+### State
+
+- [`src/hooks/useInterviewTrainer.ts`](./src/hooks/useInterviewTrainer.ts) manages UI state, filtering, navigation, marks, reveal behavior, and persistence.
+- [`src/hooks/useLocalStorageState.ts`](./src/hooks/useLocalStorageState.ts) encapsulates localStorage-backed state.
+
+### Pure logic
+
+- [`src/utils/interviewState.ts`](./src/utils/interviewState.ts) contains filter, selection, visibility, and counting logic.
+- This logic is intentionally kept pure so it can be unit tested without rendering React.
+
+### UI components
+
+- [`src/components/HeroPanel.tsx`](./src/components/HeroPanel.tsx)
+- [`src/components/CatalogPanel.tsx`](./src/components/CatalogPanel.tsx)
+- [`src/components/QuestionDetail.tsx`](./src/components/QuestionDetail.tsx)
+- [`src/components/QuestionActions.tsx`](./src/components/QuestionActions.tsx)
+- [`src/components/TextBlocks.tsx`](./src/components/TextBlocks.tsx)
+
+## Testing strategy
+
+The test suite is intentionally split by responsibility.
+
+### Unit tests
+
+Used for pure logic with no rendering involved.
+
+Examples:
+- filtering questions
+- computing visible neighboring questions
+- navigation bounds
+- counting revealed/marked questions
+
+Files:
+- [`tests/unit/interviewState.test.ts`](./tests/unit/interviewState.test.ts)
+
+### Hook tests
+
+Used for stateful React logic that is still easier to validate below the full app level.
+
+Examples:
+- reveal state resets when moving to another question
+- marked-only filtering
+- localStorage persistence
+
+Files:
+- [`tests/hooks/useInterviewTrainer.test.tsx`](./tests/hooks/useInterviewTrainer.test.tsx)
+
+### Component tests
+
+Used for components with meaningful interaction or conditional rendering.
+
+Examples:
+- catalog interactions and visible states
+- detail panel locked vs revealed state
+- button wiring
+
+Files:
+- [`tests/components/CatalogPanel.test.tsx`](./tests/components/CatalogPanel.test.tsx)
+- [`tests/components/QuestionDetail.test.tsx`](./tests/components/QuestionDetail.test.tsx)
+
+### Integration tests
+
+Used for larger user flows through the app UI without a real browser.
+
+Files:
+- [`tests/integration/App.test.tsx`](./tests/integration/App.test.tsx)
+
+### End-to-end tests
+
+Used for real browser flows with Playwright.
+
+Examples:
+- answers are hidden again after navigating away and back
+- marked-only filter reduces the visible catalog
+
+Files:
+- [`tests/e2e/interview-app.spec.ts`](./tests/e2e/interview-app.spec.ts)
+
+## Why all tests are in `tests/`
+
+This project now keeps all tests in `tests/` on purpose.
+
+Benefits:
+- one obvious place for all automated tests
+- easy separation between unit, component, integration, and e2e layers
+- source folders stay focused on production code only
+- CI/test tooling configuration is simpler to reason about
+
+A colocated approach is also valid, especially for small reusable components or libraries. In this project, the dedicated `tests/` directory is a better fit because the app now has multiple test layers and shared test helpers.
+
+## CI
+
+GitHub Actions run the following in CI:
+
+- lint
+- unit/component/integration tests via Vitest
+- production build
+- Playwright E2E tests
+
+Workflows:
+- [`/.github/workflows/ci.yml`](./.github/workflows/ci.yml)
+- [`/.github/workflows/deploy-pages.yml`](./.github/workflows/deploy-pages.yml)
+
+## Notes
+
+- The Vite base path is configured for GitHub Pages in [`vite.config.ts`](./vite.config.ts).
+- Playwright uses the built preview app and tests against the GitHub Pages base path locally as well.

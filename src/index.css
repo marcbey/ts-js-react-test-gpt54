@@ -188,7 +188,7 @@ button {
 
 .toggle-button,
 .filter-pill,
-.nav-row button,
+.mark-button,
 .reveal-button {
   border: 1px solid transparent;
   border-radius: 999px;
@@ -209,7 +209,7 @@ button {
 .toggle-button.active,
 .filter-pill.active,
 .reveal-button,
-.nav-row button:hover {
+.mark-button:hover {
   background: linear-gradient(135deg, rgba(240, 127, 69, 0.92), rgba(224, 101, 44, 0.72));
   color: #1b0f08;
 }
@@ -402,7 +402,7 @@ button {
 .question-chip:hover,
 .toggle-button:hover,
 .filter-pill:hover,
-.nav-row button:hover,
+.mark-button:hover,
 .reveal-button:hover {
   transform: translateY(-1px);
 }
@@ -439,13 +439,24 @@ button {
   gap: 0.9rem;
 }
 
-.detail-top-actions {
+.question-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 0.55rem;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   width: 100%;
+}
+
+.question-actions-end {
+  justify-content: flex-end;
+}
+
+.question-actions-start {
+  justify-content: flex-start;
+}
+
+.detail-top-actions {
+  flex-wrap: nowrap;
 }
 
 .mark-button {
@@ -584,13 +595,6 @@ button {
   place-content: center;
 }
 
-.nav-row {
-  display: flex;
-  justify-content: flex-start;
-  gap: 0.55rem;
-  flex-wrap: wrap;
-}
-
 .empty-state {
   margin: 0;
   padding: 1rem;
@@ -644,7 +648,7 @@ button {
 
   .reveal-box,
   .resource-grid a,
-  .nav-row {
+  .question-actions {
     flex-direction: column;
     align-items: stretch;
   }

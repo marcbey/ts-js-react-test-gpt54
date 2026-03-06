@@ -1,0 +1,82 @@
+import type { Category, LocalizedText } from '../types'
+
+export const languageCopy = {
+  de: {
+    eyebrow: 'Senior Interview Trainer',
+    title: '100 Fragen für JS, TS und React',
+    subtitle: 'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript und React.',
+    searchLabel: 'Suche',
+    searchPlaceholder: 'Nach Thema, Begriff oder Konzept suchen',
+    reveal: 'Antwort anzeigen',
+    revealed: 'Antwort sichtbar',
+    explanation: 'Ausführliche Erklärung',
+    resources: 'Weiterführende Quellen',
+    questionList: 'Fragenkatalog',
+    progress: 'Fortschritt',
+    shown: 'Angezeigt',
+    solved: 'Aufgedeckt',
+    next: 'Nächste Frage',
+    previous: 'Vorherige Frage',
+    of: 'von',
+    all: 'Alle',
+    empty: 'Keine Fragen passen zum aktuellen Filter.',
+    prompt: 'Wähle links eine Frage oder gehe mit den Navigationstasten durch den Katalog.',
+    language: 'Sprache',
+    answer: 'Kurzantwort',
+    example: 'Beispiel',
+    collapseCatalog: 'Katalog einklappen',
+    expandCatalog: 'Katalog ausklappen',
+    selected: 'Aktiv',
+    marked: 'Markiert',
+    markedOnly: 'Nur markierte',
+    markQuestion: 'Frage markieren',
+    unmarkQuestion: 'Markierung entfernen',
+    openResource: 'Quelle öffnen',
+    lockedPrompt: 'Die Karte bleibt bis zum Klick absichtlich zugeklappt, damit du die Antwort zuerst selbst formulierst.',
+  },
+  en: {
+    eyebrow: 'Senior Interview Trainer',
+    title: '100 questions for JS, TS, and React',
+    subtitle: 'Practice senior-level interview prompts on JavaScript, TypeScript, and React.',
+    searchLabel: 'Search',
+    searchPlaceholder: 'Search by topic, term, or concept',
+    reveal: 'Reveal answer',
+    revealed: 'Answer visible',
+    explanation: 'Detailed explanation',
+    resources: 'Further reading',
+    questionList: 'Question bank',
+    progress: 'Progress',
+    shown: 'Shown',
+    solved: 'Revealed',
+    next: 'Next question',
+    previous: 'Previous question',
+    of: 'of',
+    all: 'All',
+    empty: 'No questions match the current filter.',
+    prompt: 'Pick a question from the left or use the navigation buttons to move through the bank.',
+    language: 'Language',
+    answer: 'Short answer',
+    example: 'Example',
+    collapseCatalog: 'Collapse catalog',
+    expandCatalog: 'Expand catalog',
+    selected: 'Active',
+    marked: 'Marked',
+    markedOnly: 'Marked only',
+    markQuestion: 'Mark question',
+    unmarkQuestion: 'Remove mark',
+    openResource: 'Open resource',
+    lockedPrompt: 'The card stays intentionally closed until you click, so you can formulate your own answer first.',
+  },
+} as const
+
+export type UiCopy = {
+  [Key in keyof (typeof languageCopy)['de']]: string
+}
+
+export const categoryLabels: Record<Category, LocalizedText> = {
+  javascript: { de: 'JavaScript', en: 'JavaScript' },
+  typescript: { de: 'TypeScript', en: 'TypeScript' },
+  react: { de: 'React', en: 'React' },
+}
+
+export const categoryOrder = ['javascript', 'typescript', 'react'] as const
