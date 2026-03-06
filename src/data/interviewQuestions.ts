@@ -1,4 +1,5 @@
-import type { InterviewQuestion, ResourceLink } from '../types'
+import type { InterviewQuestion, LocalizedText, ResourceLink } from '../types'
+import { interviewQuestionExplanationDetails } from './interviewQuestionExplanationDetails'
 
 type ResourceKey = keyof typeof resourceLibrary
 
@@ -323,8 +324,14 @@ const resourceLibrary = {
 
 const mapResources = (keys: ResourceKey[]) => keys.map((key) => resourceLibrary[key])
 
+const expandExplanation = (entry: DraftQuestion): LocalizedText => ({
+  de: `${entry.explanation.de}\n\n${entry.exampleExplanation.de}\n\n${interviewQuestionExplanationDetails[entry.id].de}`,
+  en: `${entry.explanation.en}\n\n${entry.exampleExplanation.en}\n\n${interviewQuestionExplanationDetails[entry.id].en}`,
+})
+
 const q = (entry: DraftQuestion): InterviewQuestion => ({
   ...entry,
+  explanation: expandExplanation(entry),
   resources: mapResources(entry.resources),
 })
 
@@ -524,28 +531,39 @@ User.prototype.greet = function () {
       en: 'How is `this` determined in JavaScript?',
     },
     answer: {
-      de: '`this` wird nicht über den Ort der Funktion definiert, sondern über die Art des Aufrufs. Arrow Functions haben kein eigenes `this`, sondern übernehmen es lexikalisch aus dem umgebenden Scope. Ein Senior sollte erklären können, warum dieser Unterschied in Event-Handlern, Klassen und Callbacks entscheidend ist.',
-      en: '`this` is not defined by where a function is written, but by how it is called. Arrow functions do not create their own `this`; they capture it lexically from the surrounding scope. A senior engineer should be able to explain why that difference is critical in event handlers, classes, and callbacks.',
+      de: '`this` wird bei normalen Funktionen über den Aufrufkontext bestimmt, nicht über den Ort der Definition. Arrow Functions haben kein eigenes `this`, sondern übernehmen es lexikalisch aus dem umgebenden Scope. Dadurch verhalten sich Methoden, Event-Handler und Callbacks oft unterschiedlich, obwohl der Code auf den ersten Blick ähnlich aussieht.',
+      en: '`this` in regular functions is determined by the call site, not by where the function was written. Arrow functions do not create their own `this`; they capture it lexically from the surrounding scope. That is why methods, event handlers, and callbacks can behave very differently even when the code looks similar at first glance.',
     },
     exampleTitle: {
-      de: 'Normale Funktion vs. Arrow Function',
-      en: 'Regular function vs arrow function',
+      de: 'Normale Funktion und Arrow Function im Vergleich',
+      en: 'Regular function and arrow function compared',
     },
     exampleExplanation: {
-      de: 'Die Methode `print` nutzt das Objekt als Aufrufkontext. Die Arrow Function liest `this` aus dem umgebenden Scope und eignet sich deshalb gut für verschachtelte Callbacks.',
-      en: 'The `print` method uses the object as its call context. The arrow function reads `this` from the surrounding scope, which is why it works well for nested callbacks.',
+      de: 'Die normale Callback-Funktion bekommt ihr eigenes `this`, sobald sie mit einem anderen Kontext aufgerufen wird. Die Arrow Function ignoriert diesen neuen Kontext und übernimmt weiterhin `this` aus `runArrow`.',
+      en: 'The regular callback receives its own `this` when it is called with a different context. The arrow function ignores that new context and keeps `this` from `runArrow`.',
     },
     exampleCode: `const user = {
   name: 'Ada',
-  print() {
-    return this.name
+  runRegular() {
+    const callback = function () {
+      return this.name
+    }
+
+    return callback.call({ name: 'Grace' })
+  },
+
+  runArrow() {
+    const callback = () => this.name
+
+    return callback.call({ name: 'Grace' })
   },
 }
 
-user.print() // 'Ada'`,
+user.runRegular() // 'Grace'
+user.runArrow()   // 'Ada'`,
     explanation: {
-      de: 'Viele `this`-Probleme entstehen, wenn Methoden als nackte Referenz weitergegeben werden. Dann geht der Aufrufkontext verloren und es hilft nur `bind`, ein Wrapper oder eine Arrow Function an der richtigen Stelle. In modernen React-Komponenten sieht man `this` seltener, aber im Browser, in Klassen und in Legacy-Code ist es weiterhin relevant. Gute Kandidaten sprechen nicht nur über die Regeln, sondern auch über typische Fehlerszenarien.',
-      en: 'Many `this` bugs appear when methods are passed around as bare references. Then the call context is lost, and you need `bind`, a wrapper, or an arrow function in the right place. Modern React code uses `this` less often, but it still matters in browser APIs, classes, and legacy code. Strong candidates talk not only about the rules, but also about the failure modes.',
+      de: 'Bei DOM-Event-Handlern mit normaler Funktion zeigt `this` oft auf das Element, während eine Arrow Function den äußeren Kontext behält und deshalb nicht automatisch das Event-Target liefert. Bei Klassenmethoden geht der Kontext verloren, sobald du `instance.method` als nackten Callback weiterreichst; dann helfen `bind`, ein Wrapper oder eine bewusst eingesetzte Arrow Function. In Timern, Promise-Callbacks und anderen verschachtelten Funktionen entscheidet genau dieser Unterschied darüber, ob du auf die Instanz, das Event-Ziel oder ins Leere zeigst. Wer das versteht, kann Bugs in Legacy-Klassen, Browser-APIs und Callback-lastigem Code gezielt vermeiden.',
+      en: 'In DOM event handlers written as regular functions, `this` often points to the element, while an arrow function keeps the surrounding context and therefore does not automatically refer to the event target. With class methods, the context is lost as soon as you pass `instance.method` around as a bare callback, which is where `bind`, a wrapper, or a deliberately chosen arrow function becomes necessary. In timers, promise callbacks, and other nested functions, that difference decides whether you are still talking to the instance, the event target, or nothing useful at all. Understanding that distinction helps you prevent bugs in legacy classes, browser APIs, and callback-heavy code.',
     },
     resources: ['mdnThis', 'mdnPrototypeChain', 'mdnClosures'],
   }),
@@ -576,7 +594,7 @@ function greet() {
 const boundGreet = greet.bind(user)
 boundGreet() // 'Hi Ada'`,
     explanation: {
-      de: 'Historisch waren diese APIs entscheidend, bevor Arrow Functions alltäglich wurden. Heute tauchen sie vor allem bei Interop mit Bibliotheken, Event APIs und funktionalem Reuse auf. Ein erfahrener Entwickler weiss auch, dass zu aggressives `bind` neue Funktionen erzeugt und damit Memoization oder Event-Unsubscription erschweren kann. Die saubere Antwort verbindet also Sprachmechanik und Architekturfolgen.',
+      de: 'Historisch waren diese APIs entscheidend, bevor Arrow Functions alltäglich wurden. Heute tauchen sie vor allem bei Interop mit Bibliotheken, Event APIs und funktionalem Reuse auf. Ein erfahrener Entwickler weiß auch, dass zu aggressives `bind` neue Funktionen erzeugt und damit Memoization oder Event-Unsubscription erschweren kann. Die saubere Antwort verbindet also Sprachmechanik und Architekturfolgen.',
       en: 'Historically, these APIs were essential before arrow functions became common. Today they mostly show up in library interop, event APIs, and functional reuse. An experienced developer also knows that aggressive `bind` usage creates new functions, which can make memoization or event unsubscription harder. The best answer connects language mechanics with architectural consequences.',
     },
     resources: ['mdnThis', 'mdnPrototypeChain', 'mdnHoisting'],
@@ -800,22 +818,27 @@ console.log(a.settings.theme) // 'light'`,
       en: 'When should you use `===` instead of `==`?',
     },
     answer: {
-      de: 'Fast immer. `===` vergleicht ohne Typkonvertierung und ist dadurch vorhersagbarer, während `==` durch Coercion schwer lesbare Sonderfälle erzeugt. Ein Senior sollte aber auch wissen, dass `== null` manchmal bewusst für `null` oder `undefined` genutzt wird.',
-      en: 'Almost always. `===` compares without type coercion and is therefore more predictable, while `==` can create hard-to-read edge cases through implicit conversion. A senior engineer should still know that `== null` is sometimes used intentionally to match both `null` and `undefined`.',
+      de: 'Standardmäßig sollte man `===` verwenden, weil der Vergleich ohne implizite Typkonvertierung läuft und dadurch besser lesbar und vorhersagbar ist. `==` ist nur in wenigen bewusst gewählten Fällen sinnvoll, etwa bei `value == null`, wenn `null` und `undefined` gemeinsam abgefangen werden sollen. Entscheidend ist, Coercion nicht versehentlich, sondern absichtlich einzusetzen.',
+      en: 'You should default to `===` because it compares without implicit type coercion and is therefore easier to read and predict. `==` is useful only in a few deliberate cases, such as `value == null` when you intentionally want to match both `null` and `undefined`. The key point is to use coercion on purpose, not by accident.',
     },
     exampleTitle: {
-      de: 'Coercion kann irreführen',
-      en: 'Coercion can mislead you',
+      de: 'Strikter Vergleich und die bewusste Ausnahme',
+      en: 'Strict equality and the deliberate exception',
     },
     exampleExplanation: {
-      de: '`0 == false` ist `true`, weil JavaScript beide Werte vorher konvertiert. Mit `===` bleibt die Absicht klarer und sicherer.',
-      en: '`0 == false` is `true` because JavaScript converts both values first. With `===`, the intent stays much clearer and safer.',
+      de: '`0 == false` zeigt, wie leicht Coercion täuschen kann. `value == null` ist dagegen eine bewusst lesbare Kurzform, wenn beide leeren Zustände zusammen behandelt werden sollen.',
+      en: '`0 == false` shows how easily coercion can mislead you. `value == null` is the deliberate shorthand when both empty states should be handled together.',
     },
-    exampleCode: `console.log(0 == false)  // true
-console.log(0 === false) // false`,
+    exampleCode: `const value = undefined
+
+console.log(0 == false)   // true
+console.log(0 === false)  // false
+
+console.log(value == null)   // true
+console.log(value === null)  // false`,
     explanation: {
-      de: 'Gleichheitsfragen wirken simpel, sind aber oft ein Proxy für Codequalität. Wer standardmäßigig strikte Vergleiche nutzt, reduziert kognitive Last und vermeidet schwer auffindbare Bugs. Gleichzeitig zeigt ein guter Kandidat, dass er die Regeln von Coercion trotzdem versteht und nicht nur eine Stilregel aufsagt. Genau diese Balance ist im Senior-Interview oft entscheidend.',
-      en: 'Equality looks simple, but it is often a proxy for code quality. Using strict equality by default reduces cognitive load and avoids subtle bugs. At the same time, strong candidates show that they still understand coercion rules instead of merely repeating a style rule. That balance often matters in senior interviews.',
+      de: 'Gleichheitsfragen wirken simpel, sind aber oft ein Proxy für Codequalität. Wer standardmäßig strikte Vergleiche nutzt, reduziert kognitive Last und vermeidet schwer auffindbare Bugs. Gleichzeitig ist `== null` eine legitime Ausnahme, wenn ein API-Vertrag `null` und `undefined` bewusst gleich behandeln soll. Gute Antworten benennen deshalb sowohl die sichere Default-Regel als auch die wenigen gerechtfertigten Ausnahmen.',
+      en: 'Equality looks simple, but it is often a proxy for code quality. Using strict equality by default reduces cognitive load and avoids subtle bugs. At the same time, `== null` is a legitimate exception when an API contract intentionally treats `null` and `undefined` the same way. Good answers therefore name both the safe default and the few justified exceptions.',
     },
     resources: ['mdnEquality', 'mdnNullish', 'tsEveryday'],
   }),
@@ -857,21 +880,22 @@ console.log(user.nickname) // undefined`,
       en: 'When are optional chaining and nullish coalescing useful?',
     },
     answer: {
-      de: 'Optional Chaining verhindert Fehler beim Zugriff auf potenziell fehlende Zwischenwerte, und Nullish Coalescing setzt einen Fallback nur bei `null` oder `undefined`. Zusammen machen beide Ausdrücke defensive Zugriffe deutlich lesbarer. Ein Senior sollte aber auch erklären, dass sie fehlende Daten nicht magisch korrekt machen.',
-      en: 'Optional chaining prevents errors when reading through potentially missing intermediate values, and nullish coalescing applies a fallback only for `null` or `undefined`. Together, they make defensive reads much more readable. A senior engineer should still note that they do not magically make missing data correct.',
+      de: 'Optional Chaining verhindert Fehler beim Zugriff auf potenziell fehlende Zwischenwerte, und Nullish Coalescing setzt einen Fallback nur bei `null` oder `undefined`. Zusammen machen beide Ausdrücke defensive Zugriffe deutlich lesbarer, ohne gültige Werte wie `0`, `false` oder leere Strings zu überschreiben. Sie ersetzen aber keine saubere Validierung oder ein gutes Datenmodell.',
+      en: 'Optional chaining prevents errors when reading through potentially missing intermediate values, and nullish coalescing applies a fallback only for `null` or `undefined`. Together, they make defensive reads much more readable without overwriting valid values such as `0`, `false`, or empty strings. They still do not replace proper validation or a good data model.',
     },
     exampleTitle: {
       de: 'Sicher lesen, ohne alles zu verschachteln',
       en: 'Read safely without deep nesting',
     },
     exampleExplanation: {
-      de: 'Der Ausdruck liefert einen Fallback, ohne dass vorher jede Ebene manuell geprueft werden muss. Das reduziert Boilerplate deutlich.',
-      en: 'The expression returns a fallback without manually checking every level first. That removes a lot of boilerplate.',
+      de: 'Der Ausdruck liefert einen Fallback, ohne dass vorher jede Ebene manuell geprüft werden muss. Gleichzeitig bleibt ein gültiger Wert wie `0` erhalten, weil `??` nicht wie `||` auf alle falsy Werte reagiert.',
+      en: 'The expression returns a fallback without manually checking every level first. At the same time, a valid value such as `0` is preserved because `??` does not react to every falsy value like `||` would.',
     },
-    exampleCode: `const city = user.profile?.address?.city ?? 'Unknown'`,
+    exampleCode: `const city = user.profile?.address?.city ?? 'Unknown'
+const retries = settings.retries ?? 0`,
     explanation: {
-      de: 'Die beiden Operatoren verbessern vor allem Lesbarkeit und Fehlertoleranz. Gleichzeitig können sie schlechte Datenmodelle kaschieren, wenn man sie reflexartig überall einsetzt. In Senior-Rollen ist das relevante Thema deshalb oft: Wo ist ein Fallback sinnvoll und wo sollte der Code lieber früh und laut scheitern? Diese Unterscheidung ist architektonisch wichtiger als die Syntax selbst.',
-      en: 'These operators mainly improve readability and fault tolerance. At the same time, they can hide weak data modeling when used everywhere by reflex. In senior roles, the important question is therefore: where is a fallback appropriate and where should the code fail early and loudly instead? That distinction is more architectural than syntactic.',
+      de: 'Die beiden Operatoren verbessern vor allem Lesbarkeit und Fehlertoleranz. Gleichzeitig können sie schlechte Datenmodelle kaschieren, wenn man sie reflexartig überall einsetzt. Ein Fallback ist sinnvoll für optionale UI-Daten oder tolerante Defaults, aber nicht für Pflichtfelder, deren Fehlen eigentlich ein Fehler ist. Genau deshalb beantworten gute Erklärungen nicht nur die Syntax, sondern auch die Frage, wann der Code besser früh und laut scheitern sollte.',
+      en: 'These operators mainly improve readability and fault tolerance. At the same time, they can hide weak data modeling when used everywhere by reflex. A fallback is useful for optional UI data or tolerant defaults, but not for required fields whose absence is actually an error. That is why good explanations cover not only the syntax, but also when the code should fail early and loudly instead.',
     },
     resources: ['mdnOptionalChaining', 'mdnNullish', 'tsStrictNullChecks'],
   }),
@@ -1716,8 +1740,8 @@ type Role = (typeof roles)[keyof typeof roles]`,
       en: 'What do `readonly` and immutable types buy you in TypeScript?',
     },
     answer: {
-      de: '`readonly` verhindert auf Typebene, dass Werte versehentlich mutiert werden. Das erleichtert API-Vertraege und macht Seiteneffekte sichtbarer. Ein Senior sollte aber auch wissen, dass `readonly` kein tiefer Laufzeitschutz ist, sondern ein Design-Signal.',
-      en: '`readonly` prevents accidental mutation at the type level. That clarifies API contracts and makes side effects more visible. A senior engineer should also know that `readonly` is a design signal rather than deep runtime protection.',
+      de: '`readonly` verhindert auf Typebene versehentliche Mutation und macht Änderbarkeit in einer API explizit. Das hilft bei Funktionsparametern, Konfigurationen und gemeinsam genutzten Daten, weil Seiteneffekte früher sichtbar werden. Es ist aber kein tiefer Laufzeitschutz, sondern in erster Linie ein Typvertrag und Design-Signal.',
+      en: '`readonly` prevents accidental mutation at the type level and makes mutability explicit in an API. That helps with function parameters, configuration objects, and shared data because side effects become visible earlier. It is not deep runtime protection, though; it is primarily a type contract and design signal.',
     },
     exampleTitle: {
       de: 'Intent in der Signatur sichtbar machen',
@@ -1731,8 +1755,8 @@ type Role = (typeof roles)[keyof typeof roles]`,
   return values.reduce((total, value) => total + value, 0)
 }`,
     explanation: {
-      de: 'Immutability ist nicht nur ein React-Thema, sondern ein allgemeiner API-Vertrag. `readonly` hilft, diese Absicht früh in Signaturen zu verankern. Trotzdem bleibt Laufzeitmutation möglich, wenn andere Teile des Systems dieselben Objekte direkt verändern. Gute Kandidaten erklären deshalb den Unterschied zwischen Typdisziplin und Runtime-Schutz.',
-      en: 'Immutability is not only a React topic; it is a general API contract. `readonly` helps encode that intention directly in signatures. At the same time, runtime mutation remains possible when other parts of the system modify the same objects directly. Strong candidates therefore distinguish type discipline from runtime guarantees.',
+      de: 'Immutability ist nicht nur ein React-Thema, sondern ein allgemeiner API-Vertrag. `readonly` hilft, diese Absicht früh in Signaturen zu verankern und Mutationen schon beim Schreiben des Codes sichtbar zu machen. Trotzdem bleibt Laufzeitmutation möglich, wenn dieselben Objekte an anderer Stelle ohne Schutz verändert werden; dafür braucht es zusätzliche Maßnahmen wie defensive Kopien, Kapselung oder `Object.freeze`. Gute Erklärungen trennen deshalb sauber zwischen Typdisziplin, API-Design und echtem Runtime-Schutz.',
+      en: 'Immutability is not only a React topic; it is a general API contract. `readonly` helps encode that intention directly in signatures and makes mutations visible while you write the code. At the same time, runtime mutation remains possible when the same objects are changed elsewhere without protection; for that, you need additional measures such as defensive copies, encapsulation, or `Object.freeze`. Good explanations therefore separate type discipline, API design, and actual runtime protection clearly.',
     },
     resources: ['tsEveryday', 'tsMapped', 'mdnFreeze'],
   }),
