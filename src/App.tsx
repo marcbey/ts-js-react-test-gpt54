@@ -24,8 +24,6 @@ function App() {
       <div className="ambient ambient-two" />
       <HeroPanel
         copy={copy}
-        language={trainer.language}
-        onLanguageChange={trainer.setLanguage}
         revealedCount={trainer.revealedIds.length}
         shownCount={trainer.filteredQuestions.length}
         totalCount={interviewQuestions.length}
@@ -58,6 +56,7 @@ function App() {
           isMarked={trainer.isMarked}
           isRevealed={trainer.isRevealed}
           language={trainer.language}
+          onLanguageChange={trainer.setLanguage}
           onNext={() => trainer.moveSelection('next')}
           onNextAndScroll={() => {
             trainer.moveSelection('next')

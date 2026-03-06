@@ -15,6 +15,7 @@ type QuestionDetailProps = {
   revealedCount: number
   isMarked: boolean
   isRevealed: boolean
+  onLanguageChange: (language: Language) => void
   onPrevious: () => void
   onNext: () => void
   onNextAndScroll: () => void
@@ -32,6 +33,7 @@ export const QuestionDetail = ({
   revealedCount,
   isMarked,
   isRevealed,
+  onLanguageChange,
   onPrevious,
   onNext,
   onNextAndScroll,
@@ -46,6 +48,9 @@ export const QuestionDetail = ({
         copy={copy}
         indexLabel={`${Math.max(selectedIndex + 1, 1)} / ${Math.max(filteredCount, 1)}`}
         isMarked={isMarked}
+        language={language}
+        languageGroupLabel={copy.language}
+        onLanguageChange={onLanguageChange}
         onNext={onNext}
         onPrevious={onPrevious}
         onToggleMark={onToggleMark}

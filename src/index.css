@@ -459,6 +459,11 @@ button {
   flex-wrap: nowrap;
 }
 
+.question-language-switch {
+  margin-left: 0;
+  flex: 0 0 auto;
+}
+
 .mark-button {
   padding: 0.55rem 0.85rem;
   border: 1px solid var(--border);
@@ -479,6 +484,14 @@ button {
   margin-left: auto;
   text-align: right;
   color: var(--accent-soft);
+}
+
+.question-actions-end .index-badge {
+  margin-left: auto;
+}
+
+.question-actions-start .index-badge {
+  margin-left: 0;
 }
 
 .detail-question {
