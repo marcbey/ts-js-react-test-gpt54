@@ -1,4 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
+import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
+import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript'
+import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
+import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx'
+import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import './index.css'
 import { interviewQuestions } from './data/interviewQuestions'
 import type { Category, Language } from './types'
@@ -6,25 +12,25 @@ import type { Category, Language } from './types'
 const languageCopy = {
   de: {
     eyebrow: 'Senior Interview Trainer',
-    title: '100 Fragen fuer JavaScript, TypeScript und React',
+    title: '100 Fragen für JS, TS und React',
     subtitle:
-      'Trainiere typische Senior-Level-Interviewfragen. Jede Karte startet nur mit der Frage und blendet Antwort, Beispiel und Deep Dive erst auf Klick ein.',
+      'Trainiere typische Senior-Level-Interviewfragen. Jede Karte startet nur mit der Frage und blendet Antwort.',
     searchLabel: 'Suche',
     searchPlaceholder: 'Nach Thema, Begriff oder Konzept suchen',
     reveal: 'Antwort anzeigen',
     revealed: 'Antwort sichtbar',
-    explanation: 'Ausfuehrliche Erklaerung',
-    resources: 'Weiterfuehrende Quellen',
+    explanation: 'Ausführliche Erklärung',
+    resources: 'Weiterführende Quellen',
     questionList: 'Fragenkatalog',
     progress: 'Fortschritt',
     shown: 'Angezeigt',
     solved: 'Aufgedeckt',
-    next: 'Naechste Frage',
+    next: 'Nächste Frage',
     previous: 'Vorherige Frage',
     of: 'von',
     all: 'Alle',
     empty: 'Keine Fragen passen zum aktuellen Filter.',
-    prompt: 'Waehle links eine Frage oder gehe mit den Navigationstasten durch den Katalog.',
+    prompt: 'Wähle links eine Frage oder gehe mit den Navigationstasten durch den Katalog.',
     language: 'Sprache',
     answer: 'Kurzantwort',
     example: 'Beispiel',
@@ -38,9 +44,9 @@ const languageCopy = {
   },
   en: {
     eyebrow: 'Senior Interview Trainer',
-    title: '100 questions for JavaScript, TypeScript, and React',
+    title: '100 questions for JS, TS, and React',
     subtitle:
-      'Practice senior-level interview prompts. Each card starts with the question only and reveals the answer, example, and deep dive on demand.',
+      'Practice senior-level interview prompts. Each card starts with the question only and reveals the answer.',
     searchLabel: 'Search',
     searchPlaceholder: 'Search by topic, term, or concept',
     reveal: 'Reveal answer',
@@ -75,6 +81,34 @@ const categoryLabels: Record<Category, { de: string; en: string }> = {
   typescript: { de: 'TypeScript', en: 'TypeScript' },
   react: { de: 'React', en: 'React' },
 }
+
+const codeLanguageByCategory: Record<Category, string> = {
+  javascript: 'javascript',
+  typescript: 'typescript',
+  react: 'tsx',
+}
+
+SyntaxHighlighter.registerLanguage('javascript', javascript)
+SyntaxHighlighter.registerLanguage('jsx', jsx)
+SyntaxHighlighter.registerLanguage('tsx', tsx)
+SyntaxHighlighter.registerLanguage('typescript', typescript)
+
+const codeTheme = {
+  ...oneDark,
+  'pre[class*="language-"]': {
+    ...oneDark['pre[class*="language-"]'],
+    margin: 0,
+    padding: '1rem',
+    borderRadius: '1rem',
+    border: '1px solid rgba(255, 255, 255, 0.06)',
+    background: 'rgba(0, 0, 0, 0.34)',
+  },
+  'code[class*="language-"]': {
+    ...oneDark['code[class*="language-"]'],
+    fontFamily: "'SFMono-Regular', 'SF Mono', Consolas, 'Liberation Mono', monospace",
+    fontSize: '0.95rem',
+  },
+} as const
 
 const defaultQuestion = interviewQuestions[0]
 
@@ -170,6 +204,10 @@ function App() {
     filteredQuestions.find((question) => question.id === selectedId) ?? filteredQuestions[0] ?? defaultQuestion
 
   const selectedIndex = filteredQuestions.findIndex((question) => question.id === selectedQuestion.id)
+  const visibleQuestions =
+    selectedIndex >= 0
+      ? filteredQuestions.slice(Math.max(selectedIndex - 1, 0), Math.min(selectedIndex + 2, filteredQuestions.length))
+      : []
   const isRevealed = revealedIds.includes(selectedQuestion.id)
   const isMarked = markedIds.includes(selectedQuestion.id)
   const revealedCount = filteredQuestions.filter((question) => revealedIds.includes(question.id)).length
@@ -199,11 +237,9 @@ function App() {
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
       <header className="hero-panel">
-        <div>
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <h1>{copy.title}</h1>
-          <p className="hero-copy">{copy.subtitle}</p>
-        </div>
+        <p className="eyebrow hero-eyebrow">{copy.eyebrow}</p>
+        <h1 className="hero-title">{copy.title}</h1>
+        <p className="hero-copy">{copy.subtitle}</p>
         <div className="hero-controls">
           <div className="language-switch" aria-label={copy.language}>
             <button
@@ -251,13 +287,7 @@ function App() {
                 </div>
                 <p className="panel-copy">{copy.prompt}</p>
               </div>
-            ) : (
-              <div className="catalog-rail">
-                <strong>{filteredQuestions.length}</strong>
-                <span>{String(selectedQuestion.id).padStart(3, '0')}</span>
-                <small>{copy.selected}</small>
-              </div>
-            )}
+            ) : null}
 
             <button
               aria-label={isCatalogCollapsed ? copy.expandCatalog : copy.collapseCatalog}
@@ -310,7 +340,7 @@ function App() {
 
               <div className="question-list" role="list">
                 {filteredQuestions.length === 0 ? <p className="empty-state">{copy.empty}</p> : null}
-                {filteredQuestions.map((question) => {
+                {visibleQuestions.map((question) => {
                   const active = question.id === selectedQuestion.id
                   const solved = revealedIds.includes(question.id)
                   const marked = markedIds.includes(question.id)
@@ -383,9 +413,14 @@ function App() {
                     <h3>{selectedQuestion.exampleTitle[language]}</h3>
                   </div>
                 </div>
-                <pre>
-                  <code>{selectedQuestion.exampleCode}</code>
-                </pre>
+                <SyntaxHighlighter
+                  className="example-code"
+                  language={codeLanguageByCategory[selectedQuestion.category]}
+                  style={codeTheme}
+                  wrapLongLines
+                >
+                  {selectedQuestion.exampleCode}
+                </SyntaxHighlighter>
                 <p className="copy-block">{selectedQuestion.exampleExplanation[language]}</p>
               </article>
 
