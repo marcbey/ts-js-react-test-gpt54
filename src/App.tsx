@@ -28,6 +28,13 @@ const languageCopy = {
     language: 'Sprache',
     answer: 'Kurzantwort',
     example: 'Beispiel',
+    collapseCatalog: 'Katalog einklappen',
+    expandCatalog: 'Katalog ausklappen',
+    selected: 'Aktiv',
+    marked: 'Markiert',
+    markedOnly: 'Nur markierte',
+    markQuestion: 'Frage markieren',
+    unmarkQuestion: 'Markierung entfernen',
   },
   en: {
     eyebrow: 'Senior Interview Trainer',
@@ -53,6 +60,13 @@ const languageCopy = {
     language: 'Language',
     answer: 'Short answer',
     example: 'Example',
+    collapseCatalog: 'Collapse catalog',
+    expandCatalog: 'Expand catalog',
+    selected: 'Active',
+    marked: 'Marked',
+    markedOnly: 'Marked only',
+    markQuestion: 'Mark question',
+    unmarkQuestion: 'Remove mark',
   },
 } as const
 
@@ -81,6 +95,20 @@ const loadRevealed = (): number[] => {
   }
 }
 
+const loadMarked = (): number[] => {
+  const value = window.localStorage.getItem('interview-marked')
+  if (!value) return []
+
+  try {
+    const parsed = JSON.parse(value)
+    return Array.isArray(parsed) ? parsed.filter((entry) => typeof entry === 'number') : []
+  } catch {
+    return []
+  }
+}
+
+const loadCatalogCollapsed = (): boolean => window.localStorage.getItem('interview-catalog-collapsed') === 'true'
+
 const renderParagraphs = (text: string) =>
   text.split('\n\n').map((paragraph) => (
     <p key={paragraph} className="copy-block">
@@ -94,6 +122,9 @@ function App() {
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState(defaultQuestion.id)
   const [revealedIds, setRevealedIds] = useState<number[]>(() => loadRevealed())
+  const [markedIds, setMarkedIds] = useState<number[]>(() => loadMarked())
+  const [markedOnly, setMarkedOnly] = useState(false)
+  const [isCatalogCollapsed, setIsCatalogCollapsed] = useState<boolean>(() => loadCatalogCollapsed())
 
   const copy = languageCopy[language]
 
@@ -105,12 +136,21 @@ function App() {
     window.localStorage.setItem('interview-revealed', JSON.stringify(revealedIds))
   }, [revealedIds])
 
+  useEffect(() => {
+    window.localStorage.setItem('interview-marked', JSON.stringify(markedIds))
+  }, [markedIds])
+
+  useEffect(() => {
+    window.localStorage.setItem('interview-catalog-collapsed', JSON.stringify(isCatalogCollapsed))
+  }, [isCatalogCollapsed])
+
   const filteredQuestions = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase()
 
     return interviewQuestions.filter((question) => {
       const categoryMatches = category === 'all' || question.category === category
       if (!categoryMatches) return false
+      if (markedOnly && !markedIds.includes(question.id)) return false
       if (!normalizedSearch) return true
 
       const haystack = [
@@ -124,13 +164,14 @@ function App() {
 
       return haystack.includes(normalizedSearch)
     })
-  }, [category, language, search])
+  }, [category, language, markedIds, markedOnly, search])
 
   const selectedQuestion =
     filteredQuestions.find((question) => question.id === selectedId) ?? filteredQuestions[0] ?? defaultQuestion
 
   const selectedIndex = filteredQuestions.findIndex((question) => question.id === selectedQuestion.id)
   const isRevealed = revealedIds.includes(selectedQuestion.id)
+  const isMarked = markedIds.includes(selectedQuestion.id)
   const revealedCount = filteredQuestions.filter((question) => revealedIds.includes(question.id)).length
 
   const moveSelection = (direction: 'previous' | 'next') => {
@@ -145,6 +186,12 @@ function App() {
   const revealCurrent = () => {
     if (revealedIds.includes(selectedQuestion.id)) return
     setRevealedIds((current) => [...current, selectedQuestion.id])
+  }
+
+  const toggleMarked = (questionId: number) => {
+    setMarkedIds((current) =>
+      current.includes(questionId) ? current.filter((entry) => entry !== questionId) : [...current, questionId],
+    )
   }
 
   return (
@@ -191,71 +238,104 @@ function App() {
         </div>
       </header>
 
-      <main className="workspace-grid">
-        <aside className="catalog-panel">
-          <div className="panel-heading">
-            <div>
-              <p className="section-label">{copy.questionList}</p>
-              <h2>
-                {filteredQuestions.length} / {interviewQuestions.length}
-              </h2>
-            </div>
-            <p className="panel-copy">{copy.prompt}</p>
-          </div>
+      <main className={isCatalogCollapsed ? 'workspace-grid sidebar-collapsed' : 'workspace-grid'}>
+        <aside className={isCatalogCollapsed ? 'catalog-panel collapsed' : 'catalog-panel'}>
+          <div className="catalog-topbar">
+            {!isCatalogCollapsed ? (
+              <div className="panel-heading">
+                <div>
+                  <p className="section-label">{copy.questionList}</p>
+                  <h2>
+                    {filteredQuestions.length} / {interviewQuestions.length}
+                  </h2>
+                </div>
+                <p className="panel-copy">{copy.prompt}</p>
+              </div>
+            ) : (
+              <div className="catalog-rail">
+                <p className="section-label">{copy.questionList}</p>
+                <strong>{filteredQuestions.length}</strong>
+                <span>{String(selectedQuestion.id).padStart(3, '0')}</span>
+                <small>{copy.selected}</small>
+              </div>
+            )}
 
-          <label className="search-field">
-            <span>{copy.searchLabel}</span>
-            <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              placeholder={copy.searchPlaceholder}
-              type="search"
-            />
-          </label>
-
-          <div className="category-row">
             <button
-              className={category === 'all' ? 'filter-pill active' : 'filter-pill'}
-              onClick={() => setCategory('all')}
+              aria-label={isCatalogCollapsed ? copy.expandCatalog : copy.collapseCatalog}
+              className="catalog-toggle"
+              onClick={() => setIsCatalogCollapsed((current) => !current)}
               type="button"
             >
-              {copy.all}
+              {isCatalogCollapsed ? '>' : '<'}
             </button>
-            {(['javascript', 'typescript', 'react'] as const).map((entry) => (
-              <button
-                key={entry}
-                className={category === entry ? 'filter-pill active' : 'filter-pill'}
-                onClick={() => setCategory(entry)}
-                type="button"
-              >
-                {categoryLabels[entry][language]}
-              </button>
-            ))}
           </div>
 
-          <div className="question-list" role="list">
-            {filteredQuestions.length === 0 ? <p className="empty-state">{copy.empty}</p> : null}
-            {filteredQuestions.map((question) => {
-              const active = question.id === selectedQuestion.id
-              const solved = revealedIds.includes(question.id)
+          {!isCatalogCollapsed ? (
+            <>
+              <label className="search-field">
+                <span>{copy.searchLabel}</span>
+                <input
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder={copy.searchPlaceholder}
+                  type="search"
+                />
+              </label>
 
-              return (
+              <div className="category-row">
                 <button
-                  key={question.id}
-                  className={active ? 'question-chip active' : 'question-chip'}
-                  onClick={() => setSelectedId(question.id)}
+                  className={category === 'all' ? 'filter-pill active' : 'filter-pill'}
+                  onClick={() => setCategory('all')}
                   type="button"
                 >
-                  <span className="chip-meta">
-                    <span>{String(question.id).padStart(3, '0')}</span>
-                    <span>{categoryLabels[question.category][language]}</span>
-                    {solved ? <span className="solved-dot">{copy.revealed}</span> : null}
-                  </span>
-                  <strong>{question.question[language]}</strong>
+                  {copy.all}
                 </button>
-              )
-            })}
-          </div>
+                {(['javascript', 'typescript', 'react'] as const).map((entry) => (
+                  <button
+                    key={entry}
+                    className={category === entry ? 'filter-pill active' : 'filter-pill'}
+                    onClick={() => setCategory(entry)}
+                    type="button"
+                  >
+                    {categoryLabels[entry][language]}
+                  </button>
+                ))}
+                <button
+                  className={markedOnly ? 'filter-pill active' : 'filter-pill'}
+                  onClick={() => setMarkedOnly((current) => !current)}
+                  type="button"
+                >
+                  {copy.markedOnly}
+                </button>
+              </div>
+
+              <div className="question-list" role="list">
+                {filteredQuestions.length === 0 ? <p className="empty-state">{copy.empty}</p> : null}
+                {filteredQuestions.map((question) => {
+                  const active = question.id === selectedQuestion.id
+                  const solved = revealedIds.includes(question.id)
+                  const marked = markedIds.includes(question.id)
+
+                  return (
+                    <button
+                      key={question.id}
+                      className={active ? 'question-chip active' : 'question-chip'}
+                      onClick={() => setSelectedId(question.id)}
+                      type="button"
+                    >
+                      <span className="chip-meta">
+                        <span>{String(question.id).padStart(3, '0')}</span>
+                        <span>{categoryLabels[question.category][language]}</span>
+                        {marked ? <span className="marked-dot">{copy.marked}</span> : null}
+                        {solved ? <span className="solved-dot">{copy.revealed}</span> : null}
+                      </span>
+                      <strong>{question.question[language]}</strong>
+                    </button>
+                  )
+                })}
+              </div>
+            </>
+          ) : null}
         </aside>
 
         <section className="detail-panel">
@@ -264,8 +344,13 @@ function App() {
               <p className="section-label">{categoryLabels[selectedQuestion.category][language]}</p>
               <h2>{selectedQuestion.question[language]}</h2>
             </div>
-            <div className="index-badge">
-              {Math.max(selectedIndex + 1, 1)} / {Math.max(filteredQuestions.length, 1)}
+            <div className="detail-top-actions">
+              <button className={isMarked ? 'mark-button active' : 'mark-button'} onClick={() => toggleMarked(selectedQuestion.id)} type="button">
+                {isMarked ? copy.unmarkQuestion : copy.markQuestion}
+              </button>
+              <div className="index-badge">
+                {Math.max(selectedIndex + 1, 1)} / {Math.max(filteredQuestions.length, 1)}
+              </div>
             </div>
           </div>
 
