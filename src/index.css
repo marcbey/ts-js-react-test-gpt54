@@ -586,16 +586,9 @@ button {
 
 .nav-row {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.nav-row button {
-  padding: 0.55rem 0.85rem;
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
-  font-size: 0.84rem;
+  justify-content: flex-start;
+  gap: 0.55rem;
+  flex-wrap: wrap;
 }
 
 .empty-state {

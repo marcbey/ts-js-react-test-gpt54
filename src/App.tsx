@@ -478,11 +478,18 @@ function App() {
           )}
 
           <div className="nav-row">
-            <button onClick={() => moveSelection('previous')} type="button">
+            <button className="mark-button" onClick={() => moveSelection('previous')} type="button">
               {copy.previous}
             </button>
-            <button onClick={() => moveSelection('next', true)} type="button">
+            <button className="mark-button" onClick={() => moveSelection('next', true)} type="button">
               {copy.next}
+            </button>
+            <button
+              className={isMarked ? 'mark-button active' : 'mark-button'}
+              onClick={() => toggleMarked(selectedQuestion.id)}
+              type="button"
+            >
+              {isMarked ? copy.unmarkQuestion : copy.markQuestion}
             </button>
           </div>
         </section>
