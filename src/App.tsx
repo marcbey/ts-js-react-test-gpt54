@@ -253,7 +253,6 @@ function App() {
               </div>
             ) : (
               <div className="catalog-rail">
-                <p className="section-label">{copy.questionList}</p>
                 <strong>{filteredQuestions.length}</strong>
                 <span>{String(selectedQuestion.id).padStart(3, '0')}</span>
                 <small>{copy.selected}</small>

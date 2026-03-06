@@ -256,6 +256,20 @@ button {
   padding: 0.7rem;
 }
 
+.catalog-panel.collapsed .catalog-topbar {
+  flex-direction: column;
+  align-items: center;
+}
+
+.catalog-panel.collapsed .catalog-toggle {
+  min-width: 0;
+  width: 100%;
+  height: 2.2rem;
+  background: rgba(240, 127, 69, 0.18);
+  border-color: rgba(240, 127, 69, 0.28);
+  color: var(--accent-soft);
+}
+
 .catalog-topbar {
   display: flex;
   align-items: flex-start;
@@ -281,13 +295,13 @@ button {
   display: grid;
   justify-items: center;
   width: 100%;
-  gap: 0.25rem;
-  padding-top: 0.15rem;
+  gap: 0.4rem;
+  padding-top: 0.1rem;
   text-align: center;
 }
 
 .catalog-rail strong {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 
