@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { PrismLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import javascript from 'react-syntax-highlighter/dist/esm/languages/prism/javascript'
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx'
@@ -151,10 +151,12 @@ const renderParagraphs = (text: string) =>
   ))
 
 function App() {
+  const questionTopRef = useRef<HTMLDivElement | null>(null)
   const [language, setLanguage] = useState<Language>(() => loadLanguage())
   const [category, setCategory] = useState<Category | 'all'>('all')
   const [search, setSearch] = useState('')
   const [selectedId, setSelectedId] = useState(defaultQuestion.id)
+  const [activeRevealId, setActiveRevealId] = useState<number | null>(null)
   const [revealedIds, setRevealedIds] = useState<number[]>(() => loadRevealed())
   const [markedIds, setMarkedIds] = useState<number[]>(() => loadMarked())
   const [markedOnly, setMarkedOnly] = useState(false)
@@ -208,20 +210,32 @@ function App() {
     selectedIndex >= 0
       ? filteredQuestions.slice(Math.max(selectedIndex - 1, 0), Math.min(selectedIndex + 2, filteredQuestions.length))
       : []
-  const isRevealed = revealedIds.includes(selectedQuestion.id)
+  const isRevealed = activeRevealId === selectedQuestion.id
   const isMarked = markedIds.includes(selectedQuestion.id)
   const revealedCount = filteredQuestions.filter((question) => revealedIds.includes(question.id)).length
 
-  const moveSelection = (direction: 'previous' | 'next') => {
+  useEffect(() => {
+    setActiveRevealId(null)
+  }, [selectedQuestion.id])
+
+  const moveSelection = (direction: 'previous' | 'next', shouldScrollToQuestion = false) => {
     if (filteredQuestions.length === 0) return
     const nextIndex =
       direction === 'next'
         ? Math.min(selectedIndex + 1, filteredQuestions.length - 1)
         : Math.max(selectedIndex - 1, 0)
     setSelectedId(filteredQuestions[nextIndex].id)
+
+    if (shouldScrollToQuestion) {
+      window.requestAnimationFrame(() => {
+        questionTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    }
   }
 
   const revealCurrent = () => {
+    setActiveRevealId(selectedQuestion.id)
+
     if (revealedIds.includes(selectedQuestion.id)) return
     setRevealedIds((current) => [...current, selectedQuestion.id])
   }
@@ -368,18 +382,28 @@ function App() {
         </aside>
 
         <section className="detail-panel">
-          <div className="detail-topline">
-            <div>
-              <p className="section-label">{categoryLabels[selectedQuestion.category][language]}</p>
-              <h2>{selectedQuestion.question[language]}</h2>
-            </div>
+          <div className="detail-topline" ref={questionTopRef}>
             <div className="detail-top-actions">
-              <button className={isMarked ? 'mark-button active' : 'mark-button'} onClick={() => toggleMarked(selectedQuestion.id)} type="button">
+              <button className="mark-button" onClick={() => moveSelection('previous')} type="button">
+                {copy.previous}
+              </button>
+              <button className="mark-button" onClick={() => moveSelection('next')} type="button">
+                {copy.next}
+              </button>
+              <button
+                className={isMarked ? 'mark-button active' : 'mark-button'}
+                onClick={() => toggleMarked(selectedQuestion.id)}
+                type="button"
+              >
                 {isMarked ? copy.unmarkQuestion : copy.markQuestion}
               </button>
               <div className="index-badge">
                 {Math.max(selectedIndex + 1, 1)} / {Math.max(filteredQuestions.length, 1)}
               </div>
+            </div>
+            <div className="detail-question">
+              <p className="section-label">{categoryLabels[selectedQuestion.category][language]}</p>
+              <h2>{selectedQuestion.question[language]}</h2>
             </div>
           </div>
 
@@ -457,7 +481,7 @@ function App() {
             <button onClick={() => moveSelection('previous')} type="button">
               {copy.previous}
             </button>
-            <button onClick={() => moveSelection('next')} type="button">
+            <button onClick={() => moveSelection('next', true)} type="button">
               {copy.next}
             </button>
           </div>

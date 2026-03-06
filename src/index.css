@@ -170,13 +170,16 @@ button {
   display: grid;
   gap: 0.7rem;
   align-content: start;
+  align-items: end;
   justify-self: end;
+  align-self: start;
 }
 
 .language-switch {
   display: inline-flex;
   gap: 0.4rem;
   width: fit-content;
+  justify-self: end;
   padding: 0.35rem;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -276,7 +279,9 @@ button {
 .catalog-panel.collapsed {
   grid-template-rows: auto;
   gap: 0;
+  min-height: 0;
   padding: 0.7rem;
+  align-self: start;
 }
 
 .catalog-panel.collapsed .catalog-topbar {
@@ -430,16 +435,17 @@ button {
 }
 
 .detail-topline {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
+  display: grid;
+  gap: 0.9rem;
 }
 
 .detail-top-actions {
-  display: grid;
-  justify-items: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   gap: 0.55rem;
+  flex-wrap: nowrap;
+  width: 100%;
 }
 
 .mark-button {
@@ -459,8 +465,13 @@ button {
 
 .index-badge {
   min-width: 7rem;
+  margin-left: auto;
   text-align: right;
   color: var(--accent-soft);
+}
+
+.detail-question {
+  width: 100%;
 }
 
 .reveal-box {
@@ -495,6 +506,10 @@ button {
   border-radius: 1.5rem;
   border: 1px solid var(--border);
   background: var(--surface-strong);
+}
+
+.content-card .copy-block {
+  max-width: none;
 }
 
 .answer-card {
@@ -534,25 +549,32 @@ button {
 
 .resource-grid {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.55rem;
 }
 
 .resource-grid a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
+  gap: 0.8rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.8rem;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text);
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--muted);
   text-decoration: none;
 }
 
 .resource-grid a strong {
-  color: var(--accent-soft);
-  font-size: 0.88rem;
+  color: rgba(255, 211, 184, 0.72);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.resource-grid a:hover {
+  border-color: rgba(255, 242, 224, 0.18);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
 }
 
 .locked-card {
@@ -569,10 +591,11 @@ button {
 }
 
 .nav-row button {
-  padding: 0.95rem 1.2rem;
+  padding: 0.55rem 0.85rem;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
+  font-size: 0.84rem;
 }
 
 .empty-state {
@@ -626,7 +649,6 @@ button {
     align-items: center;
   }
 
-  .detail-topline,
   .reveal-box,
   .resource-grid a,
   .nav-row {
@@ -635,7 +657,12 @@ button {
   }
 
   .detail-top-actions {
-    justify-items: stretch;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .index-badge {
+    margin-left: 0;
   }
 
   .stats-grid {
@@ -644,5 +671,6 @@ button {
 
   .hero-controls {
     justify-self: stretch;
+    align-items: stretch;
   }
 }
