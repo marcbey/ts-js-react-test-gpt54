@@ -14,7 +14,7 @@ const languageCopy = {
     eyebrow: 'Senior Interview Trainer',
     title: '100 Fragen für JS, TS und React',
     subtitle:
-      'Trainiere typische Senior-Level-Interviewfragen. Jede Karte startet nur mit der Frage und blendet Antwort.',
+      'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript und React.',
     searchLabel: 'Suche',
     searchPlaceholder: 'Nach Thema, Begriff oder Konzept suchen',
     reveal: 'Antwort anzeigen',
@@ -46,7 +46,7 @@ const languageCopy = {
     eyebrow: 'Senior Interview Trainer',
     title: '100 questions for JS, TS, and React',
     subtitle:
-      'Practice senior-level interview prompts. Each card starts with the question only and reveals the answer.',
+      'Practice senior-level interview prompts on JavaScript, TypeScript, and React.',
     searchLabel: 'Search',
     searchPlaceholder: 'Search by topic, term, or concept',
     reveal: 'Reveal answer',
