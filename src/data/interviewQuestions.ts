@@ -352,7 +352,7 @@ const javascriptQuestions: InterviewQuestion[] = [
       en: 'Block scope instead of function-scope traps',
     },
     exampleExplanation: {
-      de: 'Der Zugriff auf `count` ausserhalb des Blocks wirft einen Fehler. Genau das verhindert viele Leaks und Shadowing-Probleme, die mit `var` früher leicht entstanden.',
+      de: 'Der Zugriff auf `count` außerhalb des Blocks wirft einen Fehler. Genau das verhindert viele Leaks und Shadowing-Probleme, die mit `var` früher leicht entstanden.',
       en: 'Accessing `count` outside the block throws an error. That is exactly what prevents many leaks and shadowing issues that were common with `var`.',
     },
     exampleCode: `if (true) {
@@ -457,7 +457,7 @@ Promise.resolve().then(() => console.log('promise'))
 console.log('B')
 // A, B, promise, timeout`,
     explanation: {
-      de: 'Der Event Loop ist eng mit Rendering, I/O und Browser-APIs verzahnt. Lange synchrone Arbeit blockiert nicht nur Events, sondern oft auch Paints und damit die wahrgenommene Performance. Deshalb teilt man große Arbeitspakete auf, nutzt Workers oder verschiebt nicht-kritische Arbeit. Wer das erklären kann, zeigt Architekturverstaendnis und nicht nur Syntaxwissen.',
+      de: 'Der Event Loop ist eng mit Rendering, I/O und Browser-APIs verzahnt. Lange synchrone Arbeit blockiert nicht nur Events, sondern oft auch Paints und damit die wahrgenommene Performance. Deshalb teilt man große Arbeitspakete auf, nutzt Workers oder verschiebt nicht-kritische Arbeit. Wer das erklären kann, zeigt Architekturverständnis und nicht nur Syntaxwissen.',
       en: 'The event loop is tightly connected to rendering, I/O, and browser APIs. Long synchronous work blocks not just events, but often paints as well, which hurts perceived performance. That is why large jobs are split up, delegated to workers, or deferred. Explaining that well demonstrates architectural understanding, not just syntax knowledge.',
     },
     resources: ['mdnEventLoop', 'mdnBrowserWork', 'mdnPerformance'],
@@ -486,7 +486,7 @@ setTimeout(() => console.log('timer'), 0)
 console.log('sync')
 // sync, microtask, timer`,
     explanation: {
-      de: 'Das Modell ist wichtig, sobald du Race Conditions, Flackern oder seltsame Testfehler analysierst. Testframeworks, React-Updates und Browser-Rendering können je nach Timing anders beobachtbar sein. In Performance-Arbeit hilft dieses Wissen zu entscheiden, ob ein Task sofort, später oder ausserhalb des Main Threads laufen sollte. Genau das trennt robuste von zufällig funktionierender UI.',
+      de: 'Das Modell ist wichtig, sobald du Race Conditions, Flackern oder seltsame Testfehler analysierst. Testframeworks, React-Updates und Browser-Rendering können je nach Timing anders beobachtbar sein. In Performance-Arbeit hilft dieses Wissen zu entscheiden, ob ein Task sofort, später oder außerhalb des Main Threads laufen sollte. Genau das trennt robuste von zufällig funktionierender UI.',
       en: 'This model matters when you analyze race conditions, flicker, or strange test failures. Test frameworks, React updates, and browser rendering can appear different depending on timing. In performance work, it helps you decide whether a task should run now, later, or off the main thread. That is the difference between a robust UI and one that only works by accident.',
     },
     resources: ['mdnEventLoop', 'mdnAsync', 'mdnPerformance'],
@@ -615,7 +615,7 @@ boundGreet() // 'Hi Ada'`,
       en: 'Syntactic sugar with real semantics',
     },
     exampleExplanation: {
-      de: 'Die Klasse sieht wie klassische OOP aus, aber Methoden landen weiterhin auf dem Prototyp. Darum ist das Verstaendnis des Basismodells weiterhin relevant.',
+      de: 'Die Klasse sieht wie klassische OOP aus, aber Methoden landen weiterhin auf dem Prototyp. Darum ist das Verständnis des Basismodells weiterhin relevant.',
       en: 'The class looks like classical OOP, but methods still land on the prototype. That is why understanding the base model still matters.',
     },
     exampleCode: `class User {
@@ -628,7 +628,7 @@ boundGreet() // 'Hi Ada'`,
   }
 }`,
     explanation: {
-      de: 'Klassen bringen klare Syntax für Konstruktoren, Vererbung und private Felder. Gleichzeitig entstehen Missverstaendnisse, wenn Entwickler daraus klassische Klassenhierarchien wie in Java oder C# ableiten. In JavaScript sind Komposition, kleine Objekte und einfache Datenstrukturen oft der robustere Weg. Gute Kandidaten erklären deshalb nicht nur die Technik, sondern auch die typischen Designentscheidungen darum herum.',
+      de: 'Klassen bringen klare Syntax für Konstruktoren, Vererbung und private Felder. Gleichzeitig entstehen Missverständnisse, wenn Entwickler daraus klassische Klassenhierarchien wie in Java oder C# ableiten. In JavaScript sind Komposition, kleine Objekte und einfache Datenstrukturen oft der robustere Weg. Gute Kandidaten erklären deshalb nicht nur die Technik, sondern auch die typischen Designentscheidungen darum herum.',
       en: 'Classes provide clear syntax for constructors, inheritance, and private fields. At the same time, developers often over-translate them into classical class hierarchies from Java or C#. In JavaScript, composition, small objects, and simple data structures are often the more robust path. Strong candidates explain not only the mechanism, but also the design choices around it.',
     },
     resources: ['mdnPrototypeChain', 'mdnThis', 'mdnMemory'],
@@ -641,7 +641,7 @@ boundGreet() // 'Hi Ada'`,
       en: 'What is a Promise and what problem does it solve?',
     },
     answer: {
-      de: 'Ein Promise repräsentiert das zukünftige Ergebnis einer asynchronen Operation. Es löst vor allem das Problem, dass Callback-Ketten schwer lesbar, schwer fehlerbehandelbar und schwer kombinierbar werden. Auf Senior-Level solltest du ausserdem Zustandsmodell, Verkettung und Fehlerweitergabe erklären.',
+      de: 'Ein Promise repräsentiert das zukünftige Ergebnis einer asynchronen Operation. Es löst vor allem das Problem, dass Callback-Ketten schwer lesbar, schwer fehlerbehandelbar und schwer kombinierbar werden. Auf Senior-Level solltest du außerdem Zustandsmodell, Verkettung und Fehlerweitergabe erklären.',
       en: 'A Promise represents the future result of an asynchronous operation. It mainly solves the problem that callback chains become hard to read, hard to error-handle, and hard to compose. At senior level, you should also explain the state model, chaining, and error propagation.',
     },
     exampleTitle: {
@@ -699,7 +699,7 @@ boundGreet() // 'Hi Ada'`,
       en: 'How do you handle errors with `fetch` correctly?',
     },
     answer: {
-      de: '`fetch` rejected nur bei Netzwerk- oder CORS-Fehlern, nicht bei HTTP-Statuscodes wie 404 oder 500. Deshalb muss man `response.ok` oder den Status selbst pruefen und darauf reagieren. Senior-Level heisst hier ausserdem: Timeouts, Abbruch, Retries und Nutzerfeedback mitdenken.',
+      de: '`fetch` rejected nur bei Netzwerk- oder CORS-Fehlern, nicht bei HTTP-Statuscodes wie 404 oder 500. Deshalb muss man `response.ok` oder den Status selbst prüfen und darauf reagieren. Senior-Level heisst hier außerdem: Timeouts, Abbruch, Retries und Nutzerfeedback mitdenken.',
       en: '`fetch` only rejects for network or CORS failures, not for HTTP status codes like 404 or 500. That means you must explicitly inspect `response.ok` or the status code. Senior-level handling also includes timeouts, cancellation, retries, and user feedback.',
     },
     exampleTitle: {
@@ -716,7 +716,7 @@ if (!response.ok) {
 }
 const user = await response.json()`,
     explanation: {
-      de: 'Solide Fehlerbehandlung trennt Transportfehler, Protokollfehler und fachliche Fehler. Im Frontend führt das oft zu einem Error-State mit Retry-Möglichkeit statt zu einem stillen `console.error`. Bei produktiven Systemen kommt ausserdem Abbruchlogik über `AbortController` hinzu, um veraltete Requests zu stoppen. Eine gute Antwort zeigt also API-Verstaendnis und UX-Verantwortung zugleich.',
+      de: 'Solide Fehlerbehandlung trennt Transportfehler, Protokollfehler und fachliche Fehler. Im Frontend führt das oft zu einem Error-State mit Retry-Möglichkeit statt zu einem stillen `console.error`. Bei produktiven Systemen kommt außerdem Abbruchlogik über `AbortController` hinzu, um veraltete Requests zu stoppen. Eine gute Antwort zeigt also API-Verständnis und UX-Verantwortung zugleich.',
       en: 'Solid error handling separates transport failures, protocol failures, and domain-level failures. In the frontend, that usually leads to an error state with a retry option instead of a silent `console.error`. In production systems, `AbortController` is often added to cancel obsolete requests. A strong answer therefore shows both API understanding and UX responsibility.',
     },
     resources: ['mdnFetch', 'mdnAbortController', 'mdnPromises'],
@@ -1050,7 +1050,7 @@ return () => {
       en: 'What is `Symbol` used for in JavaScript?',
     },
     answer: {
-      de: '`Symbol` erzeugt einen eindeutigen primitiven Wert, der oft für kollisionsfreie Objektschlüssel genutzt wird. Bekannte Symbole steuern ausserdem Protokolle wie Iteration oder String-Konvertierung. In Senior-Interviews solltest du klar machen, dass `Symbol` ein Spezialwerkzeug und kein Alltagsersatz für Strings ist.',
+      de: '`Symbol` erzeugt einen eindeutigen primitiven Wert, der oft für kollisionsfreie Objektschlüssel genutzt wird. Bekannte Symbole steuern außerdem Protokolle wie Iteration oder String-Konvertierung. In Senior-Interviews solltest du klar machen, dass `Symbol` ein Spezialwerkzeug und kein Alltagsersatz für Strings ist.',
       en: '`Symbol` creates a unique primitive value that is often used for collision-free object keys. Well-known symbols also power protocols such as iteration or string conversion. In senior interviews, make it clear that `Symbol` is a specialized tool, not a day-to-day replacement for strings.',
     },
     exampleTitle: {
@@ -1106,7 +1106,7 @@ cache.set(button, { measuredWidth: 320 })`,
       en: 'Which array methods mutate and which do not?',
     },
     answer: {
-      de: 'Methoden wie `push`, `pop`, `splice`, `sort` oder `reverse` verändern das urspruengliche Array. `map`, `filter`, `slice` oder `concat` liefern dagegen neue Werte zurück. In Senior-Interviews ist wichtig zu sagen, dass falsche Annahmen hier schnell zu State-Bugs führen.',
+      de: 'Methoden wie `push`, `pop`, `splice`, `sort` oder `reverse` verändern das ursprüngliche Array. `map`, `filter`, `slice` oder `concat` liefern dagegen neue Werte zurück. In Senior-Interviews ist wichtig zu sagen, dass falsche Annahmen hier schnell zu State-Bugs führen.',
       en: 'Methods like `push`, `pop`, `splice`, `sort`, or `reverse` mutate the original array. `map`, `filter`, `slice`, or `concat` return new values instead. In senior interviews, it matters to mention that wrong assumptions here quickly turn into state bugs.',
     },
     exampleTitle: {
@@ -1178,7 +1178,7 @@ config.api.timeout = 3000`,
     exampleCode: `localStorage.setItem('theme', 'dark')
 const theme = localStorage.getItem('theme')`,
     explanation: {
-      de: 'Interviewfragen dazu pruefen meist, ob du Sicherheits- und Infrastrukturfolgen verstehst. `localStorage` ist einfach, aber für sensible Tokens problematisch, weil XSS direkten Zugriff ermöglicht. Cookies können mit `HttpOnly` und `Secure` sinnvoller für Sessions sein, bringen aber CSRF-Fragen mit. Gute Kandidaten verbinden also API-Wissen mit Sicherheitsmodell und Produktanforderung.',
+      de: 'Interviewfragen dazu prüfen meist, ob du Sicherheits- und Infrastrukturfolgen verstehst. `localStorage` ist einfach, aber für sensible Tokens problematisch, weil XSS direkten Zugriff ermöglicht. Cookies können mit `HttpOnly` und `Secure` sinnvoller für Sessions sein, bringen aber CSRF-Fragen mit. Gute Kandidaten verbinden also API-Wissen mit Sicherheitsmodell und Produktanforderung.',
       en: 'Questions here usually test whether you understand security and infrastructure consequences. `localStorage` is easy, but it is problematic for sensitive tokens because XSS gives direct access. Cookies can be better for sessions with `HttpOnly` and `Secure`, but they bring CSRF concerns. Strong candidates connect API knowledge with the security model and product requirements.',
     },
     resources: ['mdnStorage', 'mdnXss', 'mdnCsrf'],
@@ -1235,7 +1235,7 @@ const height = element.offsetHeight`,
   removeItem(button.dataset.id)
 })`,
     explanation: {
-      de: 'Delegation ist ein einfaches, aber starkes Pattern für performante und flexible UIs. Es reduziert Setup-Aufwand und verhindert, dass du bei jedem neu eingefuegten Kind erneut Listener registrieren musst. Gleichzeitig muss die Ereigniskette verstanden werden, sonst entstehen schwer erklärbare Bugs. Wer das Pattern mit Bubbling und Selektoren sauber verbindet, zeigt solides Browserverstaendnis.',
+      de: 'Delegation ist ein einfaches, aber starkes Pattern für performante und flexible UIs. Es reduziert Setup-Aufwand und verhindert, dass du bei jedem neu eingefügten Kind erneut Listener registrieren musst. Gleichzeitig muss die Ereigniskette verstanden werden, sonst entstehen schwer erklärbare Bugs. Wer das Pattern mit Bubbling und Selektoren sauber verbindet, zeigt solides Browserverständnis.',
       en: 'Delegation is a simple but powerful pattern for flexible and performant UIs. It reduces setup work and avoids registering new listeners for every inserted child. At the same time, you must understand the event chain or you will create hard-to-explain bugs. Connecting the pattern cleanly with bubbling and selector logic shows solid browser knowledge.',
     },
     resources: ['mdnEventBubbling', 'mdnPerformance', 'mdnMemory'],
@@ -1375,7 +1375,7 @@ const typescriptQuestions: InterviewQuestion[] = [
       en: 'Validate unknown data first',
     },
     exampleExplanation: {
-      de: 'Mit `unknown` musst du pruefen, bevor du Eigenschaften liest. Genau das macht untrusted Input sauberer handhabbar.',
+      de: 'Mit `unknown` musst du prüfen, bevor du Eigenschaften liest. Genau das macht untrusted Input sauberer handhabbar.',
       en: 'With `unknown`, you must check before reading properties. That is exactly what makes untrusted input safer to handle.',
     },
     exampleCode: `function parseUser(value: unknown) {
@@ -1385,7 +1385,7 @@ const typescriptQuestions: InterviewQuestion[] = [
   throw new Error('Invalid user')
 }`,
     explanation: {
-      de: 'Diese drei Typen markieren extreme Punkte des Typsystems. `any` ist der schnelle Ausweg mit späteren Risiken, `unknown` ist der sichere Eingangspunkt für Fremddaten und `never` ist wertvoll für Exhaustiveness-Checks. Wer das gut erklärt, zeigt Verstaendnis für Typdesign statt bloss Syntax. Genau das ist bei Senior-TypeScript entscheidend.',
+      de: 'Diese drei Typen markieren extreme Punkte des Typsystems. `any` ist der schnelle Ausweg mit späteren Risiken, `unknown` ist der sichere Eingangspunkt für Fremddaten und `never` ist wertvoll für Exhaustiveness-Checks. Wer das gut erklärt, zeigt Verständnis für Typdesign statt bloss Syntax. Genau das ist bei Senior-TypeScript entscheidend.',
       en: 'These three types mark extreme points in the type system. `any` is the fast escape hatch with later risks, `unknown` is the safe entry point for external data, and `never` is valuable for exhaustiveness checks. Explaining that well shows type-design understanding instead of mere syntax knowledge. That is exactly what matters in senior TypeScript work.',
     },
     resources: ['tsEveryday', 'tsNarrowing', 'tsStrict'],
@@ -1847,7 +1847,7 @@ export function renderUser(user: User) {
   return user.name
 }`,
     explanation: {
-      de: 'Dieses Feature ist klein, aber es verbessert die Trennung von Design-Time und Runtime. Besonders bei ESM, Tree Shaking und gemischten Toolchains werden solche Details plötzlich relevant. In großen Codebasen hilft type-only Syntax auch der Lesbarkeit, weil sofort sichtbar ist, worauf der Code wirklich zur Laufzeit zugreift. Gute Kandidaten bringen deshalb Tooling-Verstaendnis mit hinein.',
+      de: 'Dieses Feature ist klein, aber es verbessert die Trennung von Design-Time und Runtime. Besonders bei ESM, Tree Shaking und gemischten Toolchains werden solche Details plötzlich relevant. In großen Codebasen hilft type-only Syntax auch der Lesbarkeit, weil sofort sichtbar ist, worauf der Code wirklich zur Laufzeit zugreift. Gute Kandidaten bringen deshalb Tooling-Verständnis mit hinein.',
       en: 'This feature is small, but it improves the separation between design time and runtime. It becomes especially relevant with ESM, tree shaking, and mixed toolchains. In larger codebases, type-only syntax also improves readability because it immediately shows what the code actually needs at runtime. Strong candidates bring tooling awareness into the answer.',
     },
     resources: ['tsModules', 'tsEveryday', 'mdnModules'],
@@ -1919,7 +1919,7 @@ export function renderUser(user: User) {
       en: 'What is the `satisfies` operator good for?',
     },
     answer: {
-      de: '`satisfies` prueft, ob ein Wert zu einem Zieltyp passt, ohne dabei seine konkreteren Literal-Informationen zu verlieren. Das ist besonders nützlich für Konfigurationen und Mappings. Senior-Level bedeutet hier, den Unterschied zu einer harten Typannotation oder einem Cast sauber zu erklären.',
+      de: '`satisfies` prüft, ob ein Wert zu einem Zieltyp passt, ohne dabei seine konkreteren Literal-Informationen zu verlieren. Das ist besonders nützlich für Konfigurationen und Mappings. Senior-Level bedeutet hier, den Unterschied zu einer harten Typannotation oder einem Cast sauber zu erklären.',
       en: '`satisfies` checks whether a value matches a target type without throwing away its more specific literal information. That is especially useful for configuration objects and mappings. Senior-level answers explain how it differs from a hard type annotation or a cast.',
     },
     exampleTitle: {
@@ -1927,7 +1927,7 @@ export function renderUser(user: User) {
       en: 'Validate without losing information',
     },
     exampleExplanation: {
-      de: 'Das Objekt wird gegen den Vertrag geprueft, aber die konkreten Literalwerte bleiben erhalten. Das ist ideal für typsichere Configs.',
+      de: 'Das Objekt wird gegen den Vertrag geprüft, aber die konkreten Literalwerte bleiben erhalten. Das ist ideal für typsichere Configs.',
       en: 'The object is validated against the contract, but its concrete literal values stay intact. That is ideal for type-safe configs.',
     },
     exampleCode: [
@@ -1950,7 +1950,7 @@ export function renderUser(user: User) {
       en: 'When do you use `Record` and when do you prefer `Map`?',
     },
     answer: {
-      de: '`Record` ist ein statischer Objektvertrag für bekannte Schlüsselformen und passt gut zu JSON-aehnlichen Daten. `Map` ist eine Laufzeitdatenstruktur mit flexibleren Keys und besserem Verhalten für häufige Inserts oder Deletes. Senior-Level bedeutet hier, Typmodell und Laufzeitverhalten gemeinsam zu betrachten.',
+      de: '`Record` ist ein statischer Objektvertrag für bekannte Schlüsselformen und passt gut zu JSON-ähnlichen Daten. `Map` ist eine Laufzeitdatenstruktur mit flexibleren Keys und besserem Verhalten für häufige Inserts oder Deletes. Senior-Level bedeutet hier, Typmodell und Laufzeitverhalten gemeinsam zu betrachten.',
       en: '`Record` is a static object contract for known key shapes and works well with JSON-like data. `Map` is a runtime data structure with more flexible keys and better behavior for frequent inserts or deletes. Senior-level thinking considers both the type model and the runtime behavior together.',
     },
     exampleTitle: {
@@ -1964,7 +1964,7 @@ export function renderUser(user: User) {
     exampleCode: `type RoleFlags = Record<'admin' | 'editor', boolean>
 const cache = new Map<string, number>()`,
     explanation: {
-      de: 'Diese Frage prueft, ob du Typen mit echten Datenstrukturen verwechselst. `Record` existiert nur im Typraum, `Map` wirkt im Laufzeitverhalten. Wer das sauber trennt, kann passendere APIs bauen und Performancefragen besser beantworten. Gute Kandidaten nennen daher nicht nur Syntax, sondern den Einsatzkontext.',
+      de: 'Diese Frage prüft, ob du Typen mit echten Datenstrukturen verwechselst. `Record` existiert nur im Typraum, `Map` wirkt im Laufzeitverhalten. Wer das sauber trennt, kann passendere APIs bauen und Performancefragen besser beantworten. Gute Kandidaten nennen daher nicht nur Syntax, sondern den Einsatzkontext.',
       en: 'This question tests whether you confuse types with real data structures. `Record` exists only in the type space, while `Map` affects runtime behavior. If you separate both cleanly, you can build better APIs and answer performance questions more accurately. Strong candidates therefore describe not just syntax, but usage context.',
     },
     resources: ['tsUtility', 'tsObjects', 'mdnWeakMap'],
@@ -1977,7 +1977,7 @@ const cache = new Map<string, number>()`,
       en: 'What are branded types and when are they helpful?',
     },
     answer: {
-      de: 'Branded Types sind nominal aehnliche Muster auf Basis struktureller Typen, um semantisch unterschiedliche primitive Werte zu trennen. So kann man etwa `UserId` und `OrderId` unterscheiden, obwohl beide Strings sind. In Senior-Interviews geht es darum, ob du fachliche Sicherheit über den Typraum ausdrücken kannst.',
+      de: 'Branded Types sind nominal ähnliche Muster auf Basis struktureller Typen, um semantisch unterschiedliche primitive Werte zu trennen. So kann man etwa `UserId` und `OrderId` unterscheiden, obwohl beide Strings sind. In Senior-Interviews geht es darum, ob du fachliche Sicherheit über den Typraum ausdrücken kannst.',
       en: 'Branded types are nominal-like patterns built on top of structural types so semantically different primitive values stay distinct. They let you separate `UserId` and `OrderId` even if both are strings. In senior interviews, the real point is whether you can encode domain safety in the type system.',
     },
     exampleTitle: {
@@ -2008,7 +2008,7 @@ type OrderId = string & { readonly __brand: 'OrderId' }`,
       en: 'TypeScript types alone do not validate network data; they only describe assumptions in your code. That is why API responses should be validated at the boundary and only then converted into stricter internal types. Senior-level thinking separates compile-time safety from runtime reality.',
     },
     exampleTitle: {
-      de: 'Externe Daten erst pruefen, dann verwenden',
+      de: 'Externe Daten erst prüfen, dann verwenden',
       en: 'Validate external data before using it',
     },
     exampleExplanation: {
@@ -2046,7 +2046,7 @@ const user = userSchema.parse(raw)`,
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }`,
     explanation: {
-      de: 'Komponenten sind kleine APIs, und TypeScript macht ihre Benutzung explizit. Sauber getypte Props vermeiden Missverstaendnisse zwischen Teams und verbessern Autocomplete ebenso wie Refactoring. Das gilt besonders für Children, Render Props und Event-Handler. Gute Kandidaten zeigen, dass sie Typisierung als Teil von DX und Wartbarkeit sehen.',
+      de: 'Komponenten sind kleine APIs, und TypeScript macht ihre Benutzung explizit. Sauber getypte Props vermeiden Missverständnisse zwischen Teams und verbessern Autocomplete ebenso wie Refactoring. Das gilt besonders für Children, Render Props und Event-Handler. Gute Kandidaten zeigen, dass sie Typisierung als Teil von DX und Wartbarkeit sehen.',
       en: 'Components are small APIs, and TypeScript makes their usage explicit. Well-typed props reduce misunderstandings across teams and improve autocomplete as well as refactoring. That matters especially for children, render props, and event handlers. Strong candidates show that they see typing as part of DX and maintainability.',
     },
     resources: ['tsFunctions', 'reactProps', 'reactInput'],
@@ -2059,7 +2059,7 @@ const user = userSchema.parse(raw)`,
       en: 'How do you build generic React components sensibly?',
     },
     answer: {
-      de: 'Generische React-Komponenten sind sinnvoll, wenn sie echte Wiederverwendung über unterschiedliche Datentypen bieten, etwa für Tabellen oder Selects. Entscheidend ist, dass die API für Nutzer der Komponente klar bleibt. Senior-Level bedeutet, Generics nur dort zu verwenden, wo sie Lesbarkeit und Sicherheit wirklich erhoehen.',
+      de: 'Generische React-Komponenten sind sinnvoll, wenn sie echte Wiederverwendung über unterschiedliche Datentypen bieten, etwa für Tabellen oder Selects. Entscheidend ist, dass die API für Nutzer der Komponente klar bleibt. Senior-Level bedeutet, Generics nur dort zu verwenden, wo sie Lesbarkeit und Sicherheit wirklich erhöhen.',
       en: 'Generic React components are useful when they provide real reuse across different data types, such as tables or selects. The key is keeping the API clear for the component consumer. Senior-level judgment means using generics only where they genuinely improve readability and safety.',
     },
     exampleTitle: {
@@ -2096,7 +2096,7 @@ const user = userSchema.parse(raw)`,
       en: 'Type a global object explicitly',
     },
     exampleExplanation: {
-      de: 'So kann der Compiler ein global verfügbares Objekt verstehen, auch wenn es von ausserhalb deiner Build-Pipeline kommt.',
+      de: 'So kann der Compiler ein global verfügbares Objekt verstehen, auch wenn es von außerhalb deiner Build-Pipeline kommt.',
       en: 'This allows the compiler to understand a globally available object even if it comes from outside your build pipeline.',
     },
     exampleCode: `declare global {
@@ -2236,7 +2236,7 @@ class UserService {}`,
       en: 'Why is TypeScript often paired with runtime validation such as Zod?',
     },
     answer: {
-      de: 'TypeScript prueft nur zur Compile-Zeit, während Runtime-Validierung echte Daten an Schnittstellen absichert. Die Kombination schliesst also die Luecke zwischen Annahme und Wirklichkeit. Senior-Level bedeutet hier, Typen und Validierung als komplementaer statt als Konkurrenz zu verstehen.',
+      de: 'TypeScript prüft nur zur Compile-Zeit, während Runtime-Validierung echte Daten an Schnittstellen absichert. Die Kombination schliesst also die Lücke zwischen Annahme und Wirklichkeit. Senior-Level bedeutet hier, Typen und Validierung als komplementaer statt als Konkurrenz zu verstehen.',
       en: 'TypeScript checks only at compile time, while runtime validation protects real data at system boundaries. The combination closes the gap between assumption and reality. Senior-level thinking treats typing and validation as complementary rather than competing tools.',
     },
     exampleTitle: {
@@ -2244,7 +2244,7 @@ class UserService {}`,
       en: 'Validate hard at the boundary, stay strict inside',
     },
     exampleExplanation: {
-      de: 'Das Schema prueft echte Laufzeitdaten. Danach kann der restliche Code mit einem verlässlichen, getypten Objekt arbeiten.',
+      de: 'Das Schema prüft echte Laufzeitdaten. Danach kann der restliche Code mit einem verlässlichen, getypten Objekt arbeiten.',
       en: 'The schema validates real runtime data. After that, the rest of the code can work with a trustworthy typed object.',
     },
     exampleCode: `const userSchema = z.object({
@@ -2273,7 +2273,7 @@ class UserService {}`,
       en: 'Incremental instead of big bang',
     },
     exampleExplanation: {
-      de: 'Der Compiler kann JavaScript zunächst mitpruefen, bevor jede Datei sofort komplett umgestellt wird. Das ist für echte Teams viel realistischer.',
+      de: 'Der Compiler kann JavaScript zunächst mitprüfen, bevor jede Datei sofort komplett umgestellt wird. Das ist für echte Teams viel realistischer.',
       en: 'The compiler can start checking JavaScript before every file is fully converted. That is much more realistic for real teams.',
     },
     exampleCode: `{
@@ -2355,11 +2355,11 @@ const reactQuestions: InterviewQuestion[] = [
       en: 'How do props and state differ?',
     },
     answer: {
-      de: 'Props sind Eingaben von aussen, State ist interner, veränderlicher Zustand einer Komponente. Beide beeinflussen das Rendering, aber ihre Ownership ist unterschiedlich. Senior-Level bedeutet hier, State möglichst dort zu halten, wo er entsteht oder wirklich gemeinsam benötigt wird.',
+      de: 'Props sind Eingaben von außen, State ist interner, veränderlicher Zustand einer Komponente. Beide beeinflussen das Rendering, aber ihre Ownership ist unterschiedlich. Senior-Level bedeutet hier, State möglichst dort zu halten, wo er entsteht oder wirklich gemeinsam benötigt wird.',
       en: 'Props are external inputs, while state is internal mutable component data. Both affect rendering, but their ownership is different. Senior-level thinking keeps state as close as possible to where it originates or where it is truly shared.',
     },
     exampleTitle: {
-      de: 'Eingabe von aussen, Zustand innen',
+      de: 'Eingabe von außen, Zustand innen',
       en: 'External input, internal state',
     },
     exampleExplanation: {
@@ -2371,7 +2371,7 @@ const reactQuestions: InterviewQuestion[] = [
   return <button onClick={() => setCount(count + 1)}>{label}: {count}</button>
 }`,
     explanation: {
-      de: 'Viele Architekturprobleme in React sind eigentlich Ownership-Probleme von Zustand. Zu viel lokaler State erschwert Koordination, zu viel globaler State erschwert Verstaendnis und Performance. Gute Kandidaten können erklären, wie Datenfluss und Verantwortlichkeit zusammenhängen. Das ist deutlich wertvoller als nur Definitionswissen.',
+      de: 'Viele Architekturprobleme in React sind eigentlich Ownership-Probleme von Zustand. Zu viel lokaler State erschwert Koordination, zu viel globaler State erschwert Verständnis und Performance. Gute Kandidaten können erklären, wie Datenfluss und Verantwortlichkeit zusammenhängen. Das ist deutlich wertvoller als nur Definitionswissen.',
       en: 'Many React architecture problems are really about state ownership. Too much local state makes coordination hard, while too much global state hurts understanding and performance. Strong candidates can explain how data flow and responsibility connect. That is far more valuable than definitions alone.',
     },
     resources: ['reactProps', 'reactState', 'reactSharingState'],
@@ -2411,7 +2411,7 @@ const reactQuestions: InterviewQuestion[] = [
       en: 'When does `useEffect` run and what is it for?',
     },
     answer: {
-      de: '`useEffect` läuft nach dem Commit und ist für Synchronisation mit der Aussenwelt gedacht, nicht für normale Renderberechnungen. Dazu gehören etwa Subscriptions, Timer oder Netzwerkabhängigkeiten. Senior-Level bedeutet, Effekte als Brücke nach draussen und nicht als Datenverarbeitungssammelbecken zu sehen.',
+      de: '`useEffect` läuft nach dem Commit und ist für Synchronisation mit der Außenwelt gedacht, nicht für normale Renderberechnungen. Dazu gehören etwa Subscriptions, Timer oder Netzwerkabhängigkeiten. Senior-Level bedeutet, Effekte als Brücke nach draußen und nicht als Datenverarbeitungssammelbecken zu sehen.',
       en: '`useEffect` runs after commit and is meant for synchronization with the outside world, not for ordinary render calculations. That includes subscriptions, timers, or network-related synchronization. Senior-level thinking treats effects as a bridge outward, not as a bucket for random data processing.',
     },
     exampleTitle: {
@@ -2440,7 +2440,7 @@ const reactQuestions: InterviewQuestion[] = [
       en: 'What common mistakes happen with `useEffect`?',
     },
     answer: {
-      de: 'Hauefige Fehler sind fehlende Dependencies, unnötig doppelt gespeicherter State und Effekte für rein ableitbare Werte. Das führt zu Stale Closures, Schleifen oder unnötiger Komplexität. Senior-Level bedeutet, zuerst zu pruefen, ob man den Effekt überhaupt braucht.',
+      de: 'Hauefige Fehler sind fehlende Dependencies, unnötig doppelt gespeicherter State und Effekte für rein ableitbare Werte. Das führt zu Stale Closures, Schleifen oder unnötiger Komplexität. Senior-Level bedeutet, zuerst zu prüfen, ob man den Effekt überhaupt braucht.',
       en: 'Common mistakes include missing dependencies, duplicating derivable state, and using effects for values that could be calculated during render. That leads to stale closures, loops, or unnecessary complexity. Senior-level thinking starts by asking whether the effect is needed at all.',
     },
     exampleTitle: {
@@ -2453,7 +2453,7 @@ const reactQuestions: InterviewQuestion[] = [
     },
     exampleCode: `const visibleItems = items.filter((item) => item.active)`,
     explanation: {
-      de: '`useEffect`-Fehler sind oft Architekturhinweise. Wenn ein Effekt immer groeßer wird, steckt dahinter meist ein unklarer Verantwortungszuschnitt. React selbst empfiehlt mittlerweile deutlich, viele frühere Effekt-Muster ganz zu vermeiden. Gute Kandidaten zeigen, dass sie diese Entwicklung verstanden haben und Komponenten entsprechend vereinfachen.',
+      de: '`useEffect`-Fehler sind oft Architekturhinweise. Wenn ein Effekt immer größer wird, steckt dahinter meist ein unklarer Verantwortungszuschnitt. React selbst empfiehlt mittlerweile deutlich, viele frühere Effekt-Muster ganz zu vermeiden. Gute Kandidaten zeigen, dass sie diese Entwicklung verstanden haben und Komponenten entsprechend vereinfachen.',
       en: '`useEffect` mistakes are often architecture signals. If an effect keeps growing, there is usually an unclear responsibility boundary behind it. React itself now strongly recommends avoiding many older effect patterns altogether. Strong candidates show that they understand this evolution and simplify components accordingly.',
     },
     resources: ['reactYouMightNotNeedEffect', 'reactUseEffect', 'reactEffectsLifecycle'],
@@ -2479,7 +2479,7 @@ const reactQuestions: InterviewQuestion[] = [
     },
     exampleCode: `const sortedUsers = useMemo(() => sortUsers(users), [users])`,
     explanation: {
-      de: 'Viele Entwickler optimieren mit Memo-Hooks zu früh und schaffen damit mehr Komplexität als Gewinn. Gleichzeitig gibt es reale Fälle, in denen stabile Referenzen entscheidend sind, etwa bei `memo`-optimierten Listen. Die gute Antwort ist daher weder "immer" noch "nie", sondern kontextabhängig. Genau diese Nuechternheit ist ein Senior-Signal.',
+      de: 'Viele Entwickler optimieren mit Memo-Hooks zu früh und schaffen damit mehr Komplexität als Gewinn. Gleichzeitig gibt es reale Fälle, in denen stabile Referenzen entscheidend sind, etwa bei `memo`-optimierten Listen. Die gute Antwort ist daher weder "immer" noch "nie", sondern kontextabhängig. Genau diese Nüchternheit ist ein Senior-Signal.',
       en: 'Many developers optimize too early with memo hooks and create more complexity than value. At the same time, there are real cases where stable references matter, such as memoized list items. The right answer is therefore neither "always" nor "never", but context-dependent. That kind of judgment is a senior signal.',
     },
     resources: ['reactUseMemo', 'reactUseCallback', 'reactMemo'],
@@ -2500,7 +2500,7 @@ const reactQuestions: InterviewQuestion[] = [
       en: 'Access the DOM without a re-render',
     },
     exampleExplanation: {
-      de: 'Das Ref zeigt auf das Input-Element und kann für Fokus oder Messung genutzt werden. Der Zugriff ist imperativ und bewusst ausserhalb des Renderflusses.',
+      de: 'Das Ref zeigt auf das Input-Element und kann für Fokus oder Messung genutzt werden. Der Zugriff ist imperativ und bewusst außerhalb des Renderflusses.',
       en: 'The ref points to the input element and can be used for focus or measurement. The access is imperative and intentionally outside the render flow.',
     },
     exampleCode: `const inputRef = useRef<HTMLInputElement | null>(null)
@@ -2584,7 +2584,7 @@ inputRef.current?.focus()`,
     },
     exampleCode: `items.map((item) => <Row key={item.id} item={item} />)`,
     explanation: {
-      de: 'Key-Probleme zeigen sich oft nur in dynamischen Listen, also genau dort, wo Produkte real werden. Dann springt der Fokus, falsche Eingaben bleiben hängen oder lokale States wechseln scheinbar zufällig. Wer das über Keys erklären kann, zeigt ein tiefes React-Verstaendnis. Gute Kandidaten vermeiden deshalb Index-Keys ausser in wirklich statischen Listen.',
+      de: 'Key-Probleme zeigen sich oft nur in dynamischen Listen, also genau dort, wo Produkte real werden. Dann springt der Fokus, falsche Eingaben bleiben hängen oder lokale States wechseln scheinbar zufällig. Wer das über Keys erklären kann, zeigt ein tiefes React-Verständnis. Gute Kandidaten vermeiden deshalb Index-Keys außer in wirklich statischen Listen.',
       en: 'Key problems often appear only in dynamic lists, which is exactly where products become real. Focus jumps, wrong inputs stick around, or local state seems to move randomly. If you can explain that through keys, you show deep React understanding. Strong candidates therefore avoid index keys except for truly static lists.',
     },
     resources: ['reactKeys', 'reactPreservingState', 'reactThinking'],
@@ -2639,7 +2639,7 @@ startTransition(() => {
   setFilter(query)
 })`,
     explanation: {
-      de: 'Concurrent Features lösen keine schlechten Algorithmen, aber sie helfen bei Priorisierung im UI. Das ist besonders wertvoll, wenn große Renderarbeit nicht jede Interaktion blockieren soll. Wer den Mechanismus mit Nutzerwahrnehmung statt nur mit API-Namen erklärt, zeigt Senior-Verstaendnis. Genau darum geht es in guten Interviews.',
+      de: 'Concurrent Features lösen keine schlechten Algorithmen, aber sie helfen bei Priorisierung im UI. Das ist besonders wertvoll, wenn große Renderarbeit nicht jede Interaktion blockieren soll. Wer den Mechanismus mit Nutzerwahrnehmung statt nur mit API-Namen erklärt, zeigt Senior-Verständnis. Genau darum geht es in guten Interviews.',
       en: 'Concurrent features do not fix bad algorithms, but they help prioritize UI work. That is especially valuable when heavy rendering should not block every interaction. Explaining the mechanism in terms of user perception rather than just API names shows senior-level understanding. That is what good interviews look for.',
     },
     resources: ['reactUseTransition', 'reactState', 'reactUseMemo'],
@@ -2688,7 +2688,7 @@ startTransition(() => {
       en: 'Protect a subtree instead of losing the whole app',
     },
     exampleExplanation: {
-      de: 'Wenn die Reports-Komponente crasht, kann der Rest der Seite weiterlaufen. Das ist vor allem für produktive Oberflaechen wichtig.',
+      de: 'Wenn die Reports-Komponente crasht, kann der Rest der Seite weiterlaufen. Das ist vor allem für produktive Oberflächen wichtig.',
       en: 'If the reports component crashes, the rest of the page can keep working. That is especially important in production UIs.',
     },
     exampleCode: `<ErrorBoundary fallback={<ErrorPanel />}>
@@ -2790,7 +2790,7 @@ const [errors, setErrors] = useState<Record<string, string>>({})`,
       en: 'Why is derived state often a smell?',
     },
     answer: {
-      de: 'Abgeleiteter State dupliziert Informationen, die sich bereits aus Props oder anderem State berechnen lassen. Das erhoeht die Chance auf Inkonsistenzen und unnötige Synchronisationslogik. Senior-Level bedeutet, zuerst zu fragen, ob ein Wert wirklich gespeichert oder nur berechnet werden sollte.',
+      de: 'Abgeleiteter State dupliziert Informationen, die sich bereits aus Props oder anderem State berechnen lassen. Das erhöht die Chance auf Inkonsistenzen und unnötige Synchronisationslogik. Senior-Level bedeutet, zuerst zu fragen, ob ein Wert wirklich gespeichert oder nur berechnet werden sollte.',
       en: 'Derived state duplicates information that can already be computed from props or other state. That increases the chance of inconsistencies and unnecessary synchronization logic. Senior-level thinking starts by asking whether a value should really be stored or just calculated.',
     },
     exampleTitle: {
@@ -2812,7 +2812,7 @@ const [errors, setErrors] = useState<Record<string, string>>({})`,
     id: 86,
     category: 'react',
     question: {
-      de: 'Wie entscheidest du zwischen lokalem State, Context, Zustand, Redux oder aehnlichen Stores?',
+      de: 'Wie entscheidest du zwischen lokalem State, Context, Zustand, Redux oder ähnlichen Stores?',
       en: 'How do you choose between local state, context, Zustand, Redux, or similar stores?',
     },
     answer: {
@@ -2912,7 +2912,7 @@ const [errors, setErrors] = useState<Record<string, string>>({})`,
     exampleCode: `setCount((current) => current + 1)
 setCount((current) => current + 1)`,
     explanation: {
-      de: 'Batching verbessert Performance, führt aber auch zu Missverstaendnissen, wenn Entwickler alte imperative Denkweisen mitbringen. React-State ist eher eine Anforderung an den nächsten Render als eine sofortige Variablemutation. Wer das versteht, schreibt robustere Event-Handler und Effekte. Gute Kandidaten erklären genau dieses mentale Modell.',
+      de: 'Batching verbessert Performance, führt aber auch zu Missverständnissen, wenn Entwickler alte imperative Denkweisen mitbringen. React-State ist eher eine Anforderung an den nächsten Render als eine sofortige Variablemutation. Wer das versteht, schreibt robustere Event-Handler und Effekte. Gute Kandidaten erklären genau dieses mentale Modell.',
       en: 'Batching improves performance, but it also causes confusion when developers bring imperative assumptions with them. React state is more like a request for the next render than an immediate variable mutation. Understanding that leads to more robust event handlers and effects. Strong candidates explain exactly that mental model.',
     },
     resources: ['reactQueueingState', 'reactState', 'reactUseTransition'],
@@ -2961,7 +2961,7 @@ setCount((current) => current + 1)`,
       en: 'Prefer native elements first',
     },
     exampleExplanation: {
-      de: 'Ein echtes `button` bringt bereits Tastatur- und Screenreader-Verhalten mit. Ein `div` mit Klickhandler muss all das muhsam nachbauen.',
+      de: 'Ein echtes `button` bringt bereits Tastatur- und Screenreader-Verhalten mit. Ein `div` mit Klickhandler muss all das mühsam nachbauen.',
       en: 'A real `button` already includes keyboard and screen-reader behavior. A clickable `div` has to rebuild all of that manually.',
     },
     exampleCode: `<button type="button" onClick={openDialog}>Open dialog</button>`,
@@ -2987,7 +2987,7 @@ setCount((current) => current + 1)`,
       en: 'Test from the user perspective',
     },
     exampleExplanation: {
-      de: 'Der Test klickt und prueft den sichtbaren Effekt. Das ist stabiler als direkte State-Inspektion oder Hook-Mocking ohne Not.',
+      de: 'Der Test klickt und prüft den sichtbaren Effekt. Das ist stabiler als direkte State-Inspektion oder Hook-Mocking ohne Not.',
       en: 'The test clicks and checks the visible result. That is more stable than inspecting state directly or mocking hooks unnecessarily.',
     },
     exampleCode: `await user.click(screen.getByRole('button', { name: /save/i }))
@@ -3045,7 +3045,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
     },
     exampleCode: `const [optimisticTodos, addOptimisticTodo] = useOptimistic(todos, (state, next) => [...state, next])`,
     explanation: {
-      de: 'Optimistic UI passt gut zu klaren, reversiblen Aktionen wie Likes, einfachem Toggle oder Ergaenzungen. Schwieriger wird es bei Konflikten, serverseitigen Regeln oder komplexen Nebenwirkungen. Gute Kandidaten verbinden die Diskussion daher mit Fachlogik und Konsistenzmodell statt nur mit UX. Das ist die eigentliche Senior-Perspektive.',
+      de: 'Optimistic UI passt gut zu klaren, reversiblen Aktionen wie Likes, einfachem Toggle oder Ergänzungen. Schwieriger wird es bei Konflikten, serverseitigen Regeln oder komplexen Nebenwirkungen. Gute Kandidaten verbinden die Diskussion daher mit Fachlogik und Konsistenzmodell statt nur mit UX. Das ist die eigentliche Senior-Perspektive.',
       en: 'Optimistic UI fits well with clear, reversible actions such as likes, simple toggles, or straightforward additions. It gets harder with conflicts, server-side rules, or complex side effects. Strong candidates therefore connect the discussion to domain logic and consistency models instead of only UX. That is the real senior perspective.',
     },
     resources: ['reactUseOptimistic', 'reactUseTransition', 'reactState'],
@@ -3058,7 +3058,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
       en: 'What are portals useful for?',
     },
     answer: {
-      de: 'Portals rendern einen React-Teilbaum an einer anderen Stelle im DOM, ohne ihn aus dem React-Baum herauszunehmen. Das ist hilfreich für Modals, Tooltips oder Overlays, die visuell ausserhalb eines Containers liegen müssen. Senior-Level bedeutet, dabei Fokusmanagement und Event-Verhalten mitzudenken.',
+      de: 'Portals rendern einen React-Teilbaum an einer anderen Stelle im DOM, ohne ihn aus dem React-Baum herauszunehmen. Das ist hilfreich für Modals, Tooltips oder Overlays, die visuell außerhalb eines Containers liegen müssen. Senior-Level bedeutet, dabei Fokusmanagement und Event-Verhalten mitzudenken.',
       en: 'Portals render a React subtree into a different place in the DOM without removing it from the React tree. That is useful for modals, tooltips, or overlays that must visually escape a container. Senior-level thinking also accounts for focus management and event behavior.',
     },
     exampleTitle: {
@@ -3066,7 +3066,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
       en: 'Place a modal above the rest of the layout',
     },
     exampleExplanation: {
-      de: 'Das Portal rendert in ein DOM-Ziel ausserhalb der normalen Layout-Hierarchie. So werden Z-Index- und Overflow-Probleme oft einfacher.',
+      de: 'Das Portal rendert in ein DOM-Ziel außerhalb der normalen Layout-Hierarchie. So werden Z-Index- und Overflow-Probleme oft einfacher.',
       en: 'The portal renders into a DOM target outside the normal layout hierarchy. That often simplifies z-index and overflow issues.',
     },
     exampleCode: `createPortal(<Dialog />, document.body)`,
@@ -3088,7 +3088,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
       en: 'A ref API is useful when a parent intentionally needs imperative access to a child, for example for focus, scrolling, or third-party integration. `forwardRef` helps make that bridge explicit. Senior-level use keeps ref access small and targeted instead of coupling components ambiguously.',
     },
     exampleTitle: {
-      de: 'Fokus bewusst nach aussen freigeben',
+      de: 'Fokus bewusst nach außen freigeben',
       en: 'Expose focus intentionally to the outside',
     },
     exampleExplanation: {
@@ -3099,7 +3099,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
   return <input ref={ref} {...props} />
 })`,
     explanation: {
-      de: 'Imperative Schnittstellen sind manchmal notwendig, aber sie sollten bewusst klein bleiben. Sonst wird Reacts deklaratives Modell langsam von aussen umgangen. Gute Kandidaten erklären deshalb nicht nur, wie man ein Ref weiterreicht, sondern wann man es überhaupt zulassen sollte. Das ist API-Design und nicht nur Hook-Wissen.',
+      de: 'Imperative Schnittstellen sind manchmal notwendig, aber sie sollten bewusst klein bleiben. Sonst wird Reacts deklaratives Modell langsam von außen umgangen. Gute Kandidaten erklären deshalb nicht nur, wie man ein Ref weiterreicht, sondern wann man es überhaupt zulassen sollte. Das ist API-Design und nicht nur Hook-Wissen.',
       en: 'Imperative interfaces are sometimes necessary, but they should stay intentionally small. Otherwise React\'s declarative model starts getting bypassed from the outside. Strong candidates therefore explain not only how to forward a ref, but when the component should allow that at all. That is API design, not just hook knowledge.',
     },
     resources: ['reactForwardRef', 'reactUseRef', 'w3cAccessibility'],
@@ -3120,7 +3120,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
       en: 'Multiple parts, one shared behavior',
     },
     exampleExplanation: {
-      de: 'Die API wirkt für Konsumenten natuerlich, während intern gemeinsame Logik oder Context die Teile verbindet.',
+      de: 'Die API wirkt für Konsumenten natürlich, während intern gemeinsame Logik oder Context die Teile verbindet.',
       en: 'The API feels natural to consumers while internal shared logic or context coordinates the parts.',
     },
     exampleCode: `<Tabs>
@@ -3181,7 +3181,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
     },
     exampleCode: `const ReportsPage = lazy(() => import('./ReportsPage'))`,
     explanation: {
-      de: 'Code Splitting ist kein Selbstzweck. Zu viele kleine Chunks können das Netzwerksystem belasten und die UX fragmentieren. Gute Kandidaten sprechen deshalb über sinnvolle Grenzziehung, Nutzerpfade und Preloading statt nur über das technische API. Das zeigt Produkt- und Performanceverstaendnis zugleich.',
+      de: 'Code Splitting ist kein Selbstzweck. Zu viele kleine Chunks können das Netzwerksystem belasten und die UX fragmentieren. Gute Kandidaten sprechen deshalb über sinnvolle Grenzziehung, Nutzerpfade und Preloading statt nur über das technische API. Das zeigt Produkt- und Performanceverständnis zugleich.',
       en: 'Code splitting is not an end in itself. Too many tiny chunks can burden the network and fragment the UX. Strong candidates therefore talk about meaningful boundaries, user paths, and preloading instead of just the technical API. That shows both product and performance awareness.',
     },
     resources: ['reactLazy', 'reactSuspense', 'reactThinking'],
@@ -3208,7 +3208,7 @@ expect(screen.getByText(/saved/i)).toBeInTheDocument()`,
     exampleCode: `// avoid in the first render
 const now = new Date().toLocaleTimeString()`,
     explanation: {
-      de: 'Hydration-Probleme sind oft Zeichen für vermischte Verantwortlichkeiten. Daten, die nur im Browser existieren, sollten später oder bewusst clientseitig gelesen werden. Wer serverseitigen Output deterministisch hält, reduziert Warnungen und seltsame UI-Spruenge. Gute Kandidaten verbinden das Thema mit Rendering-Architektur und Debuggingstrategie.',
+      de: 'Hydration-Probleme sind oft Zeichen für vermischte Verantwortlichkeiten. Daten, die nur im Browser existieren, sollten später oder bewusst clientseitig gelesen werden. Wer serverseitigen Output deterministisch hält, reduziert Warnungen und seltsame UI-Sprünge. Gute Kandidaten verbinden das Thema mit Rendering-Architektur und Debuggingstrategie.',
       en: 'Hydration problems are often a sign of mixed responsibilities. Data that exists only in the browser should be read later or intentionally on the client. Keeping server output deterministic reduces warnings and strange UI jumps. Strong candidates connect the topic to rendering architecture and debugging strategy.',
     },
     resources: ['reactHydrateRoot', 'reactServerComponents', 'reactUseEffect'],

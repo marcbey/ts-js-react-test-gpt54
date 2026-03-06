@@ -536,6 +536,10 @@ button {
   max-width: none;
 }
 
+.content-card .copy-block + .copy-block {
+  margin-top: 0.9rem;
+}
+
 .answer-card {
   position: relative;
   overflow: hidden;
@@ -645,7 +649,7 @@ button {
 
 @media (max-width: 720px) {
   .app-shell {
-    padding: 1rem;
+    padding: 0.8rem;
   }
 
   .hero-panel,
@@ -669,6 +673,35 @@ button {
   .detail-top-actions {
     flex-wrap: wrap;
     justify-content: flex-start;
+  }
+
+  .detail-topline h2 {
+    font-size: clamp(1.85rem, 8vw, 2.2rem);
+    line-height: 1.04;
+  }
+
+  .detail-panel {
+    gap: 1rem;
+  }
+
+  .reveal-box,
+  .content-card {
+    padding: 1rem;
+    border-radius: 1.05rem;
+  }
+
+  .copy-block {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .content-card .copy-block + .copy-block {
+    margin-top: 1rem;
+  }
+
+  .example-code {
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
   }
 
   .index-badge {
