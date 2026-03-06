@@ -38,4 +38,12 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 2, name: '1 / 100' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Closure/i })).not.toBeInTheDocument()
   })
+
+  it('restores the previously selected question from localStorage', () => {
+    window.localStorage.setItem('interview-selected-question', '2')
+
+    render(<App />)
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Was ist eine Closure und warum ist sie praktisch?' })).toBeInTheDocument()
+  })
 })

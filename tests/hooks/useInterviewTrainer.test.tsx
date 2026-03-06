@@ -56,4 +56,20 @@ describe('useInterviewTrainer', () => {
     expect(window.localStorage.getItem('interview-language')).toBe('en')
     expect(window.localStorage.getItem('interview-catalog-collapsed')).toBe('true')
   })
+
+  it('persists and restores the selected question', () => {
+    const { result, unmount } = renderHook(() => useInterviewTrainer(questions))
+
+    act(() => {
+      result.current.selectQuestion(3)
+    })
+
+    expect(window.localStorage.getItem('interview-selected-question')).toBe('3')
+
+    unmount()
+
+    const restored = renderHook(() => useInterviewTrainer(questions))
+
+    expect(restored.result.current.selectedQuestion.id).toBe(3)
+  })
 })

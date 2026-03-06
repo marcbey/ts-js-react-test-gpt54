@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { CategoryFilter, InterviewQuestion, Language } from '../types'
 import { countMatchingQuestions, filterQuestions, getAdjacentQuestionId, getSelectedQuestion, getVisibleQuestions } from '../utils/interviewState'
 import { useLocalStorageState } from './useLocalStorageState'
@@ -6,6 +6,11 @@ import { useLocalStorageState } from './useLocalStorageState'
 const parseNumberArray = (value: string): number[] => {
   const parsed = JSON.parse(value)
   return Array.isArray(parsed) ? parsed.filter((entry): entry is number => typeof entry === 'number') : []
+}
+
+const parseNumber = (value: string): number => {
+  const parsed = Number.parseInt(value, 10)
+  return Number.isFinite(parsed) ? parsed : 0
 }
 
 const parseLanguage = (value: string): Language => (value === 'en' ? 'en' : 'de')
@@ -27,10 +32,13 @@ export const useInterviewTrainer = (questions: InterviewQuestion[]) => {
     deserialize: (value) => value === 'true',
     serialize: (value) => JSON.stringify(value),
   })
+  const [selectedId, setSelectedId] = useLocalStorageState<number>('interview-selected-question', defaultQuestion.id, {
+    deserialize: parseNumber,
+    serialize: (value) => String(value),
+  })
 
   const [category, setCategory] = useState<CategoryFilter>('all')
   const [search, setSearch] = useState('')
-  const [selectedId, setSelectedId] = useState(defaultQuestion.id)
   const [markedOnly, setMarkedOnly] = useState(false)
   const [activeRevealId, setActiveRevealId] = useState<number | null>(null)
 
@@ -54,6 +62,12 @@ export const useInterviewTrainer = (questions: InterviewQuestion[]) => {
     () => getSelectedQuestion(filteredQuestions, selectedId, defaultQuestion),
     [defaultQuestion, filteredQuestions, selectedId],
   )
+
+  useEffect(() => {
+    if (selectedQuestion.id !== selectedId) {
+      setSelectedId(selectedQuestion.id)
+    }
+  }, [selectedId, selectedQuestion.id, setSelectedId])
 
   const selectedIndex = useMemo(
     () => filteredQuestions.findIndex((question) => question.id === selectedQuestion.id),
@@ -80,7 +94,7 @@ export const useInterviewTrainer = (questions: InterviewQuestion[]) => {
         setSelectedId(nextQuestionId)
       }
     },
-    [filteredQuestions, selectedQuestion.id],
+    [filteredQuestions, selectedQuestion.id, setSelectedId],
   )
 
   const revealCurrent = useCallback(() => {
@@ -97,7 +111,7 @@ export const useInterviewTrainer = (questions: InterviewQuestion[]) => {
   const selectQuestion = useCallback((questionId: number) => {
     setActiveRevealId(null)
     setSelectedId(questionId)
-  }, [])
+  }, [setSelectedId])
 
   return {
     language,
