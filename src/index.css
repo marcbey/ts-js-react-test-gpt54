@@ -113,6 +113,7 @@ button {
   border-radius: 1.5rem;
   background: linear-gradient(160deg, rgba(25, 20, 17, 0.6), rgba(8, 12, 14, 0.46));
   box-shadow: var(--shadow-soft);
+  min-width: 0;
 }
 
 .eyebrow,
@@ -244,6 +245,7 @@ button {
   gap: 1.1rem;
   margin-top: 1rem;
   transition: grid-template-columns 180ms ease;
+  min-width: 0;
 }
 
 .workspace-grid.sidebar-collapsed {
@@ -253,6 +255,8 @@ button {
 .catalog-panel,
 .detail-panel {
   min-height: 72vh;
+  min-width: 0;
+  width: 100%;
   border: 1px solid var(--border);
   border-radius: 1.5rem;
   background: var(--surface);
@@ -302,6 +306,7 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.7rem;
+  min-width: 0;
 }
 
 .catalog-toggle {
@@ -321,6 +326,7 @@ button {
 .panel-heading {
   display: grid;
   gap: 0.55rem;
+  min-width: 0;
 }
 
 .panel-heading h2,
@@ -376,6 +382,7 @@ button {
   gap: 0.3rem;
   overflow: auto;
   padding-right: 0.2rem;
+  min-width: 0;
 }
 
 .question-chip {
@@ -437,6 +444,7 @@ button {
 .detail-topline {
   display: grid;
   gap: 0.9rem;
+  min-width: 0;
 }
 
 .question-actions {
@@ -445,6 +453,7 @@ button {
   gap: 0.55rem;
   flex-wrap: wrap;
   width: 100%;
+  min-width: 0;
 }
 
 .question-actions-end {
@@ -496,6 +505,7 @@ button {
 
 .detail-question {
   width: 100%;
+  min-width: 0;
 }
 
 .reveal-box {
@@ -507,6 +517,7 @@ button {
   border-radius: 1.4rem;
   border: 1px solid var(--border);
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(240, 127, 69, 0.08));
+  min-width: 0;
 }
 
 .reveal-button {
@@ -591,6 +602,7 @@ button {
   background: rgba(255, 255, 255, 0.015);
   color: var(--muted);
   text-decoration: none;
+  min-width: 0;
 }
 
 .resource-grid a strong {
@@ -610,6 +622,17 @@ button {
   gap: 0.9rem;
   min-height: 18rem;
   place-content: center;
+}
+
+.hero-panel h1,
+.hero-copy,
+.panel-copy,
+.question-chip strong,
+.detail-topline h2,
+.locked-card h3,
+.resource-grid a span,
+.resource-grid a strong {
+  overflow-wrap: anywhere;
 }
 
 .empty-state {
@@ -661,6 +684,7 @@ button {
 
   .catalog-topbar {
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .reveal-box,
