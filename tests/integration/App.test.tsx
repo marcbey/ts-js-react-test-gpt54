@@ -10,7 +10,7 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'EN' }))
 
-    expect(screen.getByRole('heading', { level: 1, name: '100 questions for JS, TS, and React' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: '133 questions for JS, TS, React, tooling, and architecture' })).toBeInTheDocument()
     expect(screen.getAllByRole('button', { name: 'Next question' })).toHaveLength(2)
   })
 
@@ -35,7 +35,7 @@ describe('App', () => {
     await user.click(screen.getAllByRole('button', { name: 'Frage markieren' })[0])
     await user.click(screen.getByRole('button', { name: 'Nur markierte' }))
 
-    expect(screen.getByRole('heading', { level: 2, name: '1 / 100' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 2, name: '1 / 133' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: /Closure/i })).not.toBeInTheDocument()
   })
 

@@ -22,5 +22,5 @@ test('marked-only filter reduces the catalog to marked entries', async ({ page }
   await page.getByRole('button', { name: 'Nur markierte' }).click()
 
   await expect(page.locator('.question-chip')).toHaveCount(1)
-  await expect(page.getByRole('heading', { level: 2, name: '1 / 100' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: '1 / 133' })).toBeVisible()
 })

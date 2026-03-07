@@ -15,6 +15,7 @@ const codeLanguageByCategory: Record<Category, string> = {
   javascript: 'javascript',
   typescript: 'typescript',
   react: 'tsx',
+  toolingArchitecture: 'typescript',
 }
 
 const codeTheme = {

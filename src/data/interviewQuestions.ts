@@ -308,6 +308,82 @@ const resourceLibrary = {
     label: 'React: useOptimistic',
     url: 'https://react.dev/reference/react/useOptimistic',
   },
+  viteGuide: {
+    label: 'Vite: Guide',
+    url: 'https://vite.dev/guide/',
+  },
+  viteEnvModes: {
+    label: 'Vite: Env Variables and Modes',
+    url: 'https://vite.dev/guide/env-and-mode',
+  },
+  eslintGettingStarted: {
+    label: 'ESLint: Getting Started',
+    url: 'https://eslint.org/docs/latest/use/getting-started',
+  },
+  prettierDocs: {
+    label: 'Prettier: Docs',
+    url: 'https://prettier.io/docs/',
+  },
+  vitestGuide: {
+    label: 'Vitest: Guide',
+    url: 'https://vitest.dev/guide/',
+  },
+  vitestWhy: {
+    label: 'Vitest: Why Vitest',
+    url: 'https://vitest.dev/guide/why',
+  },
+  playwrightDocs: {
+    label: 'Playwright: Intro',
+    url: 'https://playwright.dev/docs/intro',
+  },
+  playwrightBestPractices: {
+    label: 'Playwright: Best Practices',
+    url: 'https://playwright.dev/docs/best-practices',
+  },
+  storybookDocs: {
+    label: 'Storybook: Docs',
+    url: 'https://storybook.js.org/docs',
+  },
+  storybookWhy: {
+    label: 'Storybook: Why Storybook',
+    url: 'https://storybook.js.org/docs/get-started/why-storybook',
+  },
+  npmWorkspaces: {
+    label: 'npm: Workspaces',
+    url: 'https://docs.npmjs.com/cli/v11/using-npm/workspaces',
+  },
+  npmCi: {
+    label: 'npm: npm ci',
+    url: 'https://docs.npmjs.com/cli/v11/commands/npm-ci',
+  },
+  githubActionsDocs: {
+    label: 'GitHub Actions: Docs',
+    url: 'https://docs.github.com/en/actions',
+  },
+  githubActionsNode: {
+    label: 'GitHub Actions: Build and Test Node.js',
+    url: 'https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-nodejs',
+  },
+  dockerOverview: {
+    label: 'Docker: Overview',
+    url: 'https://docs.docker.com/get-started/docker-overview/',
+  },
+  dockerBuild: {
+    label: 'Docker: Build',
+    url: 'https://docs.docker.com/build/',
+  },
+  twelveFactor: {
+    label: 'The Twelve-Factor App',
+    url: 'https://12factor.net/',
+  },
+  openTelemetryJs: {
+    label: 'OpenTelemetry: JavaScript',
+    url: 'https://opentelemetry.io/docs/languages/js/',
+  },
+  semverSpec: {
+    label: 'Semantic Versioning',
+    url: 'https://semver.org/',
+  },
   w3cAccessibility: {
     label: 'W3C WAI: Accessibility Introduction',
     url: 'https://www.w3.org/WAI/fundamentals/accessibility-intro/',
@@ -3331,8 +3407,943 @@ const now = new Date().toLocaleTimeString()`,
   }),
 ]
 
+const toolingArchitectureQuestions: InterviewQuestion[] = [
+  q({
+    id: 101,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie sollten `package.json`-Scripts in einem Frontend-Projekt aufgebaut sein?',
+      en: 'How should `package.json` scripts be structured in a frontend project?',
+    },
+    answer: {
+      de: '`package.json`-Scripts sind die stabile Oberfläche für wiederkehrende Abläufe wie Dev-Server, Build, Tests und Qualitätschecks. Wichtig ist, dass sie Team-Konventionen kapseln, statt Spezialwissen in lokalen Shell-Aliasen oder Wiki-Seiten zu verstecken. Gute Scripts benennen Absicht klar und bleiben von CI bis Laptop identisch nutzbar.',
+      en: '`package.json` scripts are the stable interface for recurring workflows such as local development, builds, tests, and quality checks. The important part is to encode team conventions instead of hiding them in shell aliases or wiki pages. Good scripts communicate intent clearly and work the same in CI and on a laptop.',
+    },
+    exampleTitle: {
+      de: 'Wenige Einstiege, klare Verantwortung',
+      en: 'Few entry points, clear responsibility',
+    },
+    exampleExplanation: {
+      de: 'Die wichtigsten Aufgaben haben jeweils einen klaren Einstiegspunkt. Dadurch wissen Menschen und CI sofort, welcher Befehl die gewünschte Aussage trifft.',
+      en: 'The most important tasks each get one clear entry point. That lets both humans and CI know exactly which command expresses the desired intent.',
+    },
+    exampleCode: `{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "check": "eslint . && vitest run"
+  }
+}`,
+    explanation: {
+      de: 'Ein gutes Script-Set bildet Produkt- und Teamgrenzen ab. Typisch sind getrennte Kommandos für lokale Entwicklung, schnelle Checks und vollere CI-Prüfungen, damit Feedback-Geschwindigkeit und Verlässlichkeit zusammenpassen. Problematisch wird es, wenn ein einziger Mega-Befehl alles versteckt oder wenn dieselbe Absicht in mehreren Varianten nebeneinander lebt.',
+      en: 'A good set of scripts reflects product and team boundaries. Commonly that means separate commands for local development, quick checks, and fuller CI validation so feedback speed and reliability can both stay high. Trouble starts when one mega-command hides everything or when the same intent exists in several slightly different variants.',
+    },
+    resources: ['viteGuide', 'eslintGettingStarted', 'vitestGuide'],
+  }),
+  q({
+    id: 102,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Warum ist ein sauber gepflegter Lockfile für Teams und CI so wichtig?',
+      en: 'Why is a well-maintained lockfile so important for teams and CI?',
+    },
+    answer: {
+      de: 'Der Lockfile friert direkte und transitive Abhängigkeiten auf einen reproduzierbaren Stand ein. Das macht lokale Setups, CI-Läufe und Rollbacks deutlich verlässlicher, weil nicht bei jedem Install unbemerkt neue Paketversionen einfließen. Ohne gepflegten Lockfile wird Fehlersuche schnell zum Zufall.',
+      en: 'A lockfile freezes direct and transitive dependencies at a reproducible state. That makes local setups, CI runs, and rollbacks far more reliable because new package versions do not slip in on every install. Without a maintained lockfile, debugging quickly becomes guesswork.',
+    },
+    exampleTitle: {
+      de: 'CI installiert exakt den festgeschriebenen Stand',
+      en: 'CI installs the exact recorded dependency state',
+    },
+    exampleExplanation: {
+      de: '`npm ci` scheitert lieber früh, als stillschweigend einen neuen Paketbaum zu erzeugen. Genau das macht Builds reproduzierbar.',
+      en: '`npm ci` fails early instead of silently creating a new dependency tree. That is exactly what keeps builds reproducible.',
+    },
+    exampleCode: `npm ci
+npm run build`,
+    explanation: {
+      de: 'Lockfiles sind nicht nur ein Installationsdetail, sondern Teil der Lieferkette. Sie begrenzen Versionsdrift, machen Security-Updates nachvollziehbar und helfen dabei, ob ein Fehler wirklich aus eigenem Code oder aus einer transitive Änderung stammt. In Reviews sollte man deshalb Lockfile-Diffs ernst nehmen, ohne jede Änderung reflexhaft zu blockieren.',
+      en: 'Lockfiles are not just an installation detail, but part of the delivery chain. They limit version drift, make security updates traceable, and help identify whether a bug comes from your code or from a transitive dependency change. Reviews should therefore treat lockfile diffs seriously without blocking every update reflexively.',
+    },
+    resources: ['npmCi', 'githubActionsNode', 'semverSpec'],
+  }),
+  q({
+    id: 103,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie wählt man einen Build- oder Bundler-Stack wie Vite, Webpack oder Rspack sinnvoll aus?',
+      en: 'How do you choose a build or bundler stack such as Vite, Webpack, or Rspack sensibly?',
+    },
+    answer: {
+      de: 'Die Wahl sollte von Anforderungen wie Dev-Server-Geschwindigkeit, Plugin-Ökosystem, SSR-Bedarf, Legacy-Support und vorhandener Team-Erfahrung abhängen. Ein Bundler ist Infrastruktur, kein Glaubensbekenntnis. Entscheidend ist, wie gut der Stack die reale Produkt- und Deploy-Pipeline unterstützt.',
+      en: 'The choice should follow requirements such as dev-server speed, plugin ecosystem, SSR needs, legacy support, and the team’s existing experience. A bundler is infrastructure, not identity. What matters is how well the stack supports the actual product and deployment pipeline.',
+    },
+    exampleTitle: {
+      de: 'Tooling entlang der Produktanforderung wählen',
+      en: 'Choose tooling based on product needs',
+    },
+    exampleExplanation: {
+      de: 'Ein einfacher Vite-Setup ist stark, wenn man schnelles Feedback und wenig Konfigurationsballast will. Schwerere Anforderungen können andere Werkzeuge rechtfertigen.',
+      en: 'A simple Vite setup is strong when you want fast feedback and little configuration overhead. Heavier requirements may justify different tooling.',
+    },
+    exampleCode: `export default defineConfig({
+  plugins: [react()],
+})`,
+    explanation: {
+      de: 'Werkzeugwahl wird teuer, sobald sie Migrationen, CI, Plugin-Kompatibilität und Debugging berührt. Deshalb lohnt sich eine Entscheidungsmatrix aus Produktanforderungen, Betriebsmodell und Team-Fähigkeiten mehr als ein Benchmark-Screenshot. Gute Architektur trennt dabei Kernanforderungen von kurzlebigen Hype-Wellen.',
+      en: 'Tool selection becomes expensive as soon as it touches migrations, CI, plugin compatibility, and debugging. That is why a decision matrix based on product needs, operating model, and team capability is more useful than a benchmark screenshot. Good architecture separates core requirements from short-lived hype waves.',
+    },
+    resources: ['viteGuide', 'tsPerformance', 'githubActionsDocs'],
+  }),
+  q({
+    id: 104,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie erklärt man Tree Shaking und Bundle-Analyse praktisch?',
+      en: 'How do you explain tree shaking and bundle analysis in practical terms?',
+    },
+    answer: {
+      de: 'Tree Shaking entfernt ungenutzte Exporte nur dann zuverlässig, wenn Module statisch analysierbar sind und Seiteneffekte sauber markiert werden. Bundle-Analyse zeigt dann, ob Bibliotheken, Imports oder Build-Konfiguration unnötig viel JavaScript in den Client schieben. Entscheidend ist nicht das Schlagwort, sondern messbare Auswirkung auf Initial- und Folgelast.',
+      en: 'Tree shaking removes unused exports reliably only when modules stay statically analyzable and side effects are marked cleanly. Bundle analysis then shows whether libraries, imports, or build configuration are shipping unnecessary JavaScript to the client. What matters is not the buzzword, but the measurable impact on initial and follow-up cost.',
+    },
+    exampleTitle: {
+      de: 'Statische Exporte statt dynamischer Magie',
+      en: 'Static exports instead of dynamic magic',
+    },
+    exampleExplanation: {
+      de: 'Nur der tatsächlich importierte Export landet im Zielbundle, wenn das Paket sauber aufgebaut ist. Dynamische Seiteneffekte zerstören diesen Vorteil schnell.',
+      en: 'Only the actually imported export lands in the target bundle when the package is structured cleanly. Dynamic side effects can destroy that benefit very quickly.',
+    },
+    exampleCode: `// utils.ts
+export const sum = (a: number, b: number) => a + b
+export const debug = () => console.log('debug')
+
+// app.ts
+import { sum } from './utils'`,
+    explanation: {
+      de: 'In der Praxis ist Tree Shaking ein Zusammenspiel aus ESM, Paketstruktur und Disziplin bei Seiteneffekten. Bundle-Analyse hilft dabei, Bauchgefühl durch echte Größen- und Ursprungsdaten zu ersetzen. Gerade große Teams profitieren davon, Performance-Probleme nicht erst im Lighthouse-Bericht zu entdecken, sondern schon bei Dependencies und Imports zu sehen.',
+      en: 'In practice, tree shaking is a combination of ESM, package structure, and discipline around side effects. Bundle analysis helps replace gut feeling with real size and origin data. Large teams especially benefit from seeing performance problems in dependencies and imports before they show up in a Lighthouse report.',
+    },
+    resources: ['viteGuide', 'reactLazy', 'tsModules'],
+  }),
+  q({
+    id: 105,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie trennt man Umgebungsvariablen und Laufzeitkonfiguration im Frontend sauber?',
+      en: 'How do you separate environment variables and runtime configuration cleanly in frontend apps?',
+    },
+    answer: {
+      de: 'Frontend-Konfiguration muss klar zwischen Build-Zeit, Deploy-Zeit und echter Laufzeit unterscheiden. Alles, was im Client-Bundle landet, ist grundsätzlich öffentlich und darf nicht wie ein Server-Secret behandelt werden. Gute Lösungen machen diese Grenze sichtbar und typisieren Konfiguration früh.',
+      en: 'Frontend configuration has to distinguish clearly between build time, deploy time, and true runtime. Anything that ends up in the client bundle is effectively public and must not be treated like a server secret. Good setups make that boundary explicit and type configuration early.',
+    },
+    exampleTitle: {
+      de: 'Öffentliche Config explizit lesen',
+      en: 'Read public config explicitly',
+    },
+    exampleExplanation: {
+      de: 'Die Variable ist für den Client freigegeben und wird bewusst über die Tooling-Konvention gelesen. Das verhindert falsche Sicherheitsannahmen.',
+      en: 'The variable is explicitly exposed to the client and read through the tooling convention. That prevents false security assumptions.',
+    },
+    exampleCode: `const apiBaseUrl = import.meta.env.VITE_API_BASE_URL`,
+    explanation: {
+      de: 'Saubere Konfiguration vermeidet zwei typische Fehler: Secrets im Frontend und unklare Überschreibungsketten zwischen lokal, CI und Produktion. Besonders hilfreich sind zentrale Config-Module, Validierung beim Start und klare Namenskonventionen pro Umgebung. Damit wird Konfiguration testbarer und Fehlersuche deutlich schneller.',
+      en: 'Clean configuration avoids two common failures: secrets in the frontend and unclear override chains across local, CI, and production environments. Central config modules, startup validation, and clear naming conventions per environment are especially helpful. That makes configuration more testable and debugging much faster.',
+    },
+    resources: ['viteEnvModes', 'twelveFactor', 'githubActionsDocs'],
+  }),
+  q({
+    id: 106,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Warum sollte CI Linting, Typprüfung, Tests und Build getrennt ausführen?',
+      en: 'Why should CI run linting, type checking, tests, and builds as separate steps?',
+    },
+    answer: {
+      de: 'Getrennte Schritte geben schnelleres und präziseres Feedback darüber, welche Qualitätsdimension wirklich gebrochen ist. Das verkürzt Fehlersuche, erleichtert Caching und macht Pipelines robuster gegen Teilfehler. Ein einziger Sammel-Command spart selten Zeit, verschlechtert aber oft die Diagnose.',
+      en: 'Separate steps provide faster and more precise feedback about which quality dimension actually broke. That shortens debugging, improves caching, and makes pipelines more robust against partial failures. One giant combined command rarely saves time but often worsens diagnosis.',
+    },
+    exampleTitle: {
+      de: 'Eine Pipeline, mehrere klare Aussagen',
+      en: 'One pipeline, several clear signals',
+    },
+    exampleExplanation: {
+      de: 'Jeder Schritt beantwortet eine andere Frage: Stil, Typen, Verhalten oder Lieferbarkeit. Dadurch wird ein roter Build sofort konkreter.',
+      en: 'Each step answers a different question: style, types, behavior, or ship readiness. That makes a failing pipeline immediately more actionable.',
+    },
+    exampleCode: `jobs:
+  quality:
+    steps:
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run build`,
+    explanation: {
+      de: 'Pipelines sind Produktivitätswerkzeuge und keine bloßen Gatekeeper. Wer Checks trennt, kann sie parallelisieren, gezielt wiederholen und sauber reporten. Das hilft Teams besonders dann, wenn Builds größer werden und nicht jeder Fehler denselben Diagnoseweg oder dieselbe Laufzeit hat.',
+      en: 'Pipelines are productivity tools, not just gatekeepers. Separating checks lets you parallelize them, rerun them selectively, and report them cleanly. That helps especially once builds grow and not every failure deserves the same diagnostic path or runtime.',
+    },
+    resources: ['githubActionsDocs', 'githubActionsNode', 'vitestGuide'],
+  }),
+  q({
+    id: 107,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Was ist die sinnvolle Aufgabentrennung zwischen ESLint und Prettier?',
+      en: 'What is the sensible division of responsibility between ESLint and Prettier?',
+    },
+    answer: {
+      de: 'ESLint prüft Regeln zu Fehlern, Risiko und Code-Qualität, während Prettier die Formatierung deterministisch vereinheitlicht. Sobald beide Werkzeuge dieselbe Sorge bearbeiten sollen, entsteht Reibung in Konfiguration und Entwicklerfluss. Die klare Trennung hält Diskussionen über Stil klein und Regeln über Verhalten scharf.',
+      en: 'ESLint enforces rules around mistakes, risk, and code quality, while Prettier standardizes formatting deterministically. As soon as both tools try to own the same concern, configuration and developer flow start fighting each other. A clear split keeps style debates small and behavior rules sharp.',
+    },
+    exampleTitle: {
+      de: 'Format automatisch, Verhalten bewusst prüfen',
+      en: 'Format automatically, review behavior deliberately',
+    },
+    exampleExplanation: {
+      de: 'Formatierung wird ohne Diskussion normiert, während Lint-Regeln echte Qualitätsaussagen treffen. So bleibt Review-Zeit für Substanz frei.',
+      en: 'Formatting gets normalized without debate while lint rules express actual quality concerns. That leaves review time for substance.',
+    },
+    exampleCode: `{
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  }
+}`,
+    explanation: {
+      de: 'Diese Trennung ist vor allem ein Team-Scaling-Thema. Formatierung sollte kaum Entscheidungsenergie kosten, während Lint-Regeln begründet, dokumentiert und bei Bedarf bewusst verändert werden. Wer beide Ebenen mischt, erhält oft unnötig laute Tools und unklare Ownership.',
+      en: 'This separation is primarily a team scaling concern. Formatting should cost almost no decision energy, while lint rules should be justified, documented, and changed intentionally when needed. Mixing both layers often produces noisy tooling and unclear ownership.',
+    },
+    resources: ['eslintGettingStarted', 'prettierDocs', 'githubActionsDocs'],
+  }),
+  q({
+    id: 108,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie verteilt man Tests sinnvoll auf Unit-, Integrations- und E2E-Ebene?',
+      en: 'How do you distribute tests sensibly across unit, integration, and end-to-end levels?',
+    },
+    answer: {
+      de: 'Die Verteilung sollte sich an Risiko, Feedback-Geschwindigkeit und Beobachtbarkeit orientieren. Kleine Fachlogik gehört meist in schnelle Unit-Tests, komponiertes UI-Verhalten in Integrationstests und geschäftskritische Nutzerpfade in wenige stabile E2E-Checks. Gute Teststrategien optimieren nicht auf Masse, sondern auf Informationswert.',
+      en: 'The distribution should follow risk, feedback speed, and observability. Small domain logic usually belongs in fast unit tests, composed UI behavior in integration tests, and a few stable end-to-end checks should cover critical user journeys. Good strategies optimize for information value, not test count.',
+    },
+    exampleTitle: {
+      de: 'Jede Ebene beantwortet eine andere Frage',
+      en: 'Each level answers a different question',
+    },
+    exampleExplanation: {
+      de: 'Nicht jeder Fall braucht den Browser. Ein bewusster Schnitt hält Tests schnell und trotzdem aussagekräftig.',
+      en: 'Not every case needs a browser. A deliberate split keeps tests fast while still meaningful.',
+    },
+    exampleCode: `// unit: pure helper
+expect(normalizeUser(user)).toEqual(expected)
+
+// e2e: checkout flow
+await page.getByRole('button', { name: 'Buy now' }).click()`,
+    explanation: {
+      de: 'Zu viele teure Browser-Tests machen Pipelines langsam und fragil, zu wenig Systemtests lassen Integrationsrisiken offen. Die Kunst liegt darin, dieselbe Funktionalität nicht blind dreifach zu testen, sondern jede Ebene bewusst für eine andere Art von Vertrauen zu nutzen. So bleibt die Suite schnell, aber deckt trotzdem reale Produktgefahren ab.',
+      en: 'Too many expensive browser tests make pipelines slow and fragile, while too few system tests leave integration risk exposed. The art lies in not tripling the same coverage blindly, but using each level for a different kind of confidence. That keeps the suite fast while still covering real product hazards.',
+    },
+    resources: ['vitestGuide', 'testingLibraryIntro', 'playwrightDocs'],
+  }),
+  q({
+    id: 109,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie reduziert man flaky E2E-Tests nachhaltig?',
+      en: 'How do you reduce flaky end-to-end tests sustainably?',
+    },
+    answer: {
+      de: 'Flakiness sinkt, wenn Tests an beobachtbaren Zuständen statt an Timing-Raten hängen und wenn Testdaten, Netzwerk und Umgebungszustand kontrolliert werden. Harte Sleeps sind fast immer ein Symptom für fehlende Modellierung. Nachhaltig stabil werden E2E-Tests erst durch bessere Systemgrenzen, nicht durch mehr Retries allein.',
+      en: 'Flakiness drops when tests rely on observable states instead of timing guesses and when test data, network behavior, and environment state are controlled. Hard sleeps are almost always a symptom of missing modeling. End-to-end tests become sustainably stable through better system boundaries, not through more retries alone.',
+    },
+    exampleTitle: {
+      de: 'Auf sichtbaren Zustand warten, nicht auf Zeit',
+      en: 'Wait for visible state, not elapsed time',
+    },
+    exampleExplanation: {
+      de: 'Der Test koppelt sich an ein wirkliches UI-Signal statt an eine vermutete Dauer. Das ist robuster über Maschinen und Lastprofile hinweg.',
+      en: 'The test couples to a real UI signal instead of an assumed duration. That stays more robust across machines and load profiles.',
+    },
+    exampleCode: `await expect(page.getByText('Saved')).toBeVisible()`,
+    explanation: {
+      de: 'Flaky Tests sind oft ein Architekturspiegel: unklare Loading-States, unkontrollierte Seiteneffekte oder nicht isolierte Datenhaltung. Deshalb hilft es, Testbarkeit als Produktmerkmal zu betrachten und nicht erst im Test-Tool nach der Lösung zu suchen. Saubere Selektoren, deterministische Fixtures und klare Wartebedingungen bringen hier den größten Gewinn.',
+      en: 'Flaky tests often reflect architectural issues: unclear loading states, uncontrolled side effects, or non-isolated data handling. That is why it helps to treat testability as a product property instead of looking for the fix only inside the test tool. Clean selectors, deterministic fixtures, and explicit wait conditions usually deliver the biggest gains.',
+    },
+    resources: ['playwrightDocs', 'playwrightBestPractices', 'githubActionsDocs'],
+  }),
+  q({
+    id: 110,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann lohnt sich Storybook oder ein ähnliches Komponenten-Workbench-Tool?',
+      en: 'When is Storybook or a similar component workbench worth using?',
+    },
+    answer: {
+      de: 'Storybook lohnt sich besonders, wenn Teams wiederverwendbare Komponenten, Zustandsvarianten und UI-Dokumentation unabhängig von ganzen Produktseiten entwickeln müssen. Der Nutzen steigt mit Designsystem-Reife, Teamgröße und Review-Bedarf. Für sehr kleine Apps kann es dagegen mehr Pflege als Wert erzeugen.',
+      en: 'Storybook is especially worth it when teams need to build reusable components, state variants, and UI documentation independently from full product pages. Its value rises with design-system maturity, team size, and review needs. For very small apps, however, it can create more maintenance than benefit.',
+    },
+    exampleTitle: {
+      de: 'Varianten isoliert sichtbar machen',
+      en: 'Make variants visible in isolation',
+    },
+    exampleExplanation: {
+      de: 'Ein einzelnes UI-Element kann mit verschiedenen Zuständen und Props geprüft werden, ohne erst die ganze Produktoberfläche hochzufahren.',
+      en: 'A single UI element can be inspected across different states and props without booting the entire product surface.',
+    },
+    exampleCode: `export const ErrorState = {
+  args: { status: 'error' },
+}`,
+    explanation: {
+      de: 'Workbench-Tools sind besonders stark für Kommunikation zwischen Entwicklung, Design, QA und Produkt. Sie ersetzen aber keine echte Integrationsumgebung, weil Routing, Datenflüsse und Seiteneffekte dort nur teilweise sichtbar sind. Der beste Einsatz ist daher als Ergänzung für isolierte Qualität und Dokumentation, nicht als alleinige Wahrheit.',
+      en: 'Workbench tools are especially strong for communication across engineering, design, QA, and product. They do not replace a real integration environment because routing, data flow, and side effects are only partially visible there. Their best use is as a complement for isolated quality and documentation, not as the only truth.',
+    },
+    resources: ['storybookDocs', 'storybookWhy', 'w3cAccessibility'],
+  }),
+  q({
+    id: 111,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann ist ein Monorepo für Frontend-Teams sinnvoll?',
+      en: 'When is a monorepo sensible for frontend teams?',
+    },
+    answer: {
+      de: 'Ein Monorepo lohnt sich, wenn mehrere Apps, Pakete oder Designsysteme gemeinsame Versionierung, Refactors und Tooling-Standards brauchen. Der Hauptgewinn ist koordinierte Änderung über Grenzen hinweg, nicht bloß ein zentraler Ordner. Ohne klare Paketgrenzen und Build-Disziplin wird ein Monorepo aber schnell nur ein großer gemeinsamer Chaos-Container.',
+      en: 'A monorepo pays off when multiple apps, packages, or design systems need shared versioning, refactors, and tooling standards. The main gain is coordinated change across boundaries, not merely one central folder. Without clear package boundaries and build discipline, however, a monorepo quickly becomes just one large shared chaos container.',
+    },
+    exampleTitle: {
+      de: 'App und UI-Kit gemeinsam entwickeln',
+      en: 'Develop app and UI kit together',
+    },
+    exampleExplanation: {
+      de: 'Gemeinsame Workspaces erlauben Änderungen an App und Bibliothek in einem Commit. Das reduziert Synchronisationsaufwand deutlich.',
+      en: 'Shared workspaces let you change app and library in one commit. That reduces synchronization overhead significantly.',
+    },
+    exampleCode: `{
+  "workspaces": ["apps/*", "packages/*"]
+}`,
+    explanation: {
+      de: 'Monorepos verschieben Komplexität von Version-Synchronisation hin zu Build-, Cache- und Abhängigkeitsdisziplin. Sie helfen besonders bei Designsystemen, Plattform-Teams und großen Refactors, sind aber kein automatischer Produktivitätsbooster für kleine, lose gekoppelte Projekte. Die Entscheidung sollte deshalb nach Änderungsstruktur und Teamtopologie fallen.',
+      en: 'Monorepos shift complexity from version synchronization toward build, cache, and dependency discipline. They help especially with design systems, platform teams, and large refactors, but they are not an automatic productivity booster for small, loosely coupled projects. The decision should therefore follow change patterns and team topology.',
+    },
+    resources: ['npmWorkspaces', 'storybookDocs', 'githubActionsDocs'],
+  }),
+  q({
+    id: 112,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie hält man Paketgrenzen in einem Monorepo oder Multi-Package-Setup sauber?',
+      en: 'How do you keep package boundaries clean in a monorepo or multi-package setup?',
+    },
+    answer: {
+      de: 'Saubere Paketgrenzen entstehen durch klare Verantwortung, explizite öffentliche APIs und Regeln gegen tiefe Querimporte. Entscheidend ist, dass Abhängigkeiten fachlich und technisch gerichtet bleiben. Sonst verliert das Repo schnell seine Wartbarkeit, auch wenn alles formal noch baut.',
+      en: 'Clean package boundaries come from clear ownership, explicit public APIs, and rules against deep cross-imports. The key is that dependencies stay directed both technically and by domain intent. Otherwise the repo quickly loses maintainability even if everything still builds.',
+    },
+    exampleTitle: {
+      de: 'Nur über öffentliche Eintritte konsumieren',
+      en: 'Consume only through public entry points',
+    },
+    exampleExplanation: {
+      de: 'Die App importiert aus dem Paket-Index statt aus internen Dateien. Dadurch bleiben Refactors innerhalb des Pakets möglich.',
+      en: 'The app imports from the package index instead of internal files. That keeps refactors inside the package possible.',
+    },
+    exampleCode: `import { Button } from '@acme/ui'`,
+    explanation: {
+      de: 'Grenzen müssen technisch durchsetzbar sein, nicht nur im Wiki stehen. Hilfreich sind Import-Regeln, Alias-Konventionen, Paket-Tests und Review-Gewohnheiten, die „nur kurz intern importieren“ konsequent zurückweisen. Gute Paketgrenzen sind ein Hebel für refaktorierbare Systeme und schnellere Teams.',
+      en: 'Boundaries have to be enforceable technically, not just described in a wiki. Helpful tools include import rules, alias conventions, package tests, and review habits that reject “just quickly importing an internal file.” Good package boundaries are a lever for refactorable systems and faster teams.',
+    },
+    resources: ['npmWorkspaces', 'tsPaths', 'eslintGettingStarted'],
+  }),
+  q({
+    id: 113,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie geht man mit Versionierung und Releases interner Pakete sinnvoll um?',
+      en: 'How do you handle versioning and releases of internal packages sensibly?',
+    },
+    answer: {
+      de: 'Interne Pakete brauchen klare Regeln dafür, wann ein Change breaking, minor oder patch ist, selbst wenn alles im selben Repo lebt. Versionierung ist Kommunikation über Kompatibilität, nicht nur ein Publish-Schritt. Je mehr Teams auf dieselben Pakete bauen, desto wichtiger werden nachvollziehbare Releases und Changelogs.',
+      en: 'Internal packages still need clear rules for what counts as breaking, minor, or patch even when everything lives in one repo. Versioning is communication about compatibility, not just a publish step. The more teams build on the same packages, the more valuable traceable releases and changelogs become.',
+    },
+    exampleTitle: {
+      de: 'Kompatibilität bewusst signalisieren',
+      en: 'Signal compatibility deliberately',
+    },
+    exampleExplanation: {
+      de: 'Eine kleine API-Korrektur ist nicht dasselbe wie ein Breaking Change. Die Version trägt diese Aussage explizit.',
+      en: 'A small API fix is not the same as a breaking change. The version expresses that distinction explicitly.',
+    },
+    exampleCode: `{
+  "name": "@acme/ui",
+  "version": "2.3.1"
+}`,
+    explanation: {
+      de: 'Gerade in größeren Frontend-Plattformen spart saubere Versionierung viel Koordinationsaufwand. Teams können Updates planen, Risiken abschätzen und Probleme leichter auf konkrete Änderungen zurückführen. Ob die Umsetzung über manuelle Releases, Changesets oder automatisierte Pipelines läuft, ist zweitrangig gegenüber klaren Kompatibilitätsregeln.',
+      en: 'Especially in larger frontend platforms, disciplined versioning saves a lot of coordination overhead. Teams can plan updates, estimate risk, and trace issues back to concrete changes more easily. Whether you implement this through manual releases, Changesets, or automated pipelines matters less than having clear compatibility rules.',
+    },
+    resources: ['semverSpec', 'githubActionsDocs', 'npmWorkspaces'],
+  }),
+  q({
+    id: 114,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann sind Feature Flags sinnvoll und welche Risiken bringen sie mit?',
+      en: 'When are feature flags useful and what risks do they introduce?',
+    },
+    answer: {
+      de: 'Feature Flags sind sinnvoll, wenn man Releases entkoppeln, Risiken staffeln oder Zielgruppen kontrolliert ausrollen will. Ihr Preis ist zusätzliche Zustandskomplexität, mehr Testkombinationen und potenziell verwaiste Logik. Flags sind daher ein Betriebswerkzeug mit Ablaufdatum, keine dauerhafte Architektur-Schicht für alles.',
+      en: 'Feature flags are useful when you want to decouple release from deployment, stage risk, or roll out behavior to specific audiences. Their cost is extra state complexity, more test combinations, and potentially abandoned code paths. Flags are therefore an operational tool with an expiration date, not a permanent architecture layer for everything.',
+    },
+    exampleTitle: {
+      de: 'Neue Funktion kontrolliert einschalten',
+      en: 'Turn on a new feature in a controlled way',
+    },
+    exampleExplanation: {
+      de: 'Die Entscheidung liegt in einer klaren Gate-Bedingung. Wichtig ist, dass später auch der Aufräumzeitpunkt definiert wird.',
+      en: 'The decision lives in one clear gate condition. Just as important is defining when the flag should be removed later.',
+    },
+    exampleCode: `if (flags.newCheckout) {
+  return <NewCheckout />
+}
+
+return <ClassicCheckout />`,
+    explanation: {
+      de: 'Gute Flag-Systeme brauchen Eigentümer, Ablaufregeln und Sichtbarkeit in Tests sowie Monitoring. Sonst kippt ein nützliches Risikowerkzeug in eine zweite Konfigurationswelt mit unklaren Kombinationen. Besonders kritisch wird das, wenn Flags gleichzeitig Produktlogik, Experimente und Berechtigungen mischen.',
+      en: 'Good flag systems need owners, expiration rules, and visibility in tests and monitoring. Otherwise a useful risk-management tool turns into a second configuration world with unclear combinations. This becomes especially dangerous when flags start mixing product logic, experiments, and permissions.',
+    },
+    resources: ['githubActionsDocs', 'twelveFactor', 'testingLibraryIntro'],
+  }),
+  q({
+    id: 115,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie plant man eine inkrementelle Migration eines gewachsenen Frontends?',
+      en: 'How do you plan an incremental migration of a grown frontend?',
+    },
+    answer: {
+      de: 'Inkrementelle Migration beginnt mit klaren Zielbildern, stabilen Übergangsgrenzen und einer Reihenfolge nach Risiko und Nutzen. Große Umschreibungen auf einmal blockieren Teams oft länger, als sie helfen. Besser sind vertikale Schnitte, die alten und neuen Code bewusst eine Zeit lang nebeneinander betreiben.',
+      en: 'Incremental migration starts with a clear target shape, stable transition boundaries, and an order driven by risk and value. One-shot rewrites often block teams longer than they help. Vertical slices that let old and new code coexist intentionally for a while are usually the better path.',
+    },
+    exampleTitle: {
+      de: 'Neue Fläche am Rand beginnen',
+      en: 'Start at the edge with a new slice',
+    },
+    exampleExplanation: {
+      de: 'Eine einzelne Route oder Funktion wird modernisiert, ohne sofort das gesamte Produkt zu verschieben. So entstehen Lernschleifen statt Big-Bang-Risiko.',
+      en: 'A single route or capability gets modernized without moving the whole product immediately. That creates learning loops instead of big-bang risk.',
+    },
+    exampleCode: `routes = {
+  '/reports': NewReportsApp,
+  '/legacy-orders': LegacyOrdersPage,
+}`,
+    explanation: {
+      de: 'Migration ist vor allem Portfoliomanagement über Zeit. Erfolgreich wird sie durch messbare Zwischenziele, klare Decommission-Schritte und technische Leitplanken für beide Welten. Wer nur das Zielsystem beschreibt, aber nicht den Übergang plant, produziert meistens lange Doppelhaltung ohne echten Fortschritt.',
+      en: 'Migration is primarily portfolio management over time. It succeeds through measurable intermediate goals, clear decommission steps, and technical guardrails for both worlds. Teams that describe only the target system but not the transition usually end up with long-lived duplication and little actual progress.',
+    },
+    resources: ['tsMigration', 'reactThinking', 'githubActionsDocs'],
+  }),
+  q({
+    id: 116,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wofür sind Architecture Decision Records im Frontend nützlich?',
+      en: 'What are architecture decision records useful for in frontend work?',
+    },
+    answer: {
+      de: 'ADRs halten fest, welche Entscheidung warum getroffen wurde, welche Alternativen geprüft wurden und welche Folgen bewusst akzeptiert sind. Sie ersetzen keine Diskussion, aber sie konservieren Kontext über Teamwechsel und längere Zeiträume. Besonders wertvoll sind sie bei Infrastruktur-, Tooling- und Plattformentscheidungen mit langem Nachlauf.',
+      en: 'ADRs capture what decision was made, why it was made, which alternatives were considered, and which consequences were accepted intentionally. They do not replace discussion, but they preserve context across team changes and long time spans. They are especially valuable for infrastructure, tooling, and platform choices with long tails.',
+    },
+    exampleTitle: {
+      de: 'Nicht nur das Was, auch das Warum festhalten',
+      en: 'Record not only the what, but also the why',
+    },
+    exampleExplanation: {
+      de: 'Die Entscheidung ist später noch nachvollziehbar, auch wenn die ursprünglichen Beteiligten nicht mehr da sind. Genau das spart Wiederholungsdiskussionen.',
+      en: 'The decision remains understandable later even if the original participants are gone. That is exactly what saves repeated debates.',
+    },
+    exampleCode: `# ADR-012
+Decision: adopt Vite for all new frontend apps
+Status: accepted`,
+    explanation: {
+      de: 'ADRs lohnen sich besonders dort, wo Alternativen realistisch waren und die Entscheidung lange Wirkung hat. Sie sollten kurz, konkret und pflegbar bleiben; zu viel Prozess macht sie wertlos, zu wenig Kontext ebenfalls. Gute ADRs beschleunigen spätere Entscheidungen, weil sie Muster und Gründe sichtbar machen.',
+      en: 'ADRs are most valuable where alternatives were realistic and the decision has a long-lasting effect. They should stay short, concrete, and maintainable; too much process makes them useless, but so does too little context. Good ADRs speed up future decisions by making patterns and rationale visible.',
+    },
+    resources: ['githubActionsDocs', 'twelveFactor', 'viteGuide'],
+  }),
+  q({
+    id: 117,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann ist eine Struktur nach Features sinnvoller als nach technischen Layern?',
+      en: 'When is structuring by feature more useful than structuring by technical layers?',
+    },
+    answer: {
+      de: 'Feature-orientierte Struktur hilft, wenn Teams und Änderungen entlang fachlicher Bereiche arbeiten und zusammengehörige UI, State und Datenlogik nah beieinander bleiben sollen. Rein technische Layer kippen in großen Produkten oft in breite Sammelordner ohne klare Ownership. Die beste Struktur folgt Änderungsfluss und Verantwortlichkeit, nicht bloß Ästhetik.',
+      en: 'A feature-oriented structure helps when teams and changes align with domain areas and related UI, state, and data logic should stay close together. Pure technical layers often turn into broad catch-all folders without clear ownership in larger products. The best structure follows change flow and responsibility, not just aesthetics.',
+    },
+    exampleTitle: {
+      de: 'Fachliche Schnitte sichtbar machen',
+      en: 'Make domain slices visible',
+    },
+    exampleExplanation: {
+      de: 'Alles Relevante für „orders“ liegt nahe beieinander. Das reduziert Suchaufwand und erleichtert spätere Refactors innerhalb des Bereichs.',
+      en: 'Everything relevant to “orders” lives close together. That reduces search cost and makes later refactors inside the slice easier.',
+    },
+    exampleCode: `features/
+  orders/
+    api.ts
+    model.ts
+    OrdersPage.tsx`,
+    explanation: {
+      de: 'Struktur ist ein Kommunikationsmittel für das Team. Wenn häufige Änderungen quer durch viele generische Ordner laufen, spricht das meist gegen die aktuelle Ordnung. Feature-Slices sind besonders stark, wenn sie echte fachliche Grenzen spiegeln und nicht nur einen neuen Dateinamen für dieselbe ungeklärte Kopplung liefern.',
+      en: 'Structure is a communication tool for the team. When frequent changes cut across many generic folders, that usually argues against the current organization. Feature slices are especially strong when they reflect real domain boundaries instead of just renaming the same unresolved coupling.',
+    },
+    resources: ['reactThinking', 'tsPaths', 'storybookDocs'],
+  }),
+  q({
+    id: 118,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann sollte man UI abstrahieren und wann ist lokale Duplikation zunächst besser?',
+      en: 'When should you abstract UI and when is local duplication better at first?',
+    },
+    answer: {
+      de: 'Abstraktion lohnt sich erst, wenn sich stabile Gemeinsamkeit in Verhalten, API und Änderungsrichtung zeigt. Frühe Verallgemeinerung produziert oft unlesbare Komponenten mit zu vielen Varianten. Kleine, bewusste Duplikation ist häufig der günstigere Preis, bis die gemeinsame Form wirklich klar ist.',
+      en: 'Abstraction becomes worthwhile only once stable commonality appears in behavior, API shape, and change direction. Premature generalization often creates unreadable components with too many variants. Small, deliberate duplication is frequently the cheaper cost until the shared shape is truly clear.',
+    },
+    exampleTitle: {
+      de: 'Zuerst Muster erkennen, dann abstrahieren',
+      en: 'Recognize the pattern first, then abstract',
+    },
+    exampleExplanation: {
+      de: 'Zwei ähnliche Karten dürfen zunächst verschieden bleiben, wenn ihre Entwicklung noch nicht stabil ist. Erst echte Konvergenz rechtfertigt ein gemeinsames API.',
+      en: 'Two similar cards may stay separate at first if their evolution is not yet stable. Only real convergence justifies a shared API.',
+    },
+    exampleCode: `// keep two focused components
+<OrderSummaryCard />
+<InvoiceSummaryCard />`,
+    explanation: {
+      de: 'Die richtige Frage lautet weniger „Kann man das zusammenfassen?“ als „Werden diese Dinge gemeinsam weiterentwickelt?“. Gute Komponenten spiegeln wiederkehrende Verantwortung, nicht nur optische Ähnlichkeit. Dadurch bleiben APIs kleiner, Tests einfacher und spätere Änderungen billiger.',
+      en: 'The better question is less “Can this be generalized?” and more “Will these things evolve together?” Good components reflect recurring responsibility, not just visual similarity. That keeps APIs smaller, tests simpler, and later changes cheaper.',
+    },
+    resources: ['reactThinking', 'storybookDocs', 'w3cAccessibility'],
+  }),
+  q({
+    id: 119,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann sind Service-, Adapter- oder Ports-and-Adapters-Patterns im Frontend sinnvoll?',
+      en: 'When are service, adapter, or ports-and-adapters patterns useful in frontend code?',
+    },
+    answer: {
+      de: 'Solche Patterns sind sinnvoll, wenn man volatile Integrationen wie APIs, Browser-APIs oder Storage von stabilerer Fachlogik trennen will. Sie schaffen klare Testpunkte und verhindern, dass UI-Komponenten jedes Detail externer Systeme kennen müssen. Ohne echten Grenznutzen werden sie aber schnell zu überteilter Architektur.',
+      en: 'These patterns are useful when you want to separate volatile integrations such as APIs, browser APIs, or storage from more stable domain logic. They create clear test points and keep UI components from knowing every detail of external systems. Without a real boundary benefit, however, they quickly turn into over-segmented architecture.',
+    },
+    exampleTitle: {
+      de: 'Browser- und API-Details hinter einer Grenze halten',
+      en: 'Keep browser and API details behind a boundary',
+    },
+    exampleExplanation: {
+      de: 'Die UI spricht mit einer klaren Schnittstelle statt direkt mit `fetch` und Mapping-Logik. Das vereinfacht Tests und spätere Wechsel.',
+      en: 'The UI talks to a clear interface instead of directly to `fetch` and mapping logic. That simplifies tests and later replacement.',
+    },
+    exampleCode: `export interface OrdersGateway {
+  list(): Promise<Order[]>
+}`,
+    explanation: {
+      de: 'Architekturpatterns zahlen sich aus, wenn sie Kopplung sichtbar reduzieren und Änderungswege vereinfachen. Besonders nützlich sind sie in Produkten mit mehreren Datenquellen, Offline-Anforderungen oder stark wechselnden APIs. Wenn hingegen nur ein dünner Pass-through entsteht, ist die zusätzliche Schicht wahrscheinlich nicht gerechtfertigt.',
+      en: 'Architecture patterns pay off when they visibly reduce coupling and simplify change paths. They are especially useful in products with multiple data sources, offline needs, or frequently changing APIs. If you only end up with a thin pass-through, the extra layer is probably not justified.',
+    },
+    resources: ['reactThinking', 'tsEveryday', 'testingLibraryIntro'],
+  }),
+  q({
+    id: 120,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie sollte ein API-Client im Frontend geschnitten sein?',
+      en: 'How should an API client be structured in a frontend app?',
+    },
+    answer: {
+      de: 'Ein guter API-Client trennt Transport, Fehlerbehandlung, Authentifizierung und domänenspezifisches Mapping sauber. Komponenten sollten keine rohen Response-Objekte oder Infrastrukturdetails kennen müssen. Entscheidend ist, dass der Client das Datenmodell des Produkts stützt und nicht nur HTTP-Calls verpackt.',
+      en: 'A good API client cleanly separates transport, error handling, authentication, and domain-specific mapping. Components should not have to understand raw response objects or infrastructure details. The key is that the client supports the product’s data model instead of merely wrapping HTTP calls.',
+    },
+    exampleTitle: {
+      de: 'Transport und Fachmodell nicht vermischen',
+      en: 'Do not mix transport and domain model',
+    },
+    exampleExplanation: {
+      de: 'Die Funktion liefert bereits fachlich nutzbare Daten zurück. Dadurch bleibt die Aufrufstelle schlank und testbar.',
+      en: 'The function already returns data in a domain-usable shape. That keeps the call site small and testable.',
+    },
+    exampleCode: `export async function listOrders(): Promise<Order[]> {
+  const response = await fetch('/api/orders')
+  return mapOrders(await response.json())
+}`,
+    explanation: {
+      de: 'Viele Frontend-Codebasen verlieren Klarheit, weil Infrastrukturfehler, Auth-Handling und Response-Mapping quer in Komponenten verstreut liegen. Ein sauberer API-Client zentralisiert diese Sorgen, ohne alles in eine riesige Singleton-Klasse zu zwingen. Gute Clients bleiben domänennah und austauschbar an klaren Grenzen.',
+      en: 'Many frontend codebases lose clarity because infrastructure errors, auth handling, and response mapping leak across components. A clean API client centralizes those concerns without forcing everything into one giant singleton class. Good clients stay close to the domain and replaceable at clear seams.',
+    },
+    resources: ['mdnFetch', 'reactThinking', 'tsNarrowing'],
+  }),
+  q({
+    id: 121,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann ist ein Backend-for-Frontend sinnvoller als direkter API-Zugriff aus dem Browser?',
+      en: 'When is a backend-for-frontend more useful than direct API access from the browser?',
+    },
+    answer: {
+      de: 'Ein BFF ist sinnvoll, wenn Aggregation, Berechtigung, Caching oder Geheimnisse nicht sinnvoll in den Client gehören. Er kann API-Formate stabilisieren und speziell auf eine Oberfläche zuschneiden. Direkter Browser-Zugriff bleibt dagegen stark, wenn die Domäne einfach, CORS sauber und zusätzliche Serverlogik unnötig wäre.',
+      en: 'A BFF is useful when aggregation, authorization, caching, or secrets do not belong in the client. It can stabilize API shapes and tailor them to one frontend surface. Direct browser access remains strong when the domain is simple, CORS is clean, and extra server logic would add no real value.',
+    },
+    exampleTitle: {
+      de: 'Mehrere Dienste hinter einer Frontend-freundlichen Kante',
+      en: 'Multiple services behind a frontend-friendly edge',
+    },
+    exampleExplanation: {
+      de: 'Der Client spricht mit einer eigenen Oberfläche, statt mehrere Backends selbst zu koordinieren. Das reduziert Komplexität im Browser.',
+      en: 'The client talks to one dedicated surface instead of coordinating several backends on its own. That reduces complexity in the browser.',
+    },
+    exampleCode: `GET /bff/dashboard
+-> { user, notifications, metrics }`,
+    explanation: {
+      de: 'Die Entscheidung hängt stark von Datenform, Sicherheitsmodell und Teamgrenzen ab. Ein BFF kann Frontend-Entwicklung beschleunigen, aber auch eine neue Betriebs- und Ownership-Schicht schaffen. Er lohnt sich dort, wo er echte Komplexität aus dem Browser nimmt und nicht bloß ein zusätzlicher Proxy ohne Mehrwert ist.',
+      en: 'The decision depends heavily on data shape, security model, and team boundaries. A BFF can accelerate frontend development, but it also creates a new operational and ownership layer. It is worth it where it removes real browser complexity rather than acting as an extra proxy with no added value.',
+    },
+    resources: ['mdnFetch', 'twelveFactor', 'githubActionsDocs'],
+  }),
+  q({
+    id: 122,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie plant man Caching-Grenzen zwischen Browser, Query-Layer und Backend?',
+      en: 'How do you plan caching boundaries across browser, query layer, and backend?',
+    },
+    answer: {
+      de: 'Caching ist nur dann hilfreich, wenn klar ist, wer der Besitzer der Wahrheit bleibt und wie Invalidation passiert. Browser-Cache, Query-Cache und Backend-Cache lösen unterschiedliche Probleme und sollten nicht blind übereinander gestapelt werden. Gute Strategien benennen Lebensdauer, Konsistenzbedarf und Fehlerfall pro Ebene.',
+      en: 'Caching helps only when it is clear who owns the source of truth and how invalidation happens. Browser cache, query cache, and backend cache solve different problems and should not be stacked blindly. Good strategies define lifetime, consistency needs, and failure modes for each layer.',
+    },
+    exampleTitle: {
+      de: 'Jede Ebene mit eigener Aufgabe',
+      en: 'Give each layer its own job',
+    },
+    exampleExplanation: {
+      de: 'Die Query-Schicht hält UI-nahe Aktualität, während der Browser oder CDN eher Übertragungskosten drückt. Das verhindert doppelte Verantwortung.',
+      en: 'The query layer owns UI-near freshness while the browser or CDN mostly reduces transfer cost. That prevents duplicated responsibility.',
+    },
+    exampleCode: `queryClient.setQueryDefaults(['orders'], {
+  staleTime: 30_000,
+})`,
+    explanation: {
+      de: 'Cache-Architektur scheitert oft nicht an Technik, sondern an unklaren Erwartungen. Wenn Teams nicht wissen, ob Daten frisch, eventual consistent oder bewusst veraltet sein dürfen, wird jede Ebene inkonsistent konfiguriert. Darum gehören Cache-Regeln in Architekturgespräche und nicht nur in Hook-Implementierungen.',
+      en: 'Cache architecture often fails not because of technology, but because expectations stay unclear. If teams do not know whether data must be fresh, eventually consistent, or intentionally stale, every layer gets configured inconsistently. That is why caching rules belong in architecture discussions, not only inside hooks.',
+    },
+    resources: ['reactUseOptimistic', 'reactThinking', 'twelveFactor'],
+  }),
+  q({
+    id: 123,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie setzt man Fehlergrenzen, Retries und Fallbacks architektonisch sinnvoll?',
+      en: 'How do you place error boundaries, retries, and fallbacks sensibly at an architectural level?',
+    },
+    answer: {
+      de: 'Fehlerbehandlung sollte entlang fachlicher Auswirkungen geschnitten werden, nicht nur entlang technischer Schichten. Retries, leere Zustände und harte Fehler brauchen je nach Oberfläche andere Reaktionen. Gute Systeme unterscheiden bewusst zwischen „erneut versuchen“, „teilweise weiterarbeiten“ und „sauber abbrechen“.',
+      en: 'Error handling should be cut along business impact rather than purely technical layers. Retries, empty states, and hard failures need different reactions depending on the surface. Good systems intentionally distinguish between “try again,” “continue partially,” and “stop cleanly.”',
+    },
+    exampleTitle: {
+      de: 'Fehler dort abfangen, wo Nutzerwirkung entsteht',
+      en: 'Catch failure where user impact happens',
+    },
+    exampleExplanation: {
+      de: 'Nicht jeder Fehler braucht dieselbe UI-Antwort. Eine Widget-Fläche kann degradieren, während ein Checkout hart stoppen muss.',
+      en: 'Not every failure deserves the same UI response. A widget may degrade gracefully while a checkout must stop hard.',
+    },
+    exampleCode: `if (error.canRetry) {
+  return <RetryPanel onRetry={reload} />
+}
+
+return <FatalErrorScreen />`,
+    explanation: {
+      de: 'Architektur zeigt sich hier in Grenzen und Standards. Wenn jedes Team eigene Retry- und Fehlerkonzepte baut, leidet das Produkt an inkonsistentem Verhalten und schlechtem Monitoring. Klare Muster für recoverable, partial und fatal failures machen Oberflächen robuster und einfacher zu betreiben.',
+      en: 'Architecture shows up here in boundaries and standards. When every team invents its own retry and failure patterns, the product suffers from inconsistent behavior and poor observability. Clear patterns for recoverable, partial, and fatal failures make surfaces more robust and easier to operate.',
+    },
+    resources: ['reactErrorBoundary', 'mdnFetch', 'openTelemetryJs'],
+  }),
+  q({
+    id: 124,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Was gehört zu sinnvoller Observability im Frontend?',
+      en: 'What belongs to meaningful observability in frontend systems?',
+    },
+    answer: {
+      de: 'Frontend-Observability umfasst Fehler, Performance, zentrale Nutzerflüsse und technische Kontextdaten wie Release, Browser und betroffene Route. Rohes Logging allein reicht nicht; entscheidend ist, dass Signale priorisierbar und mit realem Produktverhalten verknüpft sind. Gute Observability hilft beim Entscheiden, nicht nur beim Sammeln.',
+      en: 'Frontend observability includes errors, performance, key user journeys, and technical context such as release, browser, and affected route. Raw logging alone is not enough; the key is that signals can be prioritized and connected to actual product behavior. Good observability helps you decide, not merely collect.',
+    },
+    exampleTitle: {
+      de: 'Fehler mit Betriebs-Kontext melden',
+      en: 'Report failures with operational context',
+    },
+    exampleExplanation: {
+      de: 'Ein Fehler ohne Route, Release oder Nutzerfluss ist schwer einzuordnen. Kontext macht aus einem Eintrag eine handhabbare Diagnose.',
+      en: 'An error without route, release, or user-flow context is hard to prioritize. Context turns a log line into a manageable diagnosis.',
+    },
+    exampleCode: `captureError(error, {
+  route: '/checkout',
+  release: appVersion,
+})`,
+    explanation: {
+      de: 'Viele Frontend-Teams haben Daten, aber keine operativ brauchbaren Signale. Hilfreich sind Standards für Event-Namen, Korrelation mit Deployments und wenige wirklich relevante Qualitätsmetriken. So wird Observability zur Rückkopplung für Architektur- und Produktentscheidungen statt zur bloßen Datensenke.',
+      en: 'Many frontend teams have data but no operationally useful signals. Helpful practices include standards for event names, correlation with deployments, and a small set of truly relevant quality metrics. That turns observability into feedback for architecture and product decisions instead of a mere data sink.',
+    },
+    resources: ['openTelemetryJs', 'mdnPerformance', 'githubActionsDocs'],
+  }),
+  q({
+    id: 125,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann sind Performance-Budgets in CI sinnvoll und wie setzt man sie pragmatisch?',
+      en: 'When are performance budgets in CI useful and how do you apply them pragmatically?',
+    },
+    answer: {
+      de: 'Performance-Budgets sind sinnvoll, wenn ein Team verhindern will, dass Bundle-Größe, Ladezeit oder Interaktionskosten schleichend entgleisen. Sie sollten an wenigen relevanten Kennzahlen hängen und bei Überschreitungen handlungsfähig machen, nicht nur rote Builds erzeugen. Gute Budgets schützen Produktqualität ohne falsche Präzision.',
+      en: 'Performance budgets are useful when a team wants to prevent bundle size, loading time, or interaction cost from drifting upward unnoticed. They should target a few relevant metrics and make overages actionable instead of merely producing red pipelines. Good budgets protect product quality without pretending to be perfectly precise.',
+    },
+    exampleTitle: {
+      de: 'Guardrail statt theoretische Perfektion',
+      en: 'A guardrail instead of theoretical perfection',
+    },
+    exampleExplanation: {
+      de: 'Das Budget markiert eine Grenze, ab der eine Änderung bewusst begründet werden muss. Genau das verhindert stilles Aufblähen.',
+      en: 'The budget marks a line beyond which a change has to be justified consciously. That is what prevents silent bloat.',
+    },
+    exampleCode: `const maxInitialJsKb = 200`,
+    explanation: {
+      de: 'Budgets funktionieren am besten als Gesprächs- und Review-Instrument. Wenn sie zu viele false positives produzieren oder von der Nutzerwahrnehmung entkoppelt sind, werden sie schnell ignoriert. Erfolgreich sind sie dort, wo Metrik, Produktziel und Gegenmaßnahmen klar zusammenpassen.',
+      en: 'Budgets work best as a review and conversation tool. If they produce too many false positives or drift away from user perception, they get ignored quickly. They succeed where metric, product goal, and mitigation path clearly line up.',
+    },
+    resources: ['mdnPerformance', 'viteGuide', 'githubActionsDocs'],
+  }),
+  q({
+    id: 126,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie gestaltet man Releases und Deployments für Frontends möglichst sicher?',
+      en: 'How do you make frontend releases and deployments as safe as possible?',
+    },
+    answer: {
+      de: 'Sichere Frontend-Releases kombinieren automatisierte Checks, reproduzierbare Builds, schnelle Rollback-Pfade und Sichtbarkeit über das ausgerollte Artefakt. Je häufiger ein Team liefert, desto wichtiger werden kleine Änderungen und gute Telemetrie direkt nach dem Deploy. Sicherheit entsteht hier mehr aus Routine und Guardrails als aus seltenen Großreleases.',
+      en: 'Safe frontend releases combine automated checks, reproducible builds, fast rollback paths, and visibility into the deployed artifact. The more frequently a team ships, the more important small changes and strong telemetry right after deployment become. Safety here comes more from routine and guardrails than from rare big-bang releases.',
+    },
+    exampleTitle: {
+      de: 'Kleine Deployments, schneller Rückweg',
+      en: 'Small deployments, fast way back',
+    },
+    exampleExplanation: {
+      de: 'Eine saubere Pipeline stellt nicht nur bereit, sondern erlaubt auch schnelles Zurückrollen. Das senkt die Kosten von Fehlern erheblich.',
+      en: 'A clean pipeline does not just deploy; it also enables a fast rollback. That reduces the cost of mistakes significantly.',
+    },
+    exampleCode: `deploy -> smoke test -> monitor -> rollback if needed`,
+    explanation: {
+      de: 'Frontend-Deployments wirken oft harmlos, weil kein Datenbankschema migriert wird. Trotzdem können Caching, Asset-Versionen und clientseitige Fehlerbilder reale Betriebsprobleme erzeugen. Gute Release-Architektur betrachtet daher auch CDN, Cache-Invalidierung und die Sicht auf die tatsächlich laufende Version.',
+      en: 'Frontend deployments often look harmless because no database schema is migrating. Yet caching, asset versioning, and client-side failures can still create real operational problems. Good release architecture therefore considers CDN behavior, cache invalidation, and visibility into the actually running version.',
+    },
+    resources: ['githubActionsDocs', 'githubActionsNode', 'twelveFactor'],
+  }),
+  q({
+    id: 127,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann sind Docker oder Container-Builds für Frontend-Projekte wirklich hilfreich?',
+      en: 'When are Docker or container builds genuinely useful for frontend projects?',
+    },
+    answer: {
+      de: 'Container helfen, wenn Build-Umgebungen reproduzierbar sein müssen, mehrere Dienste lokal zusammenspielen oder CI und Produktion dieselben Artefaktgrenzen brauchen. Für eine kleine SPA ohne besondere Betriebsanforderungen kann zusätzlicher Container-Aufwand aber auch nur Reibung erzeugen. Der Nutzen hängt vom Betriebsmodell ab, nicht vom Trend.',
+      en: 'Containers help when build environments must be reproducible, several services need to work together locally, or CI and production should share the same artifact boundaries. For a small SPA without special operational needs, however, extra container overhead can create only friction. The value depends on the operating model, not the trend.',
+    },
+    exampleTitle: {
+      de: 'Build-Umgebung standardisieren',
+      en: 'Standardize the build environment',
+    },
+    exampleExplanation: {
+      de: 'Der Build läuft überall auf derselben Grundlage. Das reduziert „funktioniert nur auf meinem Rechner“-Abweichungen.',
+      en: 'The build runs on the same foundation everywhere. That reduces “works only on my machine” drift.',
+    },
+    exampleCode: `FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./`,
+    explanation: {
+      de: 'Container sind primär ein Liefer- und Betriebswerkzeug. Sie zahlen sich besonders dort aus, wo Team-Setups stark variieren oder Produktionsartefakte eng definiert sein müssen. Wenn sie dagegen nur eine weitere Schicht ohne klaren Nutzen einziehen, verlängern sie Builds und erschweren lokale Iteration unnötig.',
+      en: 'Containers are primarily a delivery and operations tool. They pay off especially where team setups vary widely or production artifacts must be tightly defined. If they merely add another layer without clear value, they lengthen builds and make local iteration unnecessarily harder.',
+    },
+    resources: ['dockerOverview', 'dockerBuild', 'githubActionsDocs'],
+  }),
+  q({
+    id: 128,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Welche Branch- und Integrationsstrategie passt gut zu Frontend-Teams?',
+      en: 'Which branch and integration strategy tends to work well for frontend teams?',
+    },
+    answer: {
+      de: 'Für viele Teams funktioniert ein kurzer Lebenszyklus mit kleinen Branches, häufiger Integration und schneller Review besser als lang laufende Feature-Äste. Je länger Änderungen parallel leben, desto teurer werden Merge-Konflikte, Rebase-Arbeit und unsichere Releases. Entscheidend ist, Integrationskosten klein zu halten, nicht Git philosophisch zu überhöhen.',
+      en: 'For many teams, a short lifecycle with small branches, frequent integration, and fast review works better than long-running feature branches. The longer changes live in parallel, the more expensive merge conflicts, rebasing work, and uncertain releases become. The key is to keep integration cost small, not to turn Git into philosophy.',
+    },
+    exampleTitle: {
+      de: 'Kleine Änderungen fließen schneller',
+      en: 'Small changes flow faster',
+    },
+    exampleExplanation: {
+      de: 'Ein enger Merge-Rhythmus reduziert Konflikte und beschleunigt Feedback. Das ist meist wertvoller als perfekte lokale Isolation.',
+      en: 'A tight merge rhythm reduces conflicts and accelerates feedback. That is usually more valuable than perfect local isolation.',
+    },
+    exampleCode: `main <- small feature branch <- review <- merge`,
+    explanation: {
+      de: 'Die beste Branch-Strategie ist die, die mit Review-Kapazität, Testautomatisierung und Release-Modell zusammenpasst. Ohne verlässliche CI hilft auch trunk-basiertes Arbeiten wenig; mit guter Automatisierung werden kleine Branches dagegen sehr effizient. Teams sollten daher den gesamten Delivery-Fluss optimieren und nicht nur die Branch-Namen.',
+      en: 'The best branch strategy is the one that fits review capacity, test automation, and the release model. Without reliable CI, even trunk-based work helps little; with strong automation, small branches become very efficient. Teams should therefore optimize the whole delivery flow rather than only branch naming.',
+    },
+    resources: ['githubActionsDocs', 'githubActionsNode', 'npmCi'],
+  }),
+  q({
+    id: 129,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie bewertet man Third-Party-Dependencies jenseits von „spart Zeit“?',
+      en: 'How do you evaluate third-party dependencies beyond “it saves time”?',
+    },
+    answer: {
+      de: 'Eine Dependency sollte nach Nutzen, Wartungszustand, API-Stabilität, Bundle-Kosten, Sicherheitsrisiko und Exit-Kosten bewertet werden. Jede Bibliothek ist eine langfristige Architekturentscheidung mit Update- und Debugging-Folgen. Gute Teams vergleichen deshalb nicht nur Features, sondern auch Ownership-Risiken.',
+      en: 'A dependency should be evaluated by benefit, maintenance health, API stability, bundle cost, security risk, and exit cost. Every library is a long-term architecture decision with update and debugging consequences. Good teams therefore compare not just features, but also ownership risks.',
+    },
+    exampleTitle: {
+      de: 'Nicht nur die Einbaukosten ansehen',
+      en: 'Do not look only at adoption cost',
+    },
+    exampleExplanation: {
+      de: 'Die spannende Frage ist nicht nur, was die Bibliothek heute kann, sondern was sie morgen an Wechselkosten erzeugt.',
+      en: 'The interesting question is not only what the library can do today, but what switching cost it creates tomorrow.',
+    },
+    exampleCode: `score = value - complexity - bundleCost - migrationRisk`,
+    explanation: {
+      de: 'Viele Teams optimieren auf die erste Woche und zahlen dann Jahre lang für eine unpassende Abhängigkeit. Hilfreich sind kleine Bewertungsraster, Proofs of Concept und die Frage, wie austauschbar der eingeführte Code später noch bleibt. Besonders kritisch sind Libraries, die tief in Rendering, Routing oder Datenfluss eingreifen.',
+      en: 'Many teams optimize for the first week and then pay for an ill-fitting dependency for years. Small scorecards, proofs of concept, and asking how replaceable the introduced code remains later are useful practices. Libraries that cut deeply into rendering, routing, or data flow deserve particular scrutiny.',
+    },
+    resources: ['viteGuide', 'semverSpec', 'githubActionsDocs'],
+  }),
+  q({
+    id: 130,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wann lohnt sich der Aufbau von Design Tokens und Theme-Architektur?',
+      en: 'When is it worth building design tokens and theme architecture?',
+    },
+    answer: {
+      de: 'Design Tokens lohnen sich, wenn mehrere Oberflächen, Marken oder Komponenten dieselben Gestaltungsentscheidungen konsistent teilen müssen. Ihr Wert liegt in Übersetzbarkeit zwischen Design und Code, nicht nur in einem neuen Variablennamen. Zu früh eingeführt werden sie allerdings schnell zu unnötiger Abstraktion ohne echte Varianz.',
+      en: 'Design tokens pay off when multiple surfaces, brands, or components need to share the same design decisions consistently. Their value lies in translating design intent into code, not merely in inventing new variable names. Introduced too early, however, they quickly become abstraction without meaningful variation.',
+    },
+    exampleTitle: {
+      de: 'Entscheidungen zentral benennen',
+      en: 'Name decisions centrally',
+    },
+    exampleExplanation: {
+      de: 'Ein semantischer Token beschreibt die Rolle statt nur die konkrete Farbe. Das macht spätere Themes und Redesigns deutlich einfacher.',
+      en: 'A semantic token describes the role rather than just the literal color. That makes later theming and redesign work much easier.',
+    },
+    exampleCode: `:root {
+  --color-surface-muted: #f3f1ed;
+}`,
+    explanation: {
+      de: 'Die Schwierigkeit liegt weniger im Anlegen der Tokens als in ihrer Governance. Ohne klare Semantik, Review-Regeln und Verbindung zur Komponentenschicht wachsen Token-Kataloge schnell unkontrolliert. Gute Token-Architektur bleibt deshalb klein, semantisch und wirklich produktrelevant.',
+      en: 'The hard part lies less in creating tokens than in governing them. Without clear semantics, review rules, and a link to the component layer, token catalogs quickly grow out of control. Good token architecture therefore stays small, semantic, and genuinely product-relevant.',
+    },
+    resources: ['storybookDocs', 'storybookWhy', 'w3cAccessibility'],
+  }),
+  q({
+    id: 131,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie strukturiert man Authentifizierung und Berechtigungen im Frontend sinnvoll?',
+      en: 'How do you structure authentication and permissions sensibly in frontend apps?',
+    },
+    answer: {
+      de: 'Authentifizierung, Session-Zustand und Berechtigungsprüfung sollten klar getrennte Sorgen bleiben. Das Frontend kann Sichtbarkeit und Interaktion steuern, darf aber keine Server-Autorisierung ersetzen. Gute Architektur behandelt Berechtigungen daher als Produktzustand mit klaren Quellen und Fallbacks, nicht als verstreute `if`-Ketten.',
+      en: 'Authentication, session state, and authorization checks should remain clearly separated concerns. The frontend can control visibility and interaction, but it must not replace server-side authorization. Good architecture therefore treats permissions as product state with clear sources and fallbacks instead of scattered `if` chains.',
+    },
+    exampleTitle: {
+      de: 'Policy zentral lesen, UI lokal anwenden',
+      en: 'Read policy centrally, apply it locally in the UI',
+    },
+    exampleExplanation: {
+      de: 'Die Oberfläche konsumiert eine berechnete Berechtigung statt überall rohe Rollenlogik nachzubauen. Das hält Regeln konsistenter.',
+      en: 'The UI consumes a derived permission instead of rebuilding raw role logic everywhere. That keeps rules more consistent.',
+    },
+    exampleCode: `const canEditInvoice = permissions.has('invoice:edit')`,
+    explanation: {
+      de: 'Berechtigungslogik wird schnell unübersichtlich, wenn Rollen, Flags und Produktzustände gemischt werden. Hilfreich sind zentrale Policy-Modelle, serverseitige Autorisierung und klar testbare UI-Ableitungen pro Anwendungsfall. So bleibt Sicherheit robust und die Oberfläche trotzdem verständlich.',
+      en: 'Permission logic becomes messy quickly once roles, flags, and product state get mixed together. Helpful practices include central policy models, server-side authorization, and clearly testable UI derivations for each use case. That keeps security robust while the surface stays understandable.',
+    },
+    resources: ['twelveFactor', 'testingLibraryIntro', 'mdnFetch'],
+  }),
+  q({
+    id: 132,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Wie hält man Team-Konventionen technisch durchsetzbar statt nur dokumentiert?',
+      en: 'How do you make team conventions enforceable technically instead of merely documented?',
+    },
+    answer: {
+      de: 'Konventionen werden dann wirksam, wenn sie in Scripts, Lint-Regeln, Templates, CI und Review-Hilfen eingebaut sind. Reine Dokumentation reicht selten, sobald Zeitdruck und Teamgröße steigen. Gute Teams machen den gewünschten Weg zum einfachsten Weg.',
+      en: 'Conventions become effective when they are built into scripts, lint rules, templates, CI, and review helpers. Documentation alone rarely holds once time pressure and team size increase. Good teams make the desired path the easiest path.',
+    },
+    exampleTitle: {
+      de: 'Standards in Werkzeuge gießen',
+      en: 'Turn standards into tooling',
+    },
+    exampleExplanation: {
+      de: 'Die Regel wird automatisiert geprüft statt nur in Reviews erwähnt. Das spart Diskussion und erhöht Verlässlichkeit.',
+      en: 'The rule gets checked automatically instead of being mentioned only in reviews. That saves debate and increases reliability.',
+    },
+    exampleCode: `{
+  "scripts": {
+    "check": "eslint . && tsc -b && vitest run"
+  }
+}`,
+    explanation: {
+      de: 'Technisch durchgesetzte Standards entlasten Menschen von Routinekontrolle. Gleichzeitig sollten Regeln erklärbar bleiben und regelmäßig auf ihren Nutzen geprüft werden, sonst entsteht blinde Bürokratie. Gute Governance verbindet deshalb Automatisierung mit bewusster, gelegentlicher Anpassung.',
+      en: 'Technically enforced standards relieve people from routine policing. At the same time, rules should remain explainable and be reviewed for usefulness regularly, otherwise blind bureaucracy emerges. Good governance therefore combines automation with occasional deliberate adjustment.',
+    },
+    resources: ['eslintGettingStarted', 'prettierDocs', 'githubActionsDocs'],
+  }),
+  q({
+    id: 133,
+    category: 'toolingArchitecture',
+    question: {
+      de: 'Woran erkennt man, dass eine Frontend-Architektur über-engineered ist?',
+      en: 'How do you recognize that a frontend architecture is over-engineered?',
+    },
+    answer: {
+      de: 'Over-Engineering zeigt sich oft daran, dass mehr Schichten, Abstraktionen und Regeln existieren als echte Änderungsfälle sie rechtfertigen. Wenn einfache Features nur noch über mehrere Indirektionen umgesetzt werden können, zahlt das Team Wartungskosten ohne Gegenwert. Gute Architektur fühlt sich in häufigen Änderungen leicht an, nicht beeindruckend kompliziert.',
+      en: 'Over-engineering often shows up when more layers, abstractions, and rules exist than real change cases justify. If simple features can be implemented only through several indirections, the team is paying maintenance cost without real return. Good architecture feels light during frequent change, not impressively complicated.',
+    },
+    exampleTitle: {
+      de: 'Komplexität am Änderungsfall messen',
+      en: 'Measure complexity against the change case',
+    },
+    exampleExplanation: {
+      de: 'Wenn schon kleine Änderungen mehrere technische Stationen brauchen, ist das ein Warnsignal. Komplexität muss sich im Alltag auszahlen.',
+      en: 'If even small changes need several technical hops, that is a warning sign. Complexity has to earn its keep in day-to-day work.',
+    },
+    exampleCode: `ui -> presenter -> service -> adapter -> mapper -> gateway`,
+    explanation: {
+      de: 'Die Gegenprobe ist einfach: Werden typische Produktänderungen schneller, sicherer oder verständlicher? Wenn nicht, ist die Struktur wahrscheinlich zu schwer für das Problem. Gute Teams vereinfachen Architektur aktiv zurück, sobald sich Annahmen über Wachstum oder Wiederverwendung nicht bestätigt haben.',
+      en: 'The counter-test is simple: do typical product changes become faster, safer, or easier to understand? If not, the structure is probably too heavy for the problem. Good teams actively simplify architecture again once assumptions about growth or reuse do not actually hold.',
+    },
+    resources: ['reactThinking', 'twelveFactor', 'githubActionsDocs'],
+  }),
+]
+
 export const interviewQuestions = [
   ...javascriptQuestions,
   ...typescriptQuestions,
   ...reactQuestions,
+  ...toolingArchitectureQuestions,
 ]

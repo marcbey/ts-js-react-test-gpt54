@@ -1,5 +1,5 @@
 export type Language = 'de' | 'en'
-export type Category = 'javascript' | 'typescript' | 'react'
+export type Category = 'javascript' | 'typescript' | 'react' | 'toolingArchitecture'
 export type CategoryFilter = Category | 'all'
 
 export type LocalizedText = {

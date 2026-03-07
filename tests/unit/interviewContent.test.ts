@@ -18,8 +18,8 @@ describe('interview question content', () => {
     }
   })
 
-  it('provides question-specific explanation details for all 100 questions', () => {
-    expect(Object.keys(interviewQuestionExplanationDetails)).toHaveLength(100)
+  it('provides question-specific explanation details for all 133 questions', () => {
+    expect(Object.keys(interviewQuestionExplanationDetails)).toHaveLength(133)
 
     for (const question of interviewQuestions) {
       expect(interviewQuestionExplanationDetails[question.id]).toBeDefined()
@@ -72,5 +72,13 @@ describe('interview question content', () => {
     expect(question.answer.en).toContain('not deep runtime protection')
     expect(question.explanation.de).toContain('Object.freeze')
     expect(question.explanation.en).toContain('Object.freeze')
+  })
+
+  it('adds the tooling and architecture category with the new question range', () => {
+    const toolingQuestions = interviewQuestions.filter((question) => question.category === 'toolingArchitecture')
+
+    expect(toolingQuestions).toHaveLength(33)
+    expect(toolingQuestions[0]?.id).toBe(101)
+    expect(toolingQuestions.at(-1)?.id).toBe(133)
   })
 })

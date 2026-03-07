@@ -3,8 +3,8 @@ import type { Category, LocalizedText } from '../types'
 export const languageCopy = {
   de: {
     eyebrow: 'Senior Interview Trainer',
-    title: '100 Fragen für JS, TS und React',
-    subtitle: 'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript und React.',
+    title: '133 Fragen für JS, TS, React, Tooling & Architektur',
+    subtitle: 'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript, React sowie Tooling-, Pattern- und Architekturthemen.',
     searchLabel: 'Suche',
     searchPlaceholder: 'Nach Thema, Begriff oder Konzept suchen',
     reveal: 'Antwort anzeigen',
@@ -36,8 +36,8 @@ export const languageCopy = {
   },
   en: {
     eyebrow: 'Senior Interview Trainer',
-    title: '100 questions for JS, TS, and React',
-    subtitle: 'Practice senior-level interview prompts on JavaScript, TypeScript, and React.',
+    title: '133 questions for JS, TS, React, tooling, and architecture',
+    subtitle: 'Practice senior-level interview prompts on JavaScript, TypeScript, React, and broader tooling, pattern, and architecture topics.',
     searchLabel: 'Search',
     searchPlaceholder: 'Search by topic, term, or concept',
     reveal: 'Reveal answer',
@@ -77,6 +77,10 @@ export const categoryLabels: Record<Category, LocalizedText> = {
   javascript: { de: 'JavaScript', en: 'JavaScript' },
   typescript: { de: 'TypeScript', en: 'TypeScript' },
   react: { de: 'React', en: 'React' },
+  toolingArchitecture: {
+    de: 'Tooling, Patterns & Architektur',
+    en: 'Tooling, Patterns & Architecture',
+  },
 }
 
-export const categoryOrder = ['javascript', 'typescript', 'react'] as const
+export const categoryOrder = ['javascript', 'typescript', 'react', 'toolingArchitecture'] as const

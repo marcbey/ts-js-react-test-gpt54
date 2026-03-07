@@ -401,4 +401,136 @@ export const interviewQuestionExplanationDetails: Record<number, LocalizedText> 
     de: 'Hydration-Probleme werden meist besser gelöst, wenn der erste Render deterministisch bleibt und browserabhängige Logik bewusst verschoben wird. Dann verschwinden nicht nur Warnungen, sondern auch flackernde UI und schwer erklärbare Initialzustände.',
     en: 'Hydration issues are usually solved best by keeping the first render deterministic and moving browser-specific logic deliberately. That removes not only warnings, but also flickering UI and hard-to-explain initial states.',
   },
+  101: {
+    de: 'Scripts sind dann wertvoll, wenn sie ein gemeinsames Team-Vokabular für wiederkehrende Tätigkeiten schaffen. Wer dieselbe Absicht lokal, in CI und in Dokumentation unterschiedlich ausdrückt, erzeugt unnötige Reibung und schwerer reproduzierbare Fehler.',
+    en: 'Scripts are valuable when they create a shared team vocabulary for recurring tasks. If the same intent is expressed differently locally, in CI, and in documentation, teams create unnecessary friction and harder-to-reproduce failures.',
+  },
+  102: {
+    de: 'Ein gepflegter Lockfile reduziert nicht nur Build-Unterschiede, sondern macht Sicherheitsupdates und Rollbacks nachvollziehbar. Gerade bei transitive Dependencies entscheidet das oft darüber, ob ein Vorfall in Minuten oder erst nach langer Suche eingegrenzt werden kann.',
+    en: 'A maintained lockfile reduces not only build drift, but also makes security updates and rollbacks traceable. Especially with transitive dependencies, this often decides whether an incident can be narrowed down in minutes or only after a long investigation.',
+  },
+  103: {
+    de: 'Tooling-Wahl hat langfristige Auswirkungen auf Plugins, Debugging, Onboarding und CI-Kosten. Deshalb sollte die Entscheidung an realen Produktanforderungen hängen und nicht daran, welches Tool gerade in Benchmarks oder Social Media am lautesten ist.',
+    en: 'Tooling choice has long-term impact on plugins, debugging, onboarding, and CI cost. The decision should therefore be driven by real product requirements instead of whichever tool currently looks best in benchmarks or on social media.',
+  },
+  104: {
+    de: 'Tree Shaking ist nur ein Baustein einer Performance-Strategie und hängt stark von Paketstruktur und Seiteneffekten ab. Bundle-Analyse hilft dabei, Größenprobleme früh an Imports und Dependencies zu sehen, bevor Nutzer sie als langsame Oberfläche spüren.',
+    en: 'Tree shaking is only one part of a performance strategy and depends heavily on package structure and side effects. Bundle analysis helps surface size problems in imports and dependencies early, before users feel them as a slow interface.',
+  },
+  105: {
+    de: 'Im Frontend ist die entscheidende Grenze nicht nur zwischen Umgebungen, sondern zwischen öffentlich auslieferbarer Konfiguration und echten Geheimnissen. Wer diese Trennung unscharf hält, baut schnell gefährliche Sicherheitsannahmen in Deployment-Prozesse ein.',
+    en: 'In frontend work, the crucial boundary is not only between environments, but between publicly shipped configuration and real secrets. Teams that blur that line quickly encode dangerous security assumptions into their deployment processes.',
+  },
+  106: {
+    de: 'Getrennte CI-Schritte sind ein Mittel für schnellere Diagnose und bessere Parallelisierung, nicht bloße Pedanterie. Sobald Teams wissen, ob Stil, Typen, Verhalten oder Lieferbarkeit gebrochen ist, können sie zielgerichteter reagieren und Pipelines effizienter cachen.',
+    en: 'Separate CI steps are a tool for faster diagnosis and better parallelization, not mere pedantry. Once teams know whether style, types, behavior, or ship readiness is broken, they can react more directly and cache pipelines more effectively.',
+  },
+  107: {
+    de: 'Die Trennung zwischen ESLint und Prettier schützt zwei unterschiedliche Arten von Entscheidungen: Qualitätsregeln und Darstellung. Wenn beide Werkzeuge dieselbe Sorge bearbeiten sollen, entsteht meist mehr Konfigurationslärm als echter Nutzen.',
+    en: 'The split between ESLint and Prettier protects two different kinds of decisions: quality rules and presentation. When both tools are asked to own the same concern, teams usually get more configuration noise than real value.',
+  },
+  108: {
+    de: 'Eine gute Testverteilung ist vor allem ein ökonomisches Problem: Welche Sicherheit bekommt man für welche Laufzeit und Wartungskosten? Die beste Mischung ist daher selten maximal, sondern bewusst auf Risiko und Systemgrenzen abgestimmt.',
+    en: 'A good test distribution is primarily an economic problem: what confidence do you gain for what runtime and maintenance cost? The best mix is therefore rarely maximal; it is intentionally tuned to risk and system boundaries.',
+  },
+  109: {
+    de: 'Flakiness ist oft ein Hinweis darauf, dass Produktzustände oder Testdaten nicht sauber modelliert sind. Wer das Problem nur mit Sleeps oder Retries behandelt, kaschiert Symptome und lässt die eigentliche Systemschwäche unangetastet.',
+    en: 'Flakiness is often a sign that product states or test data are not modeled cleanly. Treating it only with sleeps or retries hides symptoms while leaving the actual system weakness untouched.',
+  },
+  110: {
+    de: 'Komponenten-Workbenches entfalten ihren größten Wert, wenn mehrere Disziplinen denselben UI-Baustein gemeinsam betrachten und prüfen müssen. Sie ersetzen jedoch keine echte Produktintegration, weil Datenflüsse und Seiteneffekte dort nur teilweise sichtbar sind.',
+    en: 'Component workbenches deliver the most value when several disciplines need to inspect and validate the same UI building block together. They do not replace real product integration, however, because data flow and side effects are only partially visible there.',
+  },
+  111: {
+    de: 'Ein Monorepo ist vor allem ein Koordinationswerkzeug für gemeinsame Änderungen, nicht automatisch eine Produktivitätsabkürzung. Es hilft dort, wo mehrere Pakete oder Apps gemeinsam evolvieren, verlangt aber klare Grenzen und solides Build-Management.',
+    en: 'A monorepo is primarily a coordination tool for shared change, not automatically a productivity shortcut. It helps where several packages or apps evolve together, but it demands clear boundaries and solid build management.',
+  },
+  112: {
+    de: 'Paketgrenzen sind nur dann belastbar, wenn sie nicht durch Komfort-Importe oder implizite Abhängigkeiten unterlaufen werden. Gerade in Monorepos entscheidet diese Disziplin darüber, ob Refactors lokal bleiben oder jedes Mal durch das ganze Repository schlagen.',
+    en: 'Package boundaries are resilient only if they are not undermined by convenience imports or implicit dependencies. In monorepos especially, that discipline determines whether refactors stay local or ripple across the whole repository.',
+  },
+  113: {
+    de: 'Versionierung interner Pakete schafft Planbarkeit über Teamgrenzen hinweg und macht Kompatibilität sichtbar. Selbst wenn alles aus demselben Repo kommt, müssen Konsumenten wissen, wann ein Update sicher, riskant oder bewusst abgestimmt werden sollte.',
+    en: 'Versioning internal packages creates predictability across team boundaries and makes compatibility visible. Even when everything comes from the same repository, consumers still need to know whether an update is safe, risky, or should be coordinated deliberately.',
+  },
+  114: {
+    de: 'Feature Flags wirken harmlos, erhöhen aber die Zahl möglicher Produktzustände oft dramatisch. Ohne Eigentümer, Ablaufdatum und Sichtbarkeit in Tests wachsen sie schnell von einem Risikowerkzeug zu einer dauerhaften Quelle verdeckter Komplexität.',
+    en: 'Feature flags may look harmless, but they often increase the number of possible product states dramatically. Without owners, expiration dates, and visibility in tests, they quickly grow from a risk-management tool into a permanent source of hidden complexity.',
+  },
+  115: {
+    de: 'Migrationen scheitern selten am Zielbild, sondern am Übergang. Wer Zwischenzustände, Abschaltpunkte und reale Teamkapazität nicht plant, erzeugt lange Parallelwelten, in denen alter und neuer Code gleichzeitig Kosten verursachen.',
+    en: 'Migrations rarely fail because of the target state; they fail because of the transition. Teams that do not plan intermediate states, shutdown points, and actual delivery capacity create long parallel worlds where old and new code both keep costing money.',
+  },
+  116: {
+    de: 'ADRs konservieren den Entscheidungskontext, den Commit-Messages und Tickets meist nicht vollständig tragen. Besonders bei Plattform- und Tooling-Fragen sparen sie später viel Zeit, weil nicht jede Grundsatzentscheidung erneut aus der Luft rekonstruiert werden muss.',
+    en: 'ADRs preserve decision context that commit messages and tickets rarely capture fully. Especially for platform and tooling questions, they save a lot of time later because teams do not have to reconstruct each foundational choice from scratch.',
+  },
+  117: {
+    de: 'Dateistruktur ist kein Geschmacksdetail, sondern beeinflusst Suchkosten, Ownership und Refactor-Richtung. Wenn häufige Änderungen quer durch viele technische Sammelordner laufen, ist das oft ein Zeichen für unpassende Architekturgrenzen.',
+    en: 'File structure is not a taste issue; it affects search cost, ownership, and refactor direction. When common changes cut across many technical catch-all folders, that is often a sign that the architecture boundaries do not fit the work.',
+  },
+  118: {
+    de: 'Frühe Abstraktion wirkt effizient, bindet aber oft unterschiedliche Änderungsrichtungen künstlich zusammen. Lokale Duplikation kann daher die bessere Investition sein, bis sich wirklich zeigt, welche gemeinsame API dauerhaft stabil bleiben soll.',
+    en: 'Early abstraction feels efficient, but it often binds different change directions together artificially. Local duplication can therefore be the better investment until it becomes clear which shared API should remain stable over time.',
+  },
+  119: {
+    de: 'Adapter- oder Service-Schichten sind dann stark, wenn sie volatile Integrationen aus Fachlogik und UI fernhalten. Ohne klaren Grenznutzen werden sie jedoch schnell zu zusätzlicher Indirektion, die Änderungen eher erschwert als erleichtert.',
+    en: 'Adapter or service layers are strong when they keep volatile integrations away from domain logic and UI. Without a clear boundary benefit, however, they quickly become extra indirection that makes change harder instead of easier.',
+  },
+  120: {
+    de: 'Ein sauber geschnittener API-Client reduziert die Streuung von Transportwissen im UI und macht Fehlerpfade konsistenter. Besonders wichtig ist, dass Komponenten möglichst fachlich nutzbare Daten sehen und nicht überall dieselben Response-Formate selbst entwirren müssen.',
+    en: 'A well-cut API client reduces the spread of transport knowledge across the UI and keeps failure handling more consistent. It matters especially that components see domain-usable data instead of having to untangle the same response shapes everywhere themselves.',
+  },
+  121: {
+    de: 'Ein BFF ist vor allem dann wertvoll, wenn er echte Komplexität aus dem Browser zieht, etwa Aggregation, Geheimnisse oder Produktsicht auf mehrere Services. Ohne diesen Nutzen bleibt er nur eine zusätzliche Betriebs- und Ownership-Schicht.',
+    en: 'A BFF is most valuable when it removes real complexity from the browser, such as aggregation, secrets, or a product-specific view over several services. Without that value, it becomes only another operational and ownership layer.',
+  },
+  122: {
+    de: 'Caching wird erst dann tragfähig, wenn Invalidation und Wahrheitsquelle pro Ebene klar benannt sind. Viele Probleme entstehen nicht aus fehlendem Cache, sondern aus mehreren Caches mit widersprüchlichen Lebensdauern und Erwartungen an Frische.',
+    en: 'Caching becomes reliable only once invalidation and source of truth are named clearly per layer. Many problems come not from missing cache, but from several caches with conflicting lifetimes and expectations around freshness.',
+  },
+  123: {
+    de: 'Fehlergrenzen sind Produktentscheidungen: Welcher Teil darf degradieren, was muss komplett stoppen und wo hilft ein Retry? Wenn diese Logik unklar bleibt, entstehen inkonsistente Oberflächen und schwer auswertbare Betriebsdaten.',
+    en: 'Failure boundaries are product decisions: which part may degrade, what must stop completely, and where does a retry help? When that logic stays unclear, teams end up with inconsistent surfaces and operational signals that are hard to interpret.',
+  },
+  124: {
+    de: 'Observability im Frontend ist nur dann nützlich, wenn sie technische Signale mit Nutzerwirkung und Release-Kontext verbindet. Reine Datensammlung ohne Priorisierung erzeugt meist mehr Dashboards als echte Handlungssicherheit.',
+    en: 'Frontend observability is useful only when it connects technical signals with user impact and release context. Data collection without prioritization usually creates more dashboards than real confidence to act.',
+  },
+  125: {
+    de: 'Performance-Budgets funktionieren am besten als bewusst gewählte Leitplanken statt als perfekte Wahrheitsmaschinen. Sie helfen Teams, schleichende Regressionen früh zu sehen und Änderungen ab einer relevanten Größenordnung aktiv zu begründen.',
+    en: 'Performance budgets work best as deliberately chosen guardrails instead of pretending to be perfect truth machines. They help teams notice gradual regressions early and justify changes actively once a relevant threshold is crossed.',
+  },
+  126: {
+    de: 'Release-Sicherheit entsteht aus kleinen Änderungen, automatischen Prüfungen und schneller Rückmeldung nach dem Deploy. Gerade bei Frontends gehören dazu auch Asset-Versionierung, Cache-Verhalten und Sichtbarkeit darüber, welche Version Nutzer wirklich geladen haben.',
+    en: 'Release safety comes from small changes, automated checks, and fast feedback after deployment. For frontend systems, that also includes asset versioning, cache behavior, and visibility into which version users have actually loaded.',
+  },
+  127: {
+    de: 'Container sind dann sinnvoll, wenn sie echte Reproduzierbarkeit oder klare Artefaktgrenzen schaffen. Werden sie nur aus Gewohnheit eingeführt, verlängern sie Builds und machen lokale Iteration schwerer, ohne ein konkretes Problem zu lösen.',
+    en: 'Containers are useful when they create real reproducibility or clear artifact boundaries. Introduced merely out of habit, they lengthen builds and make local iteration harder without solving a concrete problem.',
+  },
+  128: {
+    de: 'Integrationsstrategie ist vor allem eine Frage von Feedback-Zyklus und Konfliktkosten. Lange parallele Branches fühlen sich zunächst sicher an, erzeugen aber oft spätere Unsicherheit genau in den Momenten, in denen Teams eigentlich schnell liefern müssten.',
+    en: 'Integration strategy is primarily a question of feedback cycle and conflict cost. Long-lived parallel branches feel safe at first, but they often create later uncertainty precisely when teams need to ship quickly.',
+  },
+  129: {
+    de: 'Dependencies binden nicht nur Code ein, sondern auch Release-Takt, Sicherheitsoberfläche und API-Annahmen fremder Maintainer. Gute Bewertung fragt deshalb immer nach Exit-Kosten und danach, wie tief eine Bibliothek in die eigene Architektur eingreift.',
+    en: 'Dependencies bring in not only code, but also release cadence, security surface, and the API assumptions of outside maintainers. Good evaluation therefore always asks about exit cost and how deeply a library cuts into the architecture.',
+  },
+  130: {
+    de: 'Design Tokens sind nur dann wertvoll, wenn sie echte semantische Entscheidungen transportieren und mehrere Oberflächen verbinden. Werden sie zu früh oder zu granular eingeführt, entsteht schnell eine schwer gepflegte Variablenlandschaft ohne klaren Design-Gewinn.',
+    en: 'Design tokens are valuable only when they carry real semantic decisions and connect multiple surfaces. Introduced too early or too granularly, they quickly turn into a hard-to-maintain variable landscape without clear design benefit.',
+  },
+  131: {
+    de: 'Berechtigungen im Frontend betreffen Sichtbarkeit und Bedienbarkeit, aber niemals die letzte Sicherheitsentscheidung. Gute Architektur hält deshalb Policy-Information zentral, serverseitige Autorisierung strikt und UI-Ableitungen pro Oberfläche bewusst testbar.',
+    en: 'Permissions in the frontend affect visibility and interactivity, but never the final security decision. Good architecture therefore keeps policy information central, server-side authorization strict, and UI derivations intentionally testable per surface.',
+  },
+  132: {
+    de: 'Konventionen skalieren nur dann, wenn Werkzeuge sie unterstützen und Verstöße früh sichtbar machen. Sonst hängt Qualität an individueller Disziplin und Review-Aufmerksamkeit, was in wachsenden Teams schnell zu inkonsistentem Verhalten führt.',
+    en: 'Conventions scale only when tools support them and make violations visible early. Otherwise quality depends on individual discipline and reviewer attention, which quickly leads to inconsistent behavior in growing teams.',
+  },
+  133: {
+    de: 'Over-Engineering erkennt man daran, dass typische Änderungen nicht einfacher, sondern langsamer und erklärungsbedürftiger werden. Komplexität sollte immer durch häufige Änderungsfälle gerechtfertigt sein, nicht durch hypothetische Zukunftsszenarien allein.',
+    en: 'You recognize over-engineering when typical changes become slower and more explanation-heavy instead of easier. Complexity should always be justified by frequent change cases, not by hypothetical future scenarios alone.',
+  },
 }

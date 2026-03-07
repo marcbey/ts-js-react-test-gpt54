@@ -9,7 +9,14 @@ export const buildInterviewQuestion = (
   overrides: Partial<InterviewQuestion> = {},
 ): InterviewQuestion => ({
   id,
-  category: id % 3 === 0 ? 'react' : id % 2 === 0 ? 'typescript' : 'javascript',
+  category:
+    id % 4 === 0
+      ? 'toolingArchitecture'
+      : id % 3 === 0
+        ? 'react'
+        : id % 2 === 0
+          ? 'typescript'
+          : 'javascript',
   question: { de: `Frage ${id}`, en: `Question ${id}` },
   answer: { de: `Antwort ${id}`, en: `Answer ${id}` },
   exampleTitle: { de: `Beispiel ${id}`, en: `Example ${id}` },
