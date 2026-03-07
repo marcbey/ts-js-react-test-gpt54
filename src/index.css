@@ -278,6 +278,7 @@ button {
 
 .detail-panel {
   grid-area: detail;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .catalog-panel.collapsed {
@@ -443,6 +444,7 @@ button {
 
 .detail-topline {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.9rem;
   min-width: 0;
 }
@@ -533,6 +535,7 @@ button {
 
 .detail-stack {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
 }
 
@@ -675,6 +678,13 @@ button {
     padding: 0.8rem;
   }
 
+  .workspace-grid {
+    grid-template-areas:
+      'detail'
+      'catalog';
+    gap: 0.85rem;
+  }
+
   .hero-panel,
   .catalog-panel,
   .detail-panel {
@@ -688,19 +698,20 @@ button {
   }
 
   .reveal-box,
-  .resource-grid a,
-  .question-actions {
+  .resource-grid a {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .detail-top-actions {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+  .detail-top-actions,
+  .nav-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
   }
 
   .detail-topline h2 {
-    font-size: clamp(1.85rem, 8vw, 2.2rem);
+    font-size: clamp(1.55rem, 7.5vw, 2rem);
     line-height: 1.04;
   }
 
@@ -723,6 +734,27 @@ button {
     margin-top: 1rem;
   }
 
+  .detail-top-actions .mark-button,
+  .nav-row .mark-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .detail-top-actions .mark-button:last-of-type,
+  .nav-row .mark-button:last-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .detail-top-actions .index-badge {
+    grid-column: 1;
+    align-self: center;
+  }
+
+  .detail-top-actions .question-language-switch {
+    grid-column: 2;
+    justify-self: end;
+  }
+
   .example-code {
     font-size: 0.9rem !important;
     line-height: 1.55 !important;
@@ -730,6 +762,7 @@ button {
 
   .index-badge {
     margin-left: 0;
+    justify-self: start;
   }
 
   .stats-grid {
