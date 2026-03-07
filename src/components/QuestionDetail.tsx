@@ -1,15 +1,18 @@
 import type { RefObject } from 'react'
-import { categoryLabels, type UiCopy } from '../constants/interviewUi'
-import { SyntaxCodeBlock } from '../lib/codeHighlight'
+import type { UiCopy } from '../constants/interviewUi'
 import type { InterviewQuestion, Language } from '../types'
+import { EmptyQuestionState } from './detail/EmptyQuestionState'
+import { LockedQuestionCard } from './detail/LockedQuestionCard'
+import { QuestionDetailHeader } from './detail/QuestionDetailHeader'
+import { QuestionRevealBar } from './detail/QuestionRevealBar'
+import { QuestionRevealedContent } from './detail/QuestionRevealedContent'
 import { QuestionActions } from './QuestionActions'
-import { TextBlocks } from './TextBlocks'
 
 type QuestionDetailProps = {
   questionTopRef: RefObject<HTMLDivElement | null>
   copy: UiCopy
   language: Language
-  question: InterviewQuestion
+  question: InterviewQuestion | null
   selectedIndex: number
   filteredCount: number
   revealedCount: number
@@ -22,6 +25,12 @@ type QuestionDetailProps = {
   onReveal: () => void
   onToggleMark: () => void
 }
+
+const EmptyQuestionDetail = ({ copy }: { copy: UiCopy }) => (
+  <section className="detail-panel">
+    <EmptyQuestionState copy={copy} />
+  </section>
+)
 
 export const QuestionDetail = ({
   questionTopRef,
@@ -39,91 +48,51 @@ export const QuestionDetail = ({
   onNextAndScroll,
   onReveal,
   onToggleMark,
-}: QuestionDetailProps) => (
-  <section className="detail-panel">
-    <div className="detail-topline" ref={questionTopRef}>
-      <QuestionActions
-        align="end"
-        className="detail-top-actions"
+}: QuestionDetailProps) => {
+  if (!question) {
+    return <EmptyQuestionDetail copy={copy} />
+  }
+
+  return (
+    <section className="detail-panel">
+      <div ref={questionTopRef}>
+        <QuestionDetailHeader
+          copy={copy}
+          filteredCount={filteredCount}
+          isMarked={isMarked}
+          language={language}
+          onLanguageChange={onLanguageChange}
+          onNext={onNext}
+          onPrevious={onPrevious}
+          onToggleMark={onToggleMark}
+          question={question}
+          selectedIndex={selectedIndex}
+        />
+      </div>
+
+      <QuestionRevealBar
         copy={copy}
-        indexLabel={`${Math.max(selectedIndex + 1, 1)} / ${Math.max(filteredCount, 1)}`}
+        filteredCount={filteredCount}
+        isRevealed={isRevealed}
+        onReveal={onReveal}
+        revealedCount={revealedCount}
+      />
+
+      {isRevealed ? (
+        <QuestionRevealedContent copy={copy} language={language} question={question} />
+      ) : (
+        <LockedQuestionCard copy={copy} language={language} question={question} />
+      )}
+
+      <QuestionActions
+        align="start"
+        className="nav-row"
+        copy={copy}
         isMarked={isMarked}
-        language={language}
-        languageGroupLabel={copy.language}
-        onLanguageChange={onLanguageChange}
-        onNext={onNext}
+        onNext={onNextAndScroll}
         onPrevious={onPrevious}
         onToggleMark={onToggleMark}
       />
-      <div className="detail-question">
-        <p className="section-label">{categoryLabels[question.category][language]}</p>
-        <h2>{question.question[language]}</h2>
-      </div>
-    </div>
-
-    <div className="reveal-box">
-      <button className={isRevealed ? 'reveal-button revealed' : 'reveal-button'} onClick={onReveal} type="button">
-        {isRevealed ? copy.revealed : copy.reveal}
-      </button>
-      <div className="reveal-copy">
-        <span>{copy.solved}</span>
-        <strong>
-          {revealedCount} / {filteredCount}
-        </strong>
-      </div>
-    </div>
-
-    {isRevealed ? (
-      <div className="detail-stack">
-        <article className="content-card answer-card">
-          <p className="section-label">{copy.answer}</p>
-          <TextBlocks text={question.answer[language]} />
-        </article>
-
-        <article className="content-card example-card">
-          <div className="example-header">
-            <div>
-              <p className="section-label">{copy.example}</p>
-              <h3>{question.exampleTitle[language]}</h3>
-            </div>
-          </div>
-          <SyntaxCodeBlock category={question.category} code={question.exampleCode} />
-          <p className="copy-block">{question.exampleExplanation[language]}</p>
-        </article>
-
-        <article className="content-card deep-dive-card">
-          <p className="section-label">{copy.explanation}</p>
-          <TextBlocks text={question.explanation[language]} />
-        </article>
-
-        <article className="content-card resources-card">
-          <p className="section-label">{copy.resources}</p>
-          <div className="resource-grid">
-            {question.resources.map((resource) => (
-              <a href={resource.url} key={resource.url} target="_blank" rel="noreferrer">
-                <span>{resource.label}</span>
-                <strong>{copy.openResource}</strong>
-              </a>
-            ))}
-          </div>
-        </article>
-      </div>
-    ) : (
-      <article className="content-card locked-card">
-        <p className="section-label">{copy.answer}</p>
-        <h3>{question.question[language]}</h3>
-        <p className="copy-block">{copy.lockedPrompt}</p>
-      </article>
-    )}
-
-    <QuestionActions
-      align="start"
-      className="nav-row"
-      copy={copy}
-      isMarked={isMarked}
-      onNext={onNextAndScroll}
-      onPrevious={onPrevious}
-      onToggleMark={onToggleMark}
-    />
-  </section>
-)
+    </section>
+  )
+}

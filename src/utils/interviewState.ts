@@ -1,8 +1,9 @@
-import { categoryLabels } from '../constants/interviewUi'
 import type { CategoryFilter, InterviewQuestion, Language } from '../types'
+import type { QuestionSearchIndex } from './questionSearch'
 
 export type FilterQuestionsOptions = {
   questions: InterviewQuestion[]
+  searchIndex: QuestionSearchIndex
   category: CategoryFilter
   language: Language
   markedOnly: boolean
@@ -12,6 +13,7 @@ export type FilterQuestionsOptions = {
 
 export const filterQuestions = ({
   questions,
+  searchIndex,
   category,
   language,
   markedOnly,
@@ -25,14 +27,7 @@ export const filterQuestions = ({
     if (markedOnly && !markedIdSet.has(question.id)) return false
     if (!normalizedSearch) return true
 
-    const haystack = [
-      question.question[language],
-      question.answer[language],
-      question.explanation[language],
-      categoryLabels[question.category][language],
-    ]
-      .join(' ')
-      .toLowerCase()
+    const haystack = searchIndex[language].get(question.id) ?? ''
 
     return haystack.includes(normalizedSearch)
   })
@@ -41,14 +36,14 @@ export const filterQuestions = ({
 export const getSelectedQuestion = (
   questions: InterviewQuestion[],
   selectedId: number,
-  fallbackQuestion: InterviewQuestion,
-): InterviewQuestion => questions.find((question) => question.id === selectedId) ?? questions[0] ?? fallbackQuestion
+): InterviewQuestion | null => questions.find((question) => question.id === selectedId) ?? questions[0] ?? null
 
 export const getVisibleQuestions = (
   questions: InterviewQuestion[],
-  selectedId: number,
+  selectedId: number | null,
 ): InterviewQuestion[] => {
   if (questions.length === 0) return []
+  if (selectedId === null) return questions.slice(0, Math.min(questions.length, 3))
 
   const selectedIndex = questions.findIndex((question) => question.id === selectedId)
   if (selectedIndex === -1) return questions.slice(0, Math.min(questions.length, 3))
@@ -58,10 +53,11 @@ export const getVisibleQuestions = (
 
 export const getAdjacentQuestionId = (
   questions: InterviewQuestion[],
-  selectedId: number,
+  selectedId: number | null,
   direction: 'previous' | 'next',
 ): number | null => {
   if (questions.length === 0) return null
+  if (selectedId === null) return questions[0]?.id ?? null
 
   const selectedIndex = questions.findIndex((question) => question.id === selectedId)
   const safeIndex = selectedIndex === -1 ? 0 : selectedIndex

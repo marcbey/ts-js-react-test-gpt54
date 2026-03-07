@@ -33,6 +33,11 @@ export const languageCopy = {
     unmarkQuestion: 'Markierung entfernen',
     openResource: 'Quelle öffnen',
     lockedPrompt: 'Die Karte bleibt bis zum Klick absichtlich zugeklappt, damit du die Antwort zuerst selbst formulierst.',
+    emptyDetail: 'Passe Suche, Kategorie oder Markierungsfilter an, um wieder eine aktive Frage anzuzeigen.',
+    loadingQuestions: 'Fragen werden geladen',
+    loadingDescription: 'Der Fragenkatalog wird als eigener Chunk geladen, damit die App schneller startet.',
+    loadErrorTitle: 'Fragen konnten nicht geladen werden',
+    loadErrorDescription: 'Bitte lade die Seite neu. Wenn das Problem bleibt, prüfe den Build oder die Netzwerk-Konsole.',
   },
   en: {
     eyebrow: 'Senior Interview Trainer',
@@ -66,6 +71,11 @@ export const languageCopy = {
     unmarkQuestion: 'Remove mark',
     openResource: 'Open resource',
     lockedPrompt: 'The card stays intentionally closed until you click, so you can formulate your own answer first.',
+    emptyDetail: 'Adjust the search, category, or marked filter to bring an active question back.',
+    loadingQuestions: 'Loading questions',
+    loadingDescription: 'The question bank loads as a separate chunk so the app can start with less initial JavaScript.',
+    loadErrorTitle: 'Questions could not be loaded',
+    loadErrorDescription: 'Reload the page. If the problem persists, inspect the build output or the network console.',
   },
 } as const
 

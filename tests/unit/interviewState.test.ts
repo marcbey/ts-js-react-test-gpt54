@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { InterviewQuestion } from '../../src/types'
+import { buildQuestionSearchIndex } from '../../src/utils/questionSearch'
 import { countMatchingQuestions, filterQuestions, getAdjacentQuestionId, getVisibleQuestions } from '../../src/utils/interviewState'
 
 const buildQuestion = (id: number, overrides: Partial<InterviewQuestion> = {}): InterviewQuestion => ({
@@ -24,8 +25,11 @@ describe('interviewState', () => {
   ]
 
   it('filters by language, search term, and marked questions', () => {
+    const searchIndex = buildQuestionSearchIndex(questions)
+
     const result = filterQuestions({
       questions,
+      searchIndex,
       category: 'all',
       language: 'de',
       markedOnly: true,
@@ -40,6 +44,11 @@ describe('interviewState', () => {
     const result = getVisibleQuestions(questions, 3)
 
     expect(result.map((question) => question.id)).toEqual([2, 3, 4])
+  })
+
+  it('returns an empty list when no question is selected', () => {
+    expect(getVisibleQuestions([], null)).toEqual([])
+    expect(getAdjacentQuestionId([], null, 'next')).toBeNull()
   })
 
   it('clamps navigation to valid bounds and counts matching questions', () => {

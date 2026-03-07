@@ -8,9 +8,10 @@ describe('App', () => {
     const user = userEvent.setup()
     render(<App />)
 
+    await screen.findByRole('button', { name: 'EN' })
     await user.click(screen.getByRole('button', { name: 'EN' }))
 
-    expect(screen.getByRole('heading', { level: 1, name: '133 questions for JS, TS, React, tooling, and architecture' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 1, name: '133 questions for JS, TS, React, tooling, and architecture' })).toBeInTheDocument()
     expect(screen.getAllByRole('button', { name: 'Next question' })).toHaveLength(2)
   })
 
@@ -18,6 +19,7 @@ describe('App', () => {
     const user = userEvent.setup()
     render(<App />)
 
+    await screen.findByRole('button', { name: 'Antwort anzeigen' })
     await user.click(screen.getByRole('button', { name: 'Antwort anzeigen' }))
     expect(screen.getByText(/`var` ist funktionsscoped/i)).toBeInTheDocument()
 
@@ -32,6 +34,7 @@ describe('App', () => {
     const user = userEvent.setup()
     render(<App />)
 
+    expect(await screen.findAllByRole('button', { name: 'Frage markieren' })).toHaveLength(2)
     await user.click(screen.getAllByRole('button', { name: 'Frage markieren' })[0])
     await user.click(screen.getByRole('button', { name: 'Nur markierte' }))
 
@@ -39,11 +42,22 @@ describe('App', () => {
     expect(screen.queryByRole('button', { name: /Closure/i })).not.toBeInTheDocument()
   })
 
-  it('restores the previously selected question from localStorage', () => {
+  it('restores the previously selected question from localStorage', async () => {
     window.localStorage.setItem('interview-selected-question', '2')
 
     render(<App />)
 
-    expect(screen.getByRole('heading', { level: 2, name: 'Was ist eine Closure und warum ist sie praktisch?' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { level: 2, name: 'Was ist eine Closure und warum ist sie praktisch?' })).toBeInTheDocument()
+  })
+
+  it('shows an empty detail state when the search has no matches', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.type(await screen.findByRole('searchbox'), 'zzzz-no-hit')
+
+    expect(await screen.findAllByText('Keine Fragen passen zum aktuellen Filter.')).toHaveLength(2)
+    expect(screen.getByText('Passe Suche, Kategorie oder Markierungsfilter an, um wieder eine aktive Frage anzuzeigen.')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Antwort anzeigen' })).not.toBeInTheDocument()
   })
 })

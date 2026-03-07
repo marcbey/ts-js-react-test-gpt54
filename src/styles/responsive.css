@@ -1,0 +1,128 @@
+@media (max-width: 1080px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'catalog'
+      'detail';
+  }
+
+  .hero-panel {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'eyebrow'
+      'title'
+      'copy'
+      'controls';
+  }
+
+  .workspace-grid.sidebar-collapsed {
+    grid-template-columns: 1fr;
+  }
+
+  .index-badge {
+    text-align: left;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    padding: 0.8rem;
+  }
+
+  .workspace-grid {
+    grid-template-areas:
+      'detail'
+      'catalog';
+    gap: 0.85rem;
+  }
+
+  .hero-panel,
+  .catalog-panel,
+  .detail-panel {
+    padding: 0.95rem;
+    border-radius: 1.2rem;
+  }
+
+  .catalog-topbar {
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .reveal-box,
+  .resource-grid a {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .detail-top-actions,
+  .nav-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  .detail-topline h2 {
+    font-size: clamp(1.55rem, 7.5vw, 2rem);
+    line-height: 1.04;
+  }
+
+  .detail-panel {
+    gap: 1rem;
+  }
+
+  .reveal-box,
+  .content-card {
+    padding: 1rem;
+    border-radius: 1.05rem;
+  }
+
+  .copy-block {
+    font-size: 1rem;
+    line-height: 1.72;
+  }
+
+  .content-card .copy-block + .copy-block {
+    margin-top: 1rem;
+  }
+
+  .detail-top-actions .mark-button,
+  .nav-row .mark-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .detail-top-actions .mark-button:last-of-type,
+  .nav-row .mark-button:last-of-type {
+    grid-column: 1 / -1;
+  }
+
+  .detail-top-actions .index-badge {
+    grid-column: 1;
+    align-self: center;
+  }
+
+  .detail-top-actions .question-language-switch {
+    grid-column: 2;
+    justify-self: end;
+  }
+
+  .example-code {
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .index-badge {
+    margin-left: 0;
+    justify-self: start;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-controls {
+    justify-self: stretch;
+    align-items: stretch;
+  }
+}

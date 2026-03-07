@@ -1,0 +1,114 @@
+:root {
+  font-family: 'Manrope', sans-serif;
+  color: #f7f2e8;
+  background:
+    radial-gradient(circle at top left, rgba(232, 123, 67, 0.24), transparent 32%),
+    radial-gradient(circle at 85% 10%, rgba(83, 174, 154, 0.2), transparent 28%),
+    linear-gradient(135deg, #111111 0%, #1b1512 48%, #0b0f13 100%);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  font-weight: 400;
+  --surface: rgba(20, 20, 18, 0.72);
+  --surface-strong: rgba(37, 29, 22, 0.88);
+  --border: rgba(255, 242, 224, 0.13);
+  --accent: #f07f45;
+  --accent-soft: #ffd3b8;
+  --mint: #6fd0b7;
+  --text: #f7f2e8;
+  --muted: rgba(247, 242, 232, 0.7);
+  --shadow: 0 30px 80px rgba(0, 0, 0, 0.38);
+  --shadow-soft: 0 16px 42px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.eyebrow,
+.section-label,
+.chip-meta,
+.stat-card span,
+.reveal-copy span {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.hero-panel h1,
+.detail-topline h2,
+.panel-heading h2,
+.locked-card h3,
+.example-header h3,
+.status-panel h2,
+.empty-detail-state h3 {
+  font-family: 'Fraunces', serif;
+  line-height: 0.98;
+  margin: 0;
+}
+
+.hero-copy,
+.panel-copy,
+.copy-block {
+  margin: 0;
+  color: var(--muted);
+  max-width: 68ch;
+}
+
+.copy-block code,
+.locked-card code,
+.resource-grid code {
+  padding: 0.08rem 0.38rem;
+  border-radius: 0.45rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff4dc;
+  font-family: 'SFMono-Regular', 'SF Mono', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.92em;
+}
+
+.hero-panel h1,
+.hero-copy,
+.panel-copy,
+.question-chip strong,
+.detail-topline h2,
+.locked-card h3,
+.resource-grid a span,
+.resource-grid a strong,
+.status-panel h2,
+.empty-detail-state h3 {
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+}

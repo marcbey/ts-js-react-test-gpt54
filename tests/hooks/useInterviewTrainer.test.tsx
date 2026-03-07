@@ -24,7 +24,7 @@ describe('useInterviewTrainer', () => {
       result.current.selectQuestion(2)
     })
 
-    expect(result.current.selectedQuestion.id).toBe(2)
+    expect(result.current.selectedQuestion?.id).toBe(2)
     expect(result.current.isRevealed).toBe(false)
     expect(result.current.revealedIds).toContain(1)
   })
@@ -70,6 +70,6 @@ describe('useInterviewTrainer', () => {
 
     const restored = renderHook(() => useInterviewTrainer(questions))
 
-    expect(restored.result.current.selectedQuestion.id).toBe(3)
+    expect(restored.result.current.selectedQuestion?.id).toBe(3)
   })
 })
