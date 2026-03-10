@@ -2,12 +2,19 @@
 
 A bilingual React + TypeScript interview training app for senior frontend and full-stack web interviews.
 
-Live app:
-- [GitHub Pages](https://marcbey.github.io/ts-js-react-test-gpt54/)
+## Deployment
+
+- Production URL: [GitHub Pages](https://marcbey.github.io/ts-js-react-test-gpt54/)
+- There is currently no documented `render.com` deployment URL in this repository.
 
 ## What the app does
 
-- Shows 148 interview questions across JavaScript, TypeScript, React, tooling/architecture, and OWASP
+- Shows 148 interview questions across five categories:
+  - JavaScript
+  - TypeScript
+  - React
+  - Tooling / Architecture
+  - OWASP
 - Supports German and English UI/content switching
 - Starts each question in a locked state and reveals the answer on demand
 - Includes:
@@ -202,3 +209,4 @@ Workflows:
 
 - The Vite base path is configured for GitHub Pages in [`vite.config.ts`](./vite.config.ts).
 - Playwright uses the built preview app and tests against the GitHub Pages base path locally as well.
+- If you add a Render deployment later, this README should be updated with the public `onrender.com` URL and any platform-specific build/start settings.
