@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type UseLocalStorageStateOptions<T> = {
   serialize?: (value: T) => string
@@ -10,31 +10,30 @@ export const useLocalStorageState = <T,>(
   initialValue: T,
   options: UseLocalStorageStateOptions<T> = {},
 ) => {
-  const serializeRef = useRef(options.serialize ?? JSON.stringify)
-  const deserializeRef = useRef(options.deserialize ?? ((value: string) => JSON.parse(value) as T))
-  const initialValueRef = useRef(initialValue)
+  const serialize = options.serialize ?? JSON.stringify
+  const deserialize = options.deserialize ?? ((value: string) => JSON.parse(value) as T)
 
   const [value, setValue] = useState<T>(() => {
-    if (typeof window === 'undefined') return initialValueRef.current
+    if (typeof window === 'undefined') return initialValue
 
     const storedValue = window.localStorage.getItem(key)
-    if (storedValue === null) return initialValueRef.current
+    if (storedValue === null) return initialValue
 
     try {
-      return deserializeRef.current(storedValue)
+      return deserialize(storedValue)
     } catch {
-      return initialValueRef.current
+      return initialValue
     }
   })
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const serializedValue = serializeRef.current(value)
+    const serializedValue = serialize(value)
 
     if (window.localStorage.getItem(key) !== serializedValue) {
       window.localStorage.setItem(key, serializedValue)
     }
-  }, [key, value])
+  }, [key, serialize, value])
 
   return [value, setValue] as const
 }

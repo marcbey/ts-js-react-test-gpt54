@@ -18,8 +18,8 @@ describe('interview question content', () => {
     }
   })
 
-  it('provides question-specific explanation details for all 133 questions', () => {
-    expect(Object.keys(interviewQuestionExplanationDetails)).toHaveLength(133)
+  it('provides question-specific explanation details for all 148 questions', () => {
+    expect(Object.keys(interviewQuestionExplanationDetails)).toHaveLength(148)
 
     for (const question of interviewQuestions) {
       expect(interviewQuestionExplanationDetails[question.id]).toBeDefined()
@@ -80,5 +80,13 @@ describe('interview question content', () => {
     expect(toolingQuestions).toHaveLength(33)
     expect(toolingQuestions[0]?.id).toBe(101)
     expect(toolingQuestions.at(-1)?.id).toBe(133)
+  })
+
+  it('adds the OWASP category with the new question range', () => {
+    const owaspQuestions = interviewQuestions.filter((question) => question.category === 'owasp')
+
+    expect(owaspQuestions).toHaveLength(15)
+    expect(owaspQuestions[0]?.id).toBe(134)
+    expect(owaspQuestions.at(-1)?.id).toBe(148)
   })
 })

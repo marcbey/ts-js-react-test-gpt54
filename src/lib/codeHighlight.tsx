@@ -16,6 +16,7 @@ const codeLanguageByCategory: Record<Category, string> = {
   typescript: 'typescript',
   react: 'tsx',
   toolingArchitecture: 'typescript',
+  owasp: 'typescript',
 }
 
 const codeTheme = {

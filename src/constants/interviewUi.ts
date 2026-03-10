@@ -3,8 +3,8 @@ import type { Category, LocalizedText } from '../types'
 export const languageCopy = {
   de: {
     eyebrow: 'Senior Interview Trainer',
-    title: '133 Fragen für JS, TS, React, Tooling & Architektur',
-    subtitle: 'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript, React sowie Tooling-, Pattern- und Architekturthemen.',
+    title: '148 Fragen für JS, TS, React, Tooling, Architektur & OWASP',
+    subtitle: 'Trainiere typische Senior-Level-Interviewfragen zu JavaScript, TypeScript, React sowie Tooling-, Pattern-, Architektur- und OWASP-Security-Themen.',
     searchLabel: 'Suche',
     searchPlaceholder: 'Nach Thema, Begriff oder Konzept suchen',
     reveal: 'Antwort anzeigen',
@@ -41,8 +41,8 @@ export const languageCopy = {
   },
   en: {
     eyebrow: 'Senior Interview Trainer',
-    title: '133 questions for JS, TS, React, tooling, and architecture',
-    subtitle: 'Practice senior-level interview prompts on JavaScript, TypeScript, React, and broader tooling, pattern, and architecture topics.',
+    title: '148 questions for JS, TS, React, tooling, architecture, and OWASP',
+    subtitle: 'Practice senior-level interview prompts on JavaScript, TypeScript, React, and broader tooling, pattern, architecture, and OWASP security topics.',
     searchLabel: 'Search',
     searchPlaceholder: 'Search by topic, term, or concept',
     reveal: 'Reveal answer',
@@ -91,6 +91,10 @@ export const categoryLabels: Record<Category, LocalizedText> = {
     de: 'Tooling, Patterns & Architektur',
     en: 'Tooling, Patterns & Architecture',
   },
+  owasp: {
+    de: 'OWASP',
+    en: 'OWASP',
+  },
 }
 
-export const categoryOrder = ['javascript', 'typescript', 'react', 'toolingArchitecture'] as const
+export const categoryOrder = ['javascript', 'typescript', 'react', 'toolingArchitecture', 'owasp'] as const

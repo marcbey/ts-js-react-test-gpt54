@@ -396,6 +396,74 @@ const resourceLibrary = {
     label: 'web.dev: Virtualize Long Lists',
     url: 'https://web.dev/articles/virtualize-long-lists-react-window',
   },
+  owaspTop10: {
+    label: 'OWASP Top 10',
+    url: 'https://owasp.org/www-project-top-ten/',
+  },
+  owaspThreatModeling: {
+    label: 'OWASP Cheat Sheet: Threat Modeling',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html',
+  },
+  owaspInputValidation: {
+    label: 'OWASP Cheat Sheet: Input Validation',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html',
+  },
+  owaspSqlInjection: {
+    label: 'OWASP Cheat Sheet: SQL Injection Prevention',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html',
+  },
+  owaspXssPrevention: {
+    label: 'OWASP Cheat Sheet: XSS Prevention',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html',
+  },
+  owaspAuthentication: {
+    label: 'OWASP Cheat Sheet: Authentication',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html',
+  },
+  owaspSessionManagement: {
+    label: 'OWASP Cheat Sheet: Session Management',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html',
+  },
+  owaspAuthorization: {
+    label: 'OWASP Cheat Sheet: Authorization',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html',
+  },
+  owaspPasswordStorage: {
+    label: 'OWASP Cheat Sheet: Password Storage',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html',
+  },
+  owaspSecretsManagement: {
+    label: 'OWASP Cheat Sheet: Secrets Management',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html',
+  },
+  owaspTls: {
+    label: 'OWASP Cheat Sheet: Transport Layer Security',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html',
+  },
+  owaspSsrf: {
+    label: 'OWASP Cheat Sheet: SSRF Prevention',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html',
+  },
+  owaspDependencyManagement: {
+    label: 'OWASP Cheat Sheet: Vulnerable Dependency Management',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html',
+  },
+  owaspLogging: {
+    label: 'OWASP Cheat Sheet: Logging',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html',
+  },
+  owaspFileUpload: {
+    label: 'OWASP Cheat Sheet: File Upload',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html',
+  },
+  owaspDeserialization: {
+    label: 'OWASP Cheat Sheet: Deserialization',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html',
+  },
+  owaspCsrf: {
+    label: 'OWASP Cheat Sheet: CSRF Prevention',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html',
+  },
 } as const satisfies Record<string, ResourceLink>
 
 const mapResources = (keys: ResourceKey[]) => keys.map((key) => resourceLibrary[key])
@@ -4224,9 +4292,449 @@ COPY package*.json ./`,
   }),
 ]
 
+const owaspQuestions: InterviewQuestion[] = [
+  q({
+    id: 134,
+    category: 'owasp',
+    question: {
+      de: 'Was ist die OWASP Top 10 und wie nutzt du sie sinnvoll im Projektalltag?',
+      en: 'What is the OWASP Top 10 and how do you use it sensibly in day-to-day project work?',
+    },
+    answer: {
+      de: 'Die OWASP Top 10 ist keine vollständige Checkliste, sondern eine priorisierte Sicht auf häufige und besonders folgenreiche Web-Risiken. Ihr Wert liegt darin, Architektur, Reviews, Tests und Backlog-Diskussionen auf reale Bedrohungen zu fokussieren. Gute Teams nutzen sie als gemeinsames Vokabular für Risiko, nicht als Ersatz für eigenes Threat Modeling.',
+      en: 'The OWASP Top 10 is not a complete checklist, but a prioritized view of common and high-impact web risks. Its value is in focusing architecture, reviews, testing, and backlog conversations on real threats. Strong teams use it as shared language for risk, not as a substitute for their own threat modeling.',
+    },
+    exampleTitle: {
+      de: 'Security-Risiken früh in Features einordnen',
+      en: 'Classify security risk early for each feature',
+    },
+    exampleExplanation: {
+      de: 'Schon beim Ticket wird sichtbar, welche OWASP-Klassen relevant sind. Dadurch landen Schutzmaßnahmen nicht erst kurz vor Release auf der Liste.',
+      en: 'You can see at ticket time which OWASP classes are relevant. That keeps safeguards from appearing only right before release.',
+    },
+    exampleCode: `const securityReview = {
+  feature: 'Invoice export',
+  risks: ['broken-access-control', 'sensitive-data-exposure'],
+  mitigations: ['server-side authorization', 'audit logging'],
+}`,
+    explanation: {
+      de: 'Im Projektalltag hilft die Top 10 vor allem als Priorisierungshilfe. Sie macht Security-Gespräche konkreter, weil Teams Risiken benennen, Maßnahmen ableiten und Lücken im Testfokus schneller erkennen können. Wirklich stark wird sie aber erst zusammen mit Systemkontext, Datenklassifizierung und fachlichen Missbrauchsszenarien.',
+      en: 'In day-to-day work, the Top 10 is most useful as a prioritization tool. It makes security conversations more concrete because teams can name risks, derive mitigations, and spot gaps in test focus more quickly. It becomes truly powerful only when combined with system context, data classification, and business abuse cases.',
+    },
+    resources: ['owaspTop10', 'owaspThreatModeling', 'owaspLogging'],
+  }),
+  q({
+    id: 135,
+    category: 'owasp',
+    question: {
+      de: 'Wie verhinderst du Injection-Schwachstellen bei APIs und Datenbankzugriffen praktisch?',
+      en: 'How do you prevent injection vulnerabilities in APIs and database access in practice?',
+    },
+    answer: {
+      de: 'Der Kern ist, untrusted Input nie direkt in Interpreter-Kontexte zu stecken, sondern strikt zu validieren, zu typisieren und parametriert zu übergeben. Platzhalter, Allow-Lists und klare Parser-Grenzen sind wichtiger als nachträgliche String-Bereinigung. Gute Antworten trennen deshalb Eingabevalidierung, Befehlsaufbau und Fehlerbehandlung sauber voneinander.',
+      en: 'The core is to never push untrusted input directly into interpreter contexts, but instead validate it strictly, type it, and pass it through parameterized interfaces. Placeholders, allow-lists, and clear parser boundaries matter more than after-the-fact string cleanup. Good answers therefore separate input validation, command construction, and error handling cleanly.',
+    },
+    exampleTitle: {
+      de: 'Parameter statt String-Konkatenation',
+      en: 'Parameters instead of string concatenation',
+    },
+    exampleExplanation: {
+      de: 'Die Nutzereingabe wird nicht Teil des Query-Strings, sondern nur ein gebundener Wert. Genau diese Trennung nimmt vielen Injection-Angriffen die Basis.',
+      en: 'User input does not become part of the query string, only a bound value. That separation removes the basis for many injection attacks.',
+    },
+    exampleCode: `const statement = db.prepare(
+  'SELECT id, email FROM users WHERE email = ?',
+)
+
+const user = statement.get(email)`,
+    explanation: {
+      de: 'Injection ist weniger eine SQL-Frage als eine Grenzfrage zwischen untrusted Input und ausführbarer Semantik. Dasselbe Muster gilt für SQL, NoSQL, Shell-Kommandos, Template-Engines oder LDAP. Senior-Level zeigt sich darin, überall dort misstrauisch zu werden, wo Strings plötzlich Steuerlogik oder Queries zusammenbauen.',
+      en: 'Injection is less a SQL problem than a boundary problem between untrusted input and executable semantics. The same pattern applies to SQL, NoSQL, shell commands, template engines, or LDAP. Senior-level thinking means becoming suspicious wherever strings suddenly start building control flow or queries.',
+    },
+    resources: ['owaspTop10', 'owaspSqlInjection', 'owaspInputValidation'],
+  }),
+  q({
+    id: 136,
+    category: 'owasp',
+    question: {
+      de: 'Wie schützt du eine React- oder SPA-Oberfläche praktisch gegen XSS?',
+      en: 'How do you protect a React or SPA surface against XSS in practice?',
+    },
+    answer: {
+      de: 'XSS-Schutz entsteht vor allem durch kontextbezogenes Escaping, sichere Standard-Renderingpfade und Misstrauen gegenüber HTML aus externen Quellen. In React hilft das Default-Escaping stark, aber gefährliche Sonderpfade wie `dangerouslySetInnerHTML`, unsichere Markdown-Renderer oder DOM-Manipulation bleiben kritisch. Zusätzlich sollten CSP, Sanitizing an klaren Grenzen und sichere Output-Kontexte zusammenspielen.',
+      en: 'XSS protection comes primarily from context-aware escaping, safe default rendering paths, and distrust of HTML from external sources. React helps a lot with default escaping, but dangerous escape hatches such as `dangerouslySetInnerHTML`, unsafe markdown renderers, or direct DOM manipulation remain critical. CSP, sanitization at explicit boundaries, and safe output contexts should work together as well.',
+    },
+    exampleTitle: {
+      de: 'HTML nur an expliziten Sanitizing-Grenzen zulassen',
+      en: 'Allow HTML only at explicit sanitizing boundaries',
+    },
+    exampleExplanation: {
+      de: 'Standardmäßig wird Text gerendert. Erst ein bewusst kontrollierter Sanitizing-Schritt darf HTML freigeben.',
+      en: 'By default you render text. Only an explicitly controlled sanitization step may allow HTML through.',
+    },
+    exampleCode: `const safeHtml = sanitizeHtml(untrustedHtml)
+
+return <article dangerouslySetInnerHTML={{ __html: safeHtml }} />`,
+    explanation: {
+      de: 'Viele XSS-Probleme entstehen nicht im offensichtlichen Kommentarformular, sondern in Admin-Oberflächen, Rich-Text-Inhalten, Übersetzungen oder zusammengesetzten URLs. Deshalb reicht ein Framework-Versprechen allein nicht. Gute Teams inventarisieren ihre HTML-Sonderpfade und behandeln jeden davon wie eine bewusste Security-Grenze.',
+      en: 'Many XSS problems do not appear in the obvious comment form, but in admin surfaces, rich text content, translations, or composed URLs. That is why a framework promise alone is not enough. Good teams inventory their HTML escape hatches and treat each of them as an explicit security boundary.',
+    },
+    resources: ['owaspTop10', 'owaspXssPrevention', 'mdnXss'],
+  }),
+  q({
+    id: 137,
+    category: 'owasp',
+    question: {
+      de: 'Was gehört zu robuster Authentifizierung und Session-Management in Web-Anwendungen?',
+      en: 'What belongs to robust authentication and session management in web applications?',
+    },
+    answer: {
+      de: 'Robuste Authentifizierung kombiniert starke Passwort-Policies, sichere Speicherung, Mehrfaktor-Optionen, Missbrauchsschutz und saubere Session-Lebenszyklen. Wichtig ist nicht nur der Login selbst, sondern auch Token-Rotation, Timeout, Logout, Recovery und Schutz gegen Credential Stuffing. Gute Systeme behandeln Identität als durchgehenden Sicherheitsprozess statt als einzelne Formularseite.',
+      en: 'Robust authentication combines strong password policies, secure storage, MFA options, abuse protection, and clean session lifecycles. The important part is not only the login itself, but also token rotation, timeout behavior, logout, recovery, and protection against credential stuffing. Strong systems treat identity as an ongoing security process instead of a single form page.',
+    },
+    exampleTitle: {
+      de: 'Session-Cookies restriktiv setzen',
+      en: 'Set session cookies restrictively',
+    },
+    exampleExplanation: {
+      de: 'Die Session bleibt serverseitig kontrolliert und der Cookie wird nicht für JavaScript lesbar gemacht. Das reduziert mehrere Angriffsflächen gleichzeitig.',
+      en: 'The session stays server-controlled and the cookie is not readable by JavaScript. That reduces multiple attack surfaces at once.',
+    },
+    exampleCode: `setSessionCookie(response, token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax',
+})`,
+    explanation: {
+      de: 'Auth-Fragen werden oft zu eng auf Passwortstärke reduziert. In der Praxis zählen aber auch Lockout-Strategien, sichere Recovery-Flows, Re-Authentication für kritische Aktionen und ein sauberer Übergang zwischen Identitätsstatus und Berechtigungsprüfung. Gerade dort zeigen sich Reife und Missbrauchsdenken.',
+      en: 'Authentication discussions are often reduced too narrowly to password strength. In practice, lockout strategy, secure recovery flows, re-authentication for critical actions, and a clean handoff between identity state and authorization checks matter as well. That is where maturity and abuse thinking really show.',
+    },
+    resources: ['owaspAuthentication', 'owaspSessionManagement', 'owaspPasswordStorage'],
+  }),
+  q({
+    id: 138,
+    category: 'owasp',
+    question: {
+      de: 'Wie setzt du Broken Access Control serverseitig und im Frontend sauber um?',
+      en: 'How do you implement broken access control defenses cleanly on the server and in the frontend?',
+    },
+    answer: {
+      de: 'Zugriffskontrolle muss serverseitig zentral und standardmäßig deny-by-default entschieden werden. Das Frontend darf nur Sichtbarkeit und UX steuern, aber niemals die eigentliche Autorisierung tragen. Saubere Lösungen modellieren Ressourcen, Aktionen und Ownership explizit, statt Rollenlogik in verstreuten `if`-Blöcken zu verstecken.',
+      en: 'Access control has to be decided centrally on the server with a deny-by-default posture. The frontend may control visibility and UX, but it must never carry the real authorization decision. Clean solutions model resources, actions, and ownership explicitly instead of hiding role logic inside scattered `if` blocks.',
+    },
+    exampleTitle: {
+      de: 'Policy zentral, UI nur konsumierend',
+      en: 'Centralize policy, let the UI only consume it',
+    },
+    exampleExplanation: {
+      de: 'Die Prüfung findet auf dem Server statt. Das Frontend bekommt nur das Ergebnis oder eine abgeleitete Fähigkeit zurück.',
+      en: 'The check happens on the server. The frontend receives only the result or a derived capability.',
+    },
+    exampleCode: `if (!canUser('invoice:read', session.user, invoice)) {
+  throw new ForbiddenError()
+}`,
+    explanation: {
+      de: 'Broken Access Control ist besonders gefährlich, weil UI-Checks oft ein falsches Sicherheitsgefühl erzeugen. Kritisch werden Objekt-IDs, Mandantengrenzen, Admin-Funktionen und indirekte Export- oder Suchendpunkte. Gute Teams testen deshalb aktiv auf horizontale und vertikale Rechteeskalation statt nur Happy Paths zu prüfen.',
+      en: 'Broken access control is especially dangerous because UI checks often create a false sense of safety. Object IDs, tenant boundaries, admin functions, and indirect export or search endpoints are especially sensitive. Good teams therefore test for both horizontal and vertical privilege escalation instead of checking only happy paths.',
+    },
+    resources: ['owaspTop10', 'owaspAuthorization', 'owaspThreatModeling'],
+  }),
+  q({
+    id: 139,
+    category: 'owasp',
+    question: {
+      de: 'Was bedeuten Cryptographic Failures praktisch in modernen Web-Anwendungen?',
+      en: 'What do cryptographic failures mean in practical terms for modern web applications?',
+    },
+    answer: {
+      de: 'Cryptographic Failures entstehen, wenn sensible Daten falsch klassifiziert, schwach verschlüsselt, schlecht gespeichert oder unsicher übertragen werden. Entscheidend ist zuerst die Frage, welche Daten überhaupt schutzbedürftig sind und ob man sie wirklich speichern muss. Erst danach folgen saubere Algorithmen, Schlüsselverwaltung, TLS und sichere Defaults.',
+      en: 'Cryptographic failures happen when sensitive data is classified poorly, encrypted weakly, stored badly, or transported insecurely. The first key question is which data actually requires protection and whether you need to store it at all. Only after that come sound algorithms, key management, TLS, and secure defaults.',
+    },
+    exampleTitle: {
+      de: 'Passwörter hashen, Secrets nicht im Code halten',
+      en: 'Hash passwords and keep secrets out of source code',
+    },
+    exampleExplanation: {
+      de: 'Passwörter werden nie reversibel gespeichert. Laufzeit-Secrets kommen aus einer kontrollierten Umgebung statt aus dem Repository.',
+      en: 'Passwords are never stored reversibly. Runtime secrets come from a controlled environment rather than the repository.',
+    },
+    exampleCode: `const passwordHash = await argon2.hash(password)
+const signingKey = process.env.SIGNING_KEY`,
+    explanation: {
+      de: 'Kryptografie ist selten dort kaputt, wo Teams die Algorithmennamen diskutieren. Häufiger versagen Klassifizierung, Lebenszyklus und Betriebsdisziplin: zu breite Datenhaltung, fehlende Rotation, unsichere Backups oder Debug-Logs mit Geheimnissen. Senior-Level heißt hier, Technik, Datenfluss und Betrieb zusammenzudenken.',
+      en: 'Cryptography rarely fails where teams debate algorithm names. More often the failure lies in classification, lifecycle, and operational discipline: over-collecting data, missing rotation, insecure backups, or debug logs containing secrets. Senior-level thinking means reasoning across technology, data flow, and operations together.',
+    },
+    resources: ['owaspTop10', 'owaspPasswordStorage', 'owaspTls'],
+  }),
+  q({
+    id: 140,
+    category: 'owasp',
+    question: {
+      de: 'Wie gehst du mit SSRF-Risiken in Backends und Integrationsdiensten um?',
+      en: 'How do you handle SSRF risks in backends and integration services?',
+    },
+    answer: {
+      de: 'SSRF entsteht, wenn ein System im Auftrag von Nutzern oder externen Daten beliebige Ziele ansprechen kann. Der wichtigste Schutz ist daher, aus Eingaben nie freie Ziel-URLs zu machen, sondern erlaubte Ziele, Protokolle und Netzwerkgrenzen hart zu kontrollieren. Zusätzlich helfen Egress-Filter, DNS-/IP-Prüfungen und getrennte Laufzeitumgebungen.',
+      en: 'SSRF happens when a system can reach arbitrary targets on behalf of users or external data. The key protection is therefore to never turn input into unrestricted target URLs, but to control allowed destinations, protocols, and network boundaries strictly. Egress filtering, DNS/IP validation, and separated runtime environments help as well.',
+    },
+    exampleTitle: {
+      de: 'Nur bekannte Upstreams erlauben',
+      en: 'Allow only known upstream targets',
+    },
+    exampleExplanation: {
+      de: 'Die Anwendung mappt einen erlaubten Schlüssel auf eine feste Zielbasis. Nutzereingaben entscheiden nicht frei über Host oder Protokoll.',
+      en: 'The application maps an allowed key to a fixed target base. User input does not decide the host or protocol freely.',
+    },
+    exampleCode: `const upstreams = {
+  billing: 'https://billing.internal',
+} as const
+
+const target = new URL('/status', upstreams[service])`,
+    explanation: {
+      de: 'SSRF wird oft unterschätzt, weil der eigentliche Schaden nicht im Feature selbst liegt, sondern in erreichbaren Nebenflächen wie Metadata-Services, internen Admin-Ports oder Cloud-APIs. Darum ist SSRF immer auch eine Netzwerkarchitekturfrage. Gute Antworten kombinieren Input-Kontrolle mit harten Infrastrukturgrenzen.',
+      en: 'SSRF is often underestimated because the real damage does not lie in the feature itself, but in reachable side surfaces such as metadata services, internal admin ports, or cloud APIs. That is why SSRF is always a network architecture concern as well. Good answers combine input control with hard infrastructure boundaries.',
+    },
+    resources: ['owaspTop10', 'owaspSsrf', 'owaspThreatModeling'],
+  }),
+  q({
+    id: 141,
+    category: 'owasp',
+    question: {
+      de: 'Wie vermeidest du Security-Probleme durch veraltete oder verwundbare Dependencies?',
+      en: 'How do you avoid security issues from outdated or vulnerable dependencies?',
+    },
+    answer: {
+      de: 'Abhängigkeiten brauchen Inventarisierung, regelmäßige Updates, bewusste Auswahl und einen klaren Prozess für CVE-Bewertung. Entscheidend ist nicht nur, ob ein Scanner rot wird, sondern ob die Bibliothek im konkreten Pfad wirklich exponiert ist und wie schnell sie ersetzt oder gepatcht werden kann. Gute Teams behandeln Dependencies als Teil ihrer eigenen Angriffsfläche.',
+      en: 'Dependencies need inventory, regular updates, deliberate selection, and a clear process for CVE assessment. What matters is not only whether a scanner turns red, but whether the library is actually exposed in your path and how quickly it can be patched or replaced. Strong teams treat dependencies as part of their own attack surface.',
+    },
+    exampleTitle: {
+      de: 'Scanner-Signal in einen Upgrade-Flow überführen',
+      en: 'Turn scanner output into an upgrade workflow',
+    },
+    exampleExplanation: {
+      de: 'Der Befund endet nicht beim Dashboard. Er erzeugt ein Ticket, eine Risikobewertung und möglichst einen zeitnahen Fix.',
+      en: 'The finding does not stop at the dashboard. It becomes a ticket, a risk assessment, and ideally a timely fix.',
+    },
+    exampleCode: `if (dependencyAlert.severity === 'high') {
+  createSecurityTicket(dependencyAlert)
+}`,
+    explanation: {
+      de: 'Die schwierige Frage ist oft nicht Erkennen, sondern Governance. Teams brauchen klare Owner, akzeptable Reaktionszeiten und die Fähigkeit, transitive Abhängigkeiten zu verstehen. Sonst sammeln sich bekannte Risiken im Backlog, bis ein eigentlich triviales Paket-Update plötzlich zu einer großen Migrationsbaustelle wird.',
+      en: 'The hard part is often not detection, but governance. Teams need clear owners, acceptable response times, and the ability to understand transitive dependencies. Otherwise known risks pile up in the backlog until a supposedly trivial package update suddenly becomes a large migration project.',
+    },
+    resources: ['owaspTop10', 'owaspDependencyManagement', 'semverSpec'],
+  }),
+  q({
+    id: 142,
+    category: 'owasp',
+    question: {
+      de: 'Was ist bei Security Logging und Monitoring wirklich wichtig?',
+      en: 'What really matters in security logging and monitoring?',
+    },
+    answer: {
+      de: 'Security Logging muss relevante Sicherheitsereignisse nachvollziehbar machen, ohne dabei selbst neue Datenschutz- oder Secret-Leaks zu erzeugen. Wichtig sind konsistente Ereignisnamen, Korrelation, Zeitbezug, Alarmierung und klare Ownership für Reaktion. Logs sind nur dann nützlich, wenn sie im Incident-Fall echte Fragen beantworten helfen.',
+      en: 'Security logging has to make relevant security events traceable without creating new privacy or secret leaks itself. Consistent event names, correlation, time context, alerting, and clear ownership for response all matter. Logs are useful only when they help answer real questions during an incident.',
+    },
+    exampleTitle: {
+      de: 'Sicherheitsereignisse strukturiert statt frei formuliert loggen',
+      en: 'Log security events structurally instead of free-form text',
+    },
+    exampleExplanation: {
+      de: 'Strukturierte Events lassen sich filtern, alarmieren und mit anderen Signalen verbinden. Gleichzeitig werden sensible Felder bewusst ausgespart.',
+      en: 'Structured events can be filtered, alerted on, and correlated with other signals. Sensitive fields are deliberately omitted at the same time.',
+    },
+    exampleCode: `auditLogger.info('auth.failed', {
+  userId,
+  ip: request.ip,
+  reason: 'mfa_required',
+})`,
+    explanation: {
+      de: 'Viele Systeme loggen viel, aber diagnostizieren schlecht. Typische Probleme sind fehlende Korrelation zwischen Requests, keine Unterscheidung zwischen Fehler und Angriffsmuster oder zu laute Alerts, die niemand mehr ernst nimmt. Gute Observability priorisiert daher Erkennbarkeit und Reaktionsfähigkeit statt Datenmenge.',
+      en: 'Many systems log a lot but diagnose poorly. Typical problems include missing correlation across requests, no distinction between errors and attack patterns, or alerts so noisy that nobody takes them seriously anymore. Good observability therefore prioritizes detectability and response capability over data volume.',
+    },
+    resources: ['owaspTop10', 'owaspLogging', 'openTelemetryJs'],
+  }),
+  q({
+    id: 143,
+    category: 'owasp',
+    question: {
+      de: 'Wie schützt du cookie-basierte Web-Anwendungen gegen CSRF?',
+      en: 'How do you protect cookie-based web applications against CSRF?',
+    },
+    answer: {
+      de: 'CSRF-Schutz basiert darauf, zustandsändernde Requests zusätzlich zum Cookie an ein zweites, vom Angreifer nicht frei reproduzierbares Signal zu binden. Typisch sind SameSite-Cookies, Anti-CSRF-Tokens, Origin- oder Referer-Prüfungen und klare Trennung zwischen sicheren und unsicheren Methoden. Entscheidend ist, das Session-Modell des Produkts zu verstehen, statt nur einen Header blind zu setzen.',
+      en: 'CSRF protection relies on binding state-changing requests to a second signal beyond the cookie, one that an attacker cannot reproduce freely. Typical measures include SameSite cookies, anti-CSRF tokens, origin or referer validation, and a clear distinction between safe and unsafe HTTP methods. The key is to understand the product session model instead of blindly setting one header.',
+    },
+    exampleTitle: {
+      de: 'Token bei mutierenden Requests mitführen',
+      en: 'Send a token with mutating requests',
+    },
+    exampleExplanation: {
+      de: 'Das Cookie allein reicht nicht mehr für einen erfolgreichen Request. Der Server erwartet zusätzlich ein passendes CSRF-Signal.',
+      en: 'The cookie alone is no longer sufficient for a successful request. The server also expects a matching CSRF signal.',
+    },
+    exampleCode: `await fetch('/api/profile', {
+  method: 'PATCH',
+  headers: { 'X-CSRF-Token': csrfToken },
+  body: JSON.stringify(payload),
+})`,
+    explanation: {
+      de: 'CSRF hängt stark von Auth-Transport und Browser-Verhalten ab. Wer Sessions über Cookies fährt, muss den Schutz aktiv einplanen; bei reinen Bearer-Tokens verschiebt sich das Modell. Gute Antworten machen deshalb klar, warum SameSite hilft, aber nicht jedes Szenario allein abdeckt.',
+      en: 'CSRF depends heavily on auth transport and browser behavior. If your sessions use cookies, you have to design protection actively; with pure bearer tokens the model shifts. Good answers therefore explain why SameSite helps, but does not cover every scenario on its own.',
+    },
+    resources: ['owaspCsrf', 'mdnCsrf', 'owaspSessionManagement'],
+  }),
+  q({
+    id: 144,
+    category: 'owasp',
+    question: {
+      de: 'Was gehört zu einem sicheren File-Upload-Flow?',
+      en: 'What belongs to a secure file upload flow?',
+    },
+    answer: {
+      de: 'Sichere Uploads validieren Typ, Größe, Inhalt, Speicherort und spätere Auslieferung getrennt voneinander. Dateinamen, MIME-Typen oder Erweiterungen allein sind nie verlässlich genug. Gute Systeme behandeln Uploads als untrusted Content, scannen sie, speichern sie außerhalb direkter Ausführungspfade und begrenzen Missbrauch bewusst.',
+      en: 'Secure uploads validate type, size, content, storage location, and later delivery separately. File names, MIME types, or extensions alone are never reliable enough. Good systems treat uploads as untrusted content, scan them, store them outside direct execution paths, and deliberately limit abuse.',
+    },
+    exampleTitle: {
+      de: 'Nur erlaubte Formate in isolierten Speicherpfaden ablegen',
+      en: 'Store only allowed formats in isolated storage paths',
+    },
+    exampleExplanation: {
+      de: 'Der Server gibt selbst einen neutralen Namen vor und akzeptiert nur eine enge Allow-List. Das senkt Risiko bei Speicherung und Auslieferung.',
+      en: 'The server assigns a neutral name itself and accepts only a narrow allow-list. That reduces risk during storage and delivery.',
+    },
+    exampleCode: `const storedFile = await saveUpload(file, {
+  allowedMimeTypes: ['image/png', 'image/jpeg'],
+  maxSizeMb: 5,
+})`,
+    explanation: {
+      de: 'Upload-Schwächen sind häufig eine Kette aus mehreren kleinen Lücken: zu große Dateien, ausführbare Inhalte, öffentliche URLs ohne Prüfung oder Bildverarbeitung mit anfälligen Bibliotheken. Senior-Level bedeutet hier, nicht nur den POST-Request zu prüfen, sondern den ganzen Lebenszyklus der Datei mitzudenken.',
+      en: 'Upload weaknesses are often a chain of several small gaps: oversized files, executable content, public URLs without checks, or image processing through vulnerable libraries. Senior-level reasoning means checking not only the POST request, but the full lifecycle of the file.',
+    },
+    resources: ['owaspFileUpload', 'owaspInputValidation', 'owaspTop10'],
+  }),
+  q({
+    id: 145,
+    category: 'owasp',
+    question: {
+      de: 'Warum ist Threat Modeling wichtig, bevor man über einzelne Security-Fixes spricht?',
+      en: 'Why is threat modeling important before talking about individual security fixes?',
+    },
+    answer: {
+      de: 'Threat Modeling zwingt Teams dazu, Datenflüsse, Angreiferziele, Vertrauensgrenzen und Missbrauchspfade explizit zu machen. Dadurch entstehen Schutzmaßnahmen dort, wo Schaden realistisch wäre, statt nur an den Stellen, die gerade populär klingen. Gute Security-Arbeit priorisiert Bedrohungen im Kontext des Systems, nicht nur nach Listenplatz.',
+      en: 'Threat modeling forces teams to make data flows, attacker goals, trust boundaries, and abuse paths explicit. That creates safeguards where damage is realistic instead of only where the current buzzword happens to point. Good security work prioritizes threats in system context, not only by list position.',
+    },
+    exampleTitle: {
+      de: 'Vertrauensgrenzen sichtbar machen',
+      en: 'Make trust boundaries visible',
+    },
+    exampleExplanation: {
+      de: 'Schon eine einfache Skizze zeigt, wo fremde Daten hereinkommen, welche Systeme sie verarbeiten und wo Autorisierung zwingend greifen muss.',
+      en: 'Even a simple sketch shows where external data enters, which systems process it, and where authorization must apply.',
+    },
+    exampleCode: `browser -> api-gateway -> billing-service -> object-storage`,
+    explanation: {
+      de: 'Viele Teams investieren erst nach einem Befund in Security. Threat Modeling verschiebt diese Arbeit nach vorne und spart dadurch teure Korrekturen an Architektur oder Datenfluss. Gerade neue Features, Integrationen und Admin-Prozesse profitieren davon besonders stark.',
+      en: 'Many teams invest in security only after a finding appears. Threat modeling moves that work earlier and therefore saves expensive corrections to architecture or data flow later. New features, integrations, and admin workflows benefit especially from this.',
+    },
+    resources: ['owaspThreatModeling', 'owaspTop10', 'owaspAuthorization'],
+  }),
+  q({
+    id: 146,
+    category: 'owasp',
+    question: {
+      de: 'Warum ist unsichere Deserialisierung oder generell untrusted Object Mapping so gefährlich?',
+      en: 'Why is insecure deserialization or untrusted object mapping so dangerous?',
+    },
+    answer: {
+      de: 'Unsichere Deserialisierung ist gefährlich, weil aus Daten plötzlich Verhalten, Objektgraphen oder unerwartete Zustände entstehen können. Schon wenn Anwendungen Klassen, Prototypen oder interne Felder blind aus externen Daten rekonstruieren, öffnen sie Missbrauchspfade. Sichere Systeme parsen externe Daten in einfache, validierte Strukturen und heben sie erst danach kontrolliert in Domänenobjekte.',
+      en: 'Insecure deserialization is dangerous because data can suddenly turn into behavior, object graphs, or unexpected state. As soon as applications reconstruct classes, prototypes, or internal fields blindly from external input, they open abuse paths. Secure systems parse external data into simple, validated structures first and only then lift them into domain objects in a controlled way.',
+    },
+    exampleTitle: {
+      de: 'Erst validieren, dann explizit mappen',
+      en: 'Validate first, then map explicitly',
+    },
+    exampleExplanation: {
+      de: 'Der Request wird nicht direkt zu einer Klasseninstanz. Stattdessen wird nur eine erlaubte Datenform akzeptiert und bewusst weiterverarbeitet.',
+      en: 'The request does not become a class instance directly. Instead, only an allowed data shape is accepted and processed deliberately.',
+    },
+    exampleCode: `const payload = userSchema.parse(request.body)
+const user = {
+  id: payload.id,
+  email: payload.email,
+}`,
+    explanation: {
+      de: 'Auch ohne klassische Binary-Deserialisierung taucht das Muster heute in JSON-Mapping, Mass Assignment oder unkontrollierten Merge-Operationen wieder auf. Relevant ist also nicht nur das alte Schlagwort, sondern jede Stelle, an der externe Daten interne Struktur oder Rechte beeinflussen können.',
+      en: 'Even without classic binary deserialization, the pattern appears today in JSON mapping, mass assignment, or uncontrolled merge operations. So the real concern is not only the old buzzword, but every place where external data can influence internal structure or privileges.',
+    },
+    resources: ['owaspDeserialization', 'owaspInputValidation', 'owaspTop10'],
+  }),
+  q({
+    id: 147,
+    category: 'owasp',
+    question: {
+      de: 'Wie gehst du mit Secrets und Sicherheitskonfigurationen in Web-Projekten sauber um?',
+      en: 'How do you handle secrets and security configuration cleanly in web projects?',
+    },
+    answer: {
+      de: 'Secrets gehören in kontrollierte Laufzeitquellen mit klaren Zugriffsrechten, Rotation und Auditierbarkeit, nicht in Repositories oder Frontend-Bundles. Gleichzeitig müssen Security-Defaults wie Header, TLS, CORS und Cookie-Flags bewusst gesetzt und regelmäßig geprüft werden. Gute Teams behandeln Konfiguration als Teil ihrer Sicherheitsarchitektur, nicht als verstreute Umgebungsvariable.',
+      en: 'Secrets belong in controlled runtime sources with clear access rights, rotation, and auditability, not in repositories or frontend bundles. At the same time, security defaults such as headers, TLS, CORS, and cookie flags need to be set deliberately and reviewed regularly. Good teams treat configuration as part of their security architecture rather than as scattered environment variables.',
+    },
+    exampleTitle: {
+      de: 'Secrets zur Laufzeit injizieren, nicht commiten',
+      en: 'Inject secrets at runtime instead of committing them',
+    },
+    exampleExplanation: {
+      de: 'Die Anwendung liest das Secret aus einer kontrollierten Umgebung. Im Repository liegt nur ein dokumentierter Platzhalter.',
+      en: 'The application reads the secret from a controlled environment. The repository contains only a documented placeholder.',
+    },
+    exampleCode: `const config = {
+  jwtIssuer: process.env.JWT_ISSUER,
+  signingKey: process.env.SIGNING_KEY,
+}`,
+    explanation: {
+      de: 'Viele Sicherheitsvorfälle sind eigentlich Konfigurationsfehler: offene Buckets, zu breite CORS-Regeln, deaktivierte TLS-Prüfung oder versehentlich veröffentlichte API-Schlüssel. Deshalb lohnt sich ein systematischer Blick auf Defaults, Secret-Lebenszyklen und automatisierte Konfigurationsprüfungen.',
+      en: 'Many security incidents are really configuration failures: open buckets, overly broad CORS rules, disabled TLS verification, or accidentally exposed API keys. That is why a systematic look at defaults, secret lifecycles, and automated configuration checks is worthwhile.',
+    },
+    resources: ['owaspSecretsManagement', 'owaspTls', 'owaspTop10'],
+  }),
+  q({
+    id: 148,
+    category: 'owasp',
+    question: {
+      de: 'Wie verankerst du OWASP-Prinzipien dauerhaft in CI/CD und im Software-Lifecycle?',
+      en: 'How do you anchor OWASP principles sustainably in CI/CD and the software lifecycle?',
+    },
+    answer: {
+      de: 'OWASP wird wirksam, wenn Sicherheitsarbeit wiederholbar in Design, Implementierung, Review, Testing, Deployment und Incident-Response auftaucht. Dazu gehören Standards, Automatisierung, Security-Gates mit Augenmaß und klare Zuständigkeiten für Findings. Gute Teams bauen einen Fluss, in dem Risiken früh sichtbar und später nachvollziehbar bleiben.',
+      en: 'OWASP becomes effective when security work appears repeatably in design, implementation, review, testing, deployment, and incident response. That includes standards, automation, proportionate security gates, and clear ownership for findings. Strong teams build a flow in which risk becomes visible early and remains traceable later.',
+    },
+    exampleTitle: {
+      de: 'Security-Checks als normalen Delivery-Schritt behandeln',
+      en: 'Treat security checks as a normal delivery step',
+    },
+    exampleExplanation: {
+      de: 'Security ist kein Sonderprozess nach dem Coding, sondern Teil derselben Pipeline wie Tests und Builds. So sinkt die Chance, dass Findings erst kurz vor Go-live auftauchen.',
+      en: 'Security is not a special process after coding, but part of the same pipeline as tests and builds. That lowers the chance that findings appear only shortly before go-live.',
+    },
+    exampleCode: `jobs:
+  security:
+    steps:
+      - run: npm audit --omit=dev
+      - run: npm run lint
+      - run: npm run test:unit`,
+    explanation: {
+      de: 'Entscheidend ist, dass Security-Arbeit nicht nur Scanner-Ergebnisse produziert, sondern in Routinen übersetzt wird: Threat Modeling bei neuen Features, sichere Defaults in Templates, Review-Fragen, Dependency-Pflege und geübte Reaktion auf Vorfälle. Genau so wird aus OWASP ein Arbeitsmodus statt eines Posters.',
+      en: 'What matters is that security work does not merely produce scanner output, but gets translated into routines: threat modeling for new features, secure defaults in templates, review prompts, dependency maintenance, and practiced incident response. That is how OWASP becomes a working mode instead of a poster.',
+    },
+    resources: ['owaspTop10', 'owaspDependencyManagement', 'owaspThreatModeling'],
+  }),
+]
+
 export const interviewQuestions = [
   ...javascriptQuestions,
   ...typescriptQuestions,
   ...reactQuestions,
   ...toolingArchitectureQuestions,
+  ...owaspQuestions,
 ]

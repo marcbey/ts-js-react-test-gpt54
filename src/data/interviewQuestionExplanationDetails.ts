@@ -533,4 +533,64 @@ export const interviewQuestionExplanationDetails: Record<number, LocalizedText> 
     de: 'Over-Engineering erkennt man daran, dass typische Änderungen nicht einfacher, sondern langsamer und erklärungsbedürftiger werden. Komplexität sollte immer durch häufige Änderungsfälle gerechtfertigt sein, nicht durch hypothetische Zukunftsszenarien allein.',
     en: 'You recognize over-engineering when typical changes become slower and more explanation-heavy instead of easier. Complexity should always be justified by frequent change cases, not by hypothetical future scenarios alone.',
   },
+  134: {
+    de: 'Die OWASP Top 10 ist besonders wertvoll, wenn sie Sicherheitsdiskussionen vom diffusen Bauchgefühl zu benennbaren Risikoklassen verschiebt. Sie ersetzt aber nie die Frage, welche Daten, Rollen und Missbrauchswege im eigenen System tatsächlich kritisch sind.',
+    en: 'The OWASP Top 10 is most valuable when it moves security discussions from vague gut feeling to named risk classes. It never replaces asking which data, roles, and abuse paths are actually critical in your own system.',
+  },
+  135: {
+    de: 'Injection ist eine klassische Grenzverletzung zwischen Daten und ausführbarer Semantik. Gerade deshalb lohnt es sich, an allen Interpreter-Grenzen dieselbe Disziplin zu fordern: validieren, erlaubte Formen einschränken und Befehle niemals per String-Magie zusammensetzen.',
+    en: 'Injection is a classic boundary violation between data and executable semantics. That is exactly why it is worth demanding the same discipline at every interpreter boundary: validate, constrain allowed shapes, and never build commands through string magic.',
+  },
+  136: {
+    de: 'XSS wird oft durch seltene Sonderpfade eingeschleppt, nicht durch normales JSX-Rendering. Rich Text, WYSIWYG-Inhalte, Drittwidgets und URL-basierte DOM-Manipulation verdienen deshalb deutlich mehr Misstrauen als die Standard-Component selbst.',
+    en: 'XSS often enters through rare escape hatches rather than normal JSX rendering. Rich text, WYSIWYG content, third-party widgets, and URL-driven DOM manipulation therefore deserve much more suspicion than the standard component path itself.',
+  },
+  137: {
+    de: 'Authentifizierung ist nur dann wirklich robust, wenn auch Fehlversuche, Wiederherstellung, Gerätewechsel und Session-Enden sauber bedacht sind. Viele reale Schwächen liegen genau in diesen Nebenpfaden und nicht im eigentlichen Login-Formular.',
+    en: 'Authentication is truly robust only when failed attempts, recovery, device changes, and session termination are considered cleanly as well. Many real weaknesses lie exactly in these side paths and not in the actual login form.',
+  },
+  138: {
+    de: 'Broken Access Control ist so häufig, weil fachliche Regeln oft über mehrere Services, IDs und Oberflächen verstreut sind. Je klarer Ownership, Mandantengrenzen und Policy-Entscheidungen modelliert werden, desto kleiner wird die Chance auf schleichende Rechteeskalation.',
+    en: 'Broken access control is so common because business rules are often scattered across multiple services, IDs, and surfaces. The more clearly ownership, tenant boundaries, and policy decisions are modeled, the smaller the chance of gradual privilege escalation becomes.',
+  },
+  139: {
+    de: 'Kryptografische Fehler sind selten rein mathematische Fehler, sondern meist Produkt- und Betriebsfehler rund um Datenklassifikation, Speicherort und Schlüsselhandhabung. Gute Entscheidungen beginnen deshalb mit Datensparsamkeit und erst danach mit Algorithmusdetails.',
+    en: 'Cryptographic failures are rarely purely mathematical failures; they are usually product and operations failures around data classification, storage location, and key handling. Good decisions therefore start with data minimization and only then move to algorithm details.',
+  },
+  140: {
+    de: 'SSRF wird gefährlich, sobald ein eigentlich harmloser Fetch nach innen oder in Cloud-Metadatenräume kippen kann. Wer Ziele strikt vorgibt und ausgehenden Traffic technisch begrenzt, reduziert das Risiko deutlich stärker als mit reiner String-Validierung allein.',
+    en: 'SSRF becomes dangerous as soon as an apparently harmless fetch can pivot inward or into cloud metadata spaces. Teams that fix target choices strictly and limit outbound traffic technically reduce the risk far more than with string validation alone.',
+  },
+  141: {
+    de: 'Dependency-Risiko ist auch ein Wartungs- und Lieferproblem: ungepflegte Bibliotheken altern still, bis ein Befund plötzlich dringlich wird. Regelmäßige Updates in kleinen Schritten sind deshalb meist sicherer als seltene große Sprünge unter Zeitdruck.',
+    en: 'Dependency risk is also a maintenance and delivery problem: unmaintained libraries age quietly until a finding suddenly becomes urgent. Regular updates in small steps are therefore usually safer than rare large jumps under time pressure.',
+  },
+  142: {
+    de: 'Security Logging scheitert oft an fehlender Priorisierung oder an zu viel empfindlichem Rohmaterial in den Events. Wirklich brauchbar werden Signale erst, wenn sie Missbrauch, Ursache und betroffene Oberfläche schnell zusammenführen, ohne neue Datenrisiken zu öffnen.',
+    en: 'Security logging often fails because of missing prioritization or because too much sensitive raw material ends up inside events. Signals become truly useful only when they bring together abuse pattern, cause, and affected surface quickly without opening new data risks.',
+  },
+  143: {
+    de: 'CSRF ist weniger ein UI-Problem als eine Folge davon, dass Browser Cookies automatisch mitsenden. Wer das Session-Modell klar versteht, kann Token, SameSite und Origin-Checks passend kombinieren statt Schutzmechanismen zufällig zu stapeln.',
+    en: 'CSRF is less a UI problem than a consequence of browsers sending cookies automatically. Teams that understand the session model clearly can combine tokens, SameSite, and origin checks appropriately instead of stacking defenses randomly.',
+  },
+  144: {
+    de: 'Datei-Uploads betreffen nicht nur Annahme und Speicherung, sondern auch Verarbeitung, Vorschaubilder, Downloads und Retention. Genau deshalb sind sie ein guter Test dafür, ob ein Team wirklich in vollständigen Datenlebenszyklen denkt.',
+    en: 'File uploads affect not only acceptance and storage, but also processing, previews, downloads, and retention. That is exactly why they are a good test of whether a team truly thinks in complete data lifecycles.',
+  },
+  145: {
+    de: 'Threat Modeling spart vor allem spätere Architekturkosten, weil Sicherheitsannahmen sichtbar werden, bevor sie implizit in APIs und Datenflüsse einbrennen. Der Gewinn zeigt sich meist darin, was ein Team gar nicht erst falsch baut.',
+    en: 'Threat modeling mainly saves later architecture cost because security assumptions become visible before they harden implicitly into APIs and data flows. Its benefit often shows up in what a team never builds incorrectly in the first place.',
+  },
+  146: {
+    de: 'Unsichere Deserialisierung ist heute oft hinter moderneren Begriffen versteckt, etwa Mass Assignment oder ungeprüftem Objekt-Merge. Das Grundproblem bleibt aber gleich: externe Daten formen interne Struktur oder Berechtigungen ohne hinreichende Kontrolle.',
+    en: 'Insecure deserialization is often hidden today behind newer terms such as mass assignment or unchecked object merge. But the core problem stays the same: external data shapes internal structure or privileges without sufficient control.',
+  },
+  147: {
+    de: 'Secrets und Sicherheitskonfiguration werden besonders dann riskant, wenn Teams sie als reine Deploy-Details behandeln. In Wahrheit bestimmen sie Vertrauensgrenzen, Betriebsfähigkeit und die Geschwindigkeit, mit der sich Vorfälle eingrenzen oder drehen lassen.',
+    en: 'Secrets and security configuration become especially risky when teams treat them as mere deployment details. In reality they define trust boundaries, operational resilience, and how quickly incidents can be contained or rotated away.',
+  },
+  148: {
+    de: 'OWASP-Prinzipien bleiben nur dann lebendig, wenn sie in Rituale und Werkzeuge übersetzt werden. Sonst entstehen einmalige Security-Aktionen, aber keine belastbare Routine für Reviews, Updates, Tests und Incident-Response.',
+    en: 'OWASP principles stay alive only when they are translated into rituals and tooling. Otherwise you get one-off security actions, but no durable routine for reviews, updates, testing, and incident response.',
+  },
 }

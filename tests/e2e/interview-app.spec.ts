@@ -22,7 +22,7 @@ test('marked-only filter reduces the catalog to marked entries', async ({ page }
   await page.getByRole('button', { name: 'Nur markierte' }).click()
 
   await expect(page.locator('.question-chip')).toHaveCount(1)
-  await expect(page.getByRole('heading', { level: 2, name: '1 / 133' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 2, name: '1 / 148' })).toBeVisible()
 })
 
 test('mobile layout prioritizes the detail panel above the catalog', async ({ page }) => {
@@ -53,4 +53,23 @@ test('mobile reveal state keeps detail content within the viewport width', async
   expect(detailTopline!.x + detailTopline!.width).toBeLessThanOrEqual(viewport!.width)
   expect(revealBox!.x + revealBox!.width).toBeLessThanOrEqual(viewport!.width)
   expect(firstContentCard!.x + firstContentCard!.width).toBeLessThanOrEqual(viewport!.width)
+})
+
+test('revealing an answer preserves the current scroll position', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto('/')
+  await page.evaluate(() => window.scrollTo(0, 500))
+
+  const before = await page.evaluate(() => ({
+    scrollY: window.scrollY,
+    revealTop: document.querySelector('.reveal-box')?.getBoundingClientRect().top ?? 0,
+  }))
+
+  await page.getByRole('button', { name: 'Antwort anzeigen' }).click()
+
+  const after = await page.evaluate(() => ({
+    scrollY: window.scrollY,
+  }))
+
+  expect(Math.abs(after.scrollY - before.scrollY)).toBeLessThanOrEqual(20)
 })

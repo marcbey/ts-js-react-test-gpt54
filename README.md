@@ -7,7 +7,7 @@ Live app:
 
 ## What the app does
 
-- Shows 100 interview questions across JavaScript, TypeScript, and React
+- Shows 148 interview questions across JavaScript, TypeScript, React, tooling/architecture, and OWASP
 - Supports German and English UI/content switching
 - Starts each question in a locked state and reveals the answer on demand
 - Includes:
